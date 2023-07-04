@@ -1,5 +1,11 @@
 {
     "test-mod": {
-        "path": "mods/test-mod"
+        "name": "test-mod",
+        "path": "mods\\test-mod"
+    },
+    "test": {
+        "name": "test",
+        "image": "images\\test-test.jpg",
+        "path": "mods\\test"
     }
 }
