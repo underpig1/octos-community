@@ -41,13 +41,13 @@ function publishMod(dir) {
         var name = config.name;
         if (name) {
             var newPath = path.relative(__dirname, path.join(dist, path.basename(dir)));
-            fs.copySync(dir, newPath);
+            fs.copySync(dir, newPath, { overwrite: true });
             content[name] = config;
             content[name].path = newPath;
             var image = config.image;
             if (image) {
                 var newImagePath = path.relative(__dirname, path.join(images, `${name}-${path.basename(image)}`));
-                fs.copyFileSync(path.join(dir, image), newImagePath);
+                fs.copySync(path.join(dir, image), newImagePath, { overwrite: true });
                 content[name].image = newImagePath;
             }
             writeContent();

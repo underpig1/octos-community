@@ -6,6 +6,7 @@
     "test": {
         "name": "test",
         "image": "images\\test-test.jpg",
+        "entry": "file.html",
         "path": "mods\\test"
     }
 }

@@ -1,4 +1,5 @@
 {
     "name": "test",
-    "image": "test.jpg"
+    "image": "test.jpg",
+    "entry": "file.html"
 }
