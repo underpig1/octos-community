@@ -35,13 +35,17 @@ function updateMD(data) {
 `
 }
 
+function publishFromFile(dir) {
+    if (isZipped(dir)) unzip(dir, "%temp%\\temp-mod").then((target) => publishMod(target));
+    else publishMod(dir);
+}
+
 function publishMod(dir) {
     var config = readJSON(path.join(dir, "mod.json"));
     if (config) {
         var name = config.name;
         if (name) {
-            var newPath = path.relative(__dirname, path.join(dist, path.basename(dir)));
-            fs.copySync(dir, newPath, { overwrite: true });
+            var newPath = path.relative(__dirname, path.join(dist, path.basename(dir) + ".omod"));
             content[name] = config;
             content[name].path = newPath;
             var image = config.image;
@@ -50,6 +54,7 @@ function publishMod(dir) {
                 fs.copySync(path.join(dir, image), newImagePath, { overwrite: true });
                 content[name].image = newImagePath;
             }
+            zip(dir, newPath);
             writeContent();
             return content[name];
         }
@@ -73,6 +78,36 @@ function parseArgs() {
     }
     md += "[Publish your own mod](https://github.com/underpig1/octos)"
     writeMD();
+}
+
+function zip(dir, target) {
+    return new Promise((resolve, reject) => {
+        const archiver = require("archiver");
+        const archive = archiver("zip", { zlib: { level: 9 } });
+        const stream = fs.createWriteStream(target);
+
+        stream.on("close", () => resolve(target));
+        archive.directory(dir, false).on("error", reject).pipe(stream);
+        archive.finalize();
+    });
+}
+
+function unzip(dir, target) {
+    return new Promise((resolve, reject) => {
+        const unzipper = require("unzipper");
+        if (!fs.existsSync(target)) fs.mkdirSync(target);
+        else fs.emptyDirSync(target);
+
+        fs.createReadStream(dir)
+            .on("entry", entry => entry.autodrain())
+            .pipe(unzipper.Parse())
+            .on("entry", (entry) => entry.pipe(fs.createWriteStream(path.join(target, entry.path))))
+            .on("finish", () => resolve(target)).on("error", reject);
+    });
+}
+
+function isZipped(dir) {
+    return !fs.lstatSync(dir).isDirectory();
 }
 
 parseArgs();

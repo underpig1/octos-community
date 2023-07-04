@@ -1,12 +1,12 @@
 {
     "test-mod": {
         "name": "test-mod",
-        "path": "mods\\test-mod"
+        "path": "mods\\test-mod.omod"
     },
     "test": {
         "name": "test",
         "image": "images\\test-test.jpg",
         "entry": "file.html",
-        "path": "mods\\test"
+        "path": "mods\\test.omod"
     }
 }
