@@ -44,20 +44,20 @@ function publishMod(dir) {
     var config = readJSON(path.join(dir, "mod.json"));
     if (config) {
         var name = config.name;
-        if (name) {
-            var newPath = path.relative(__dirname, path.join(dist, path.basename(dir) + ".omod"));
-            content[name] = config;
-            content[name].path = newPath;
-            var image = config.image;
-            if (image) {
-                var newImagePath = path.relative(__dirname, path.join(images, `${name}-${path.basename(image)}`));
-                fs.copySync(path.join(dir, image), newImagePath, { overwrite: true });
-                content[name].image = newImagePath;
-            }
-            zip(dir, newPath);
-            writeContent();
-            return content[name];
+        if (config.include === false) return;
+        if (!name) name = path.basename(dir);
+        var newPath = path.relative(__dirname, path.join(dist, path.basename(dir) + ".omod"));
+        content[name] = config;
+        content[name].path = newPath;
+        var image = config.image;
+        if (image) {
+            var newImagePath = path.relative(__dirname, path.join(images, `${name}-${path.basename(image)}`));
+            fs.copySync(path.join(dir, image), newImagePath, { overwrite: true });
+            content[name].image = newImagePath;
         }
+        zip(dir, newPath);
+        writeContent();
+        return content[name];
     }
 }
 
