@@ -1,0 +1,43 @@
+<html>
+
+<head>
+    <script src="https://unpkg.com/octos@latest/octos.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+
+        #main {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+    </div>
+    <script>
+        const main = document.getElementById("main");
+
+        window.files.readdir("%desktop%").then((files) => {
+            for (var file of files) {
+                if (file.name != "desktop.ini") {
+                    window.files.icon(file.path).then((icon) => {
+                        var img = document.createElement("img");
+                        img.src = icon;
+                        main.appendChild(img);
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
