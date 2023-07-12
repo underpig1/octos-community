@@ -7,7 +7,7 @@ const source = path.join(__dirname, "src");
 const images = path.join(__dirname, "images");
 const dist = path.join(__dirname, "mods");
 const contentPath = path.join(__dirname, "content.json");
-const content = require(contentPath);
+var content = require(contentPath);
 const mdpath = path.join(__dirname, "readme.md");
 var md = `
 # A collection of mods for [Octos](https://github.com/underpig1/octos)
@@ -86,6 +86,7 @@ function parseArgs() {
         }
     }
 
+    content = {};
     for (var dir of fs.readdirSync(source)) {
         var target = path.resolve(__dirname, source, dir);
         console.log("Building " + target);

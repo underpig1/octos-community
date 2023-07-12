@@ -1,18 +1,4 @@
 {
-    "test-mod": {
-        "name": "test-mod",
-        "path": "mods\\test-mod.omod"
-    },
-    "test": {
-        "name": "test",
-        "image": "images\\test-test.jpg",
-        "entry": "file.html",
-        "path": "mods\\test.omod"
-    },
-    "orbit": {
-        "include": true,
-        "path": "mods\\orbit.omod"
-    },
     "Ethereal": {
         "name": "Ethereal",
         "entry": "index.html",

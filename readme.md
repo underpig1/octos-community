@@ -5,14 +5,14 @@ Hey there! If you're interested in showing off your own wallpaper, consider addi
 
 All mods on this repo are available through the [Octos](https://github.com/underpig1/octos) app.
 
-See resources and guides for creating your own live wallpaper in the [docs](https://underpig1.github.io/octos/docs/?t=installation).
+See resources and guides for creating your own live wallpaper in the [docs](https://underpig1.github.io/octos/docs/?t=installation)
 
 # Publish your mod
 It's as easy as...
-1. Fork this repo
+1. Fork and download this repo
 2. Add your own custom mod folder under `src/`
-3. In the repo folder, run `npm run build` to rebuild this document
-4. Submit a merge request
+3. Run `npm run build` to rebuild this document
+4. [Submit a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)
 
 # Gallery (auto-generated)
 <img src='images\Ethereal-ethereal.png' alt='Ethereal' width='300px'>
