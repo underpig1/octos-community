@@ -12,6 +12,20 @@ const mdpath = path.join(__dirname, "readme.md");
 var md = `
 # A collection of mods for [Octos](https://github.com/underpig1/octos)
 
+Hey there! If you're interested in showing off your own wallpaper, consider adding it to the collection for others to download through the Octos app.
+
+All mods on this repo are available through the [Octos](https://github.com/underpig1/octos) app.
+
+See resources and guides for creating your own live wallpaper in the [docs](https://underpig1.github.io/octos/docs/?t=installation)
+
+# Publish your mod
+It's as easy as...
+1. Fork this repo
+2. Add your own custom mod folder under \`src/\`
+3. Run \`npm run build\` to rebuild this document and convert all files under \`src/\` into .omod files
+4. Submit a merge request
+
+# Gallery (auto-generated)
 `;
 
 function readJSON(dir) {
@@ -28,10 +42,12 @@ function writeMD() {
 }
 
 function updateMD(data) {
-    md += `${data.image ? `<img src='${data.image}' alt='${data.name}' width='200px'>` : "[No image]"}
+    md += `${data.image ? `<img src='${data.image}' alt='${data.name}' width='300px'>` : "[No image]"}
 
-### ${data.name}${data.author ? "\n#### By " + data.author : ""}${data.description ? "\n" + data.description : ""}
-***
+### ${data.name}${data.author ? " - By " + data.author : ""}${data.description ? "\n" + data.description : ""}
+<br>
+<br>
+<br>
 `
 }
 
@@ -76,7 +92,7 @@ function parseArgs() {
         var data = publishMod(target);
         if (data) updateMD(data);
     }
-    md += "[Publish your own mod](https://github.com/underpig1/octos)"
+    md += "Learn more about how to [publish your own mod](https://underpig1.github.io/octos/docs/?t=publish)"
     writeMD();
 }
 
