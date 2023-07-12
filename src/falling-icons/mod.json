@@ -8,5 +8,6 @@
             "media": true
         }
     },
-    "description": "Add gravity to your desktop"
+    "description": "Add gravity to your desktop",
+    "include": false
 }

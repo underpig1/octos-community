@@ -28,7 +28,7 @@ function writeMD() {
 }
 
 function updateMD(data) {
-    md += `${data.image ? `<img src=${data.image} alt='${data.name}' width='200px'>` : "[No image]"}
+    md += `${data.image ? `<img src='${data.image}' alt='${data.name}' width='200px'>` : "[No image]"}
 
 ### ${data.name}${data.author ? "\n#### By " + data.author : ""}${data.description ? "\n" + data.description : ""}
 ***

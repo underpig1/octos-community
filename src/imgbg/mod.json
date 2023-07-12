@@ -1,0 +1,7 @@
+{
+    "name": "Image Background",
+    "entry": "index.html",
+    "image": "imgbg.png",
+    "author": "Octos",
+    "description": "Choose an image/video to set as your wallpaper and customize it with interactive widgets."
+}

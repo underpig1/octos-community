@@ -1,16 +1,22 @@
 
 # A collection of mods for [Octos](https://github.com/underpig1/octos)
 
-[No image]
+<img src='images\Ethereal-ethereal.png' alt='Ethereal' width='200px'>
 
-### undefined
+### Ethereal
+#### By Octos
+An interactive media player that ripples as your mouse passes over it.
 ***
-<img src=images\test-test.jpg alt='test' width='200px'>
+<img src='images\Image Background-imgbg.png' alt='Image Background' width='200px'>
 
-### test
+### Image Background
+#### By Octos
+Choose an image/video to set as your wallpaper and customize it with interactive widgets.
 ***
-[No image]
+<img src='images\Terminal-terminal.png' alt='Terminal' width='200px'>
 
-### test-mod
+### Terminal
+#### By Octos
+A digital clock with a live old TV effect and customizable 3D text art.
 ***
 [Publish your own mod](https://github.com/underpig1/octos)

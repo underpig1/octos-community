@@ -12,5 +12,36 @@
     "orbit": {
         "include": true,
         "path": "mods\\orbit.omod"
+    },
+    "Ethereal": {
+        "name": "Ethereal",
+        "entry": "index.html",
+        "author": "Octos",
+        "options": {
+            "events": {
+                "mouse": true,
+                "keyboard": false,
+                "media": true
+            }
+        },
+        "image": "images\\Ethereal-ethereal.png",
+        "description": "An interactive media player that ripples as your mouse passes over it.",
+        "path": "mods\\ethereal.omod"
+    },
+    "Image Background": {
+        "name": "Image Background",
+        "entry": "index.html",
+        "image": "images\\Image Background-imgbg.png",
+        "author": "Octos",
+        "description": "Choose an image/video to set as your wallpaper and customize it with interactive widgets.",
+        "path": "mods\\imgbg.omod"
+    },
+    "Terminal": {
+        "name": "Terminal",
+        "entry": "3d.html",
+        "author": "Octos",
+        "image": "images\\Terminal-terminal.png",
+        "description": "A digital clock with a live old TV effect and customizable 3D text art.",
+        "path": "mods\\terminal.omod"
     }
 }
