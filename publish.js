@@ -20,10 +20,10 @@ See resources and guides for creating your own live wallpaper in the [docs](http
 
 # Publish your mod
 It's as easy as...
-1. Fork this repo
+1. Fork and download this repo
 2. Add your own custom mod folder under \`src/\`
-3. Run \`npm run build\` to rebuild this document and convert all files under \`src/\` into .omod files
-4. Submit a merge request
+3. Run \`npm run build\` to rebuild this document
+4. [Submit a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)
 
 # Gallery (auto-generated)
 `;
