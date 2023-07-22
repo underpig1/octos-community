@@ -420,6 +420,53 @@
             justify-content: space-between;
             align-items: center;
         }
+
+        .tick {
+            width: 200px;
+            height: 200px;
+        }
+
+        .tk-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: var(--color);
+            border: 2px solid black;
+        }
+
+        .tk-min {
+            position: absolute;
+            width: 2px;
+            height: 40%;
+            left: calc(50% + 2px);
+            top: 10%;
+            border-radius: 999px;
+            background-color: red;
+            transform-origin: bottom center;
+        }
+
+        .tk-hr {
+            position: absolute;
+            width: 5px;
+            height: 25%;
+            left: 50%;
+            top: 25%;
+            border-radius: 999px;
+            background-color: black;
+            transform-origin: bottom center;
+        }
+
+        .notes {
+            width: 250px;
+            height: 100px;
+        }
+
+        .n-canvas {
+            background-color: white;
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 <body>
@@ -453,8 +500,8 @@
                     <div class="graphic button" type="clock" onclick="addAccessory(this)">+ Time</div>
                     <div class="graphic button" type="media" onclick="addAccessory(this)">+ Media</div>
                     <div class="graphic button" type="tick" onclick="addAccessory(this)">+ Clock</div>
-                    <div class="graphic button" type="note" onclick="addAccessory(this)">+ Notes</div>
                     <div class="graphic button" type="image" onclick="addAccessory(this)">+ Image</div>
+                    <div class="graphic button" type="notes" onclick="addAccessory(this)">+ Notes</div>
                 </div>
             </div>
         <input id="file-upload" type="file" />
@@ -465,6 +512,12 @@
     <div class="accessory calender template" id="calender-template">
         <div class="date"><span class="d-day">Sunday</span>, <span class="d-month">May</span> <span class="d-date">23</span></div>
     </div>
+    <div class="accessory tick template" id="tick-template">
+        <div class="tk-container">
+            <div class="tk-min"></div>
+            <div class="tk-hr"></div>
+        </div>
+    </div>
     <div class="accessory media template" id="media-template">
         <i class="medianav ri-skip-back-fill" onclick="mediaBack()"></i>
         <i class="medianav ri-play-circle-fill play-btn" onclick="mediaPlayPause(this)"></i>
@@ -472,6 +525,9 @@
     </div>
     <div class="accessory image template" id="image-template">
         <img src="" /><span class="img-tooltip" onclick="handleImageClick(this)">+ Double click to add image</span>
+    </div>
+    <div class="accessory notes template" id="notes-template">
+        <canvas class="n-canvas" onmouseleave="unclickNote(event)" onmouseup="unclickNote(event)" onmousedown="clickNote(event)" onmousemove="drawNote(event)" width="500" height="200"></canvas>
     </div>
     <div id="background"></div>
     <script>
@@ -496,12 +552,18 @@
         var mediaplaying = false;
         var prevmediaplaying = false;
         fileUpload.onchange = selectBackground;
+        var wctx = null;
 
-        window.storage.getStorage("url").then((url) => setBackground(url));
-        getAccessoriesFromStorage();
-        window.dev.toggleDevTools();
-        layoutButton();
-        window.media.isPlaying().then((data) => mediaplaying = data);
+        background.style.display = "none";
+        tooltip.classList.add("active");
+        window.storage.setStorage("url", "")
+
+        setTimeout(() => {
+            window.storage.getStorage("url").then((url) => setBackground(url));
+            getAccessoriesFromStorage();
+            layoutButton();
+            window.media.isPlaying().then((data) => mediaplaying = data);
+        }, 100);
 
         function mediaPlayPause(el) {
             mediaplaying = !mediaplaying;
@@ -530,6 +592,45 @@
             else {
                 styling = false;
                 layoutEditor.classList.remove("styling", "active");
+            }
+        }
+
+        function clickNote(e) {
+            var canvas = e.target;
+            const ctx = canvas.getContext("2d");
+            wctx = ctx;
+            var pos = getPos(canvas, e);
+            wctx.moveTo(pos.x, pos.y);
+            wctx.lineTo(pos.x, pos.y);
+            wctx.stroke();
+        }
+
+        function unclickNote(e) {
+            wctx = null;
+        }
+
+        function getPos(canvas, e) {
+            var rect = canvas.getBoundingClientRect();
+            var sx = e.clientX - parseInt(rect.left);
+            var sy = e.clientY - parseInt(rect.top);
+            var sw = rect.width;
+            var sh = rect.height;
+            var ratio = canvas.width/sw;
+            var x = ratio*sx;
+            var y = ratio*sy;
+            return { x, y };
+        }
+
+        function drawNote(e) {
+            var canvas = e.target;
+            if (wctx && !editing) {
+                wctx.strokeStyle = "darkgray";
+                wctx.lineWidth = 6;
+                wctx.lineCap = "round";
+
+                var pos = getPos(canvas, e);
+                wctx.lineTo(pos.x, pos.y);
+                wctx.stroke();
             }
         }
 
@@ -568,10 +669,13 @@
         }
 
         function setBackground(url) {
-            background.style.backgroundImage = `url(${url})`;
-            tooltip.classList.remove("active");
-            for (const el of accessories()) el.classList.add("active");
-            bgchosen = true;
+            if (url) {
+                background.style.display = "block";
+                background.style.backgroundImage = `url(${url})`;
+                tooltip.classList.remove("active");
+                for (const el of accessories()) el.classList.add("active");
+                bgchosen = true;
+            }
         }
 
         function updateMedia() {
@@ -586,6 +690,22 @@
                 }
             }
         }
+
+        async function computeCPU() {
+            var cpus = await window.system.request("cpus");
+            var total = Object.values(cpus[0].times).reduce((prev, curr) => prev + curr);
+            var usage = await window.system.request("cpu-usage");
+            return Math.round((usage.user + usage.system)/total*100);
+        }
+        
+        async function getMemData() {
+            var cpu = await computeCPU();
+            return {
+                cpu: cpu + "%",
+                mem: Math.round(await window.system.request("freemem")/await window.system.request("mem")*100).toString() + "%",
+                os: await window.system.request("os")
+            }
+        }
         
         function updateAccessories() {
             var date = new Date();
@@ -595,7 +715,26 @@
             for (var d_day of document.getElementsByClassName("d-day")) d_day.innerHTML = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][date.getDay()];
             for (var d_month of document.getElementsByClassName("d-month")) d_month.innerHTML = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][date.getMonth()];
             for (var d_date of document.getElementsByClassName("d-date")) d_date.innerHTML = date.getDate();
+            for (var tk_container of document.getElementsByClassName("tk-container")) updateTickElement(tk_container, date);
+            // const memdata = getMemData();
+            // memdata.then((data) => {
+            //     for (var n_cpu of document.getElementsByClassName("n-cpu")) n_cpu.innerText = data.cpu;
+            //     for (var n_mem of document.getElementsByClassName("n-mem")) n_mem.innerText = data.mem;
+            //     for (var n_os of document.getElementsByClassName("n-os")) n_os.innerText = data.os;
+            // });
             updateMedia();
+        }
+
+        function updateTickElement(container, date) {
+            const tk_min = container.querySelector(".tk-min");
+            const tk_hr = container.querySelector(".tk-hr");
+
+            var hr = date.getHours();
+            var min = date.getMinutes();
+            hr = hr > 12 ? hr - 12 : hr;
+            hr = hr + min/60;
+            tk_min.style.transform = `rotate(${2*Math.PI*(1/4 - min/60)}rad)`;
+            tk_hr.style.transform = `rotate(${2*Math.PI*(1/4 - hr/12)}rad)`;
         }
 
         updateAccessories();
@@ -627,6 +766,7 @@
             accessory.id = id;
             accessory.style.fontFamily = font;
             accessory.setAttribute("data", data);
+            accessory.setAttribute("data-color", color);
             id++;
             accessory.classList.remove("template");
             if (bgchosen) accessory.classList.add("active");
@@ -639,6 +779,9 @@
             if (type == "image") {
                 accessory.querySelector("img").src = accessory.getAttribute("data");
                 if (data) accessory.querySelector(".img-tooltip").style.opacity = "0";
+            }
+            else if (type == "tick") {
+                accessory.querySelector("canvas").setAttribute("data-color", color);
             }
         }
 
