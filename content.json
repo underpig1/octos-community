@@ -17,6 +17,13 @@
     "Image Background": {
         "name": "Image Background",
         "entry": "index.html",
+        "options": {
+            "events": {
+                "mouse": true,
+                "keyboard": true,
+                "media": true
+            }
+        },
         "image": "images\\Image Background-imgbg.png",
         "author": "Octos",
         "description": "Choose an image/video to set as your wallpaper and customize it with interactive widgets.",
