@@ -67,6 +67,7 @@ function publishMod(dir) {
         var newPath = path.relative(__dirname, path.join(dist, path.basename(dir) + ".zip"));
         var obj = JSON.parse(JSON.stringify(config));
         obj.zipPath = newPath;
+        obj.folderPath = dir
         delete obj.options;
         var image = config.image;
         if (image) {
