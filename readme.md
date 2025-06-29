@@ -1,6 +1,8 @@
 
 # A collection of mods for [Octos](https://github.com/underpig1/octos)
 
+[![Build](https://github.com/underpig1/octos-community/actions/workflows/build.yml/badge.svg)](https://github.com/underpig1/octos-community/actions/workflows/build.yml)
+
 Hey there! If you're interested in showing off your own wallpaper, consider adding it to the collection for others to download through the Octos app.
 
 All mods on this repo are available through the [Octos](https://github.com/underpig1/octos) app.
