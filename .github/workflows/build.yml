@@ -1,13 +1,41 @@
 name: Build
+
 on:
   push:
     branches:
-      - main
+      - master
+
 jobs:
   build:
     runs-on: windows-latest
+
     steps:
       - uses: actions/checkout@v3
+
       - uses: actions/setup-node@v3
-      - run: npm install
-      - run: npm run build
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run build
+        run: npm run build
+
+      - name: Configure Git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit changes
+        if: github.actor != 'github-actions[bot]'
+        run: |
+          git add -A
+          git diff --cached --quiet || git commit -m "Auto-build: update generated files"
+
+      - name: Push changes
+        if: github.actor != 'github-actions[bot]'
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: master
