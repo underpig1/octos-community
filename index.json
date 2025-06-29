@@ -3,38 +3,27 @@
         "name": "Ethereal",
         "entry": "index.html",
         "author": "Octos",
-        "options": {
-            "events": {
-                "mouse": true,
-                "keyboard": false,
-                "media": true
-            }
-        },
-        "image": "images\\Ethereal-ethereal.png",
+        "image": "ethereal.png",
         "description": "An interactive media player that ripples as your mouse passes over it.",
-        "path": "build\\ethereal.zip"
+        "zipPath": "build\\ethereal.zip",
+        "imagePath": "images\\Ethereal-ethereal.png"
     },
     {
         "name": "Image Background",
         "entry": "index.html",
-        "options": {
-            "events": {
-                "mouse": true,
-                "keyboard": true,
-                "media": true
-            }
-        },
-        "image": "images\\Image Background-imgbg.png",
+        "image": "imgbg.png",
         "author": "Octos",
         "description": "Choose an image/video to set as your wallpaper and customize it with interactive widgets.",
-        "path": "build\\imgbg.zip"
+        "zipPath": "build\\imgbg.zip",
+        "imagePath": "images\\Image Background-imgbg.png"
     },
     {
         "name": "Terminal",
         "entry": "3d.html",
         "author": "Octos",
-        "image": "images\\Terminal-terminal.png",
+        "image": "terminal.png",
         "description": "A digital clock with a live old TV effect and customizable 3D text art.",
-        "path": "build\\terminal.zip"
+        "zipPath": "build\\terminal.zip",
+        "imagePath": "images\\Terminal-terminal.png"
     }
 ]
