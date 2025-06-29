@@ -6,6 +6,7 @@
         "image": "ethereal.png",
         "description": "An interactive media player that ripples as your mouse passes over it.",
         "zipPath": "build\\ethereal.zip",
+        "folderPath": "D:\\a\\octos-community\\octos-community\\src\\ethereal",
         "imagePath": "images\\Ethereal-ethereal.png"
     },
     {
@@ -15,6 +16,7 @@
         "author": "Octos",
         "description": "Choose an image/video to set as your wallpaper and customize it with interactive widgets.",
         "zipPath": "build\\imgbg.zip",
+        "folderPath": "D:\\a\\octos-community\\octos-community\\src\\imgbg",
         "imagePath": "images\\Image Background-imgbg.png"
     },
     {
@@ -24,6 +26,7 @@
         "image": "terminal.png",
         "description": "A digital clock with a live old TV effect and customizable 3D text art.",
         "zipPath": "build\\terminal.zip",
+        "folderPath": "D:\\a\\octos-community\\octos-community\\src\\terminal",
         "imagePath": "images\\Terminal-terminal.png"
     }
 ]
