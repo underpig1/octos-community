@@ -64,12 +64,13 @@ function publishMod(dir) {
         if (!name) name = path.basename(dir);
         var newPath = path.relative(__dirname, path.join(dist, path.basename(dir) + ".zip"));
         var obj = JSON.parse(JSON.stringify(config));
-        obj.path = newPath;
+        obj.zipPath = newPath;
+        delete obj.options;
         var image = config.image;
         if (image) {
             var newImagePath = path.relative(__dirname, path.join(images, `${name}-${path.basename(image)}`));
             fs.copySync(path.join(dir, image), newImagePath, { overwrite: true });
-            obj.image = newImagePath;
+            obj.imagePath = newImagePath;
         }
         content.push(obj)
         zip(dir, newPath);
