@@ -5,8 +5,8 @@ const path = require("path");
 
 const source = path.join(__dirname, "src");
 const images = path.join(__dirname, "images");
-const dist = path.join(__dirname, "mods");
-const contentPath = path.join(__dirname, "content.json");
+const dist = path.join(__dirname, "build");
+const contentPath = path.join(__dirname, "index.json");
 var content = require(contentPath);
 const mdpath = path.join(__dirname, "readme.md");
 var md = `
@@ -21,9 +21,9 @@ See resources and guides for creating your own live wallpaper in the [docs](http
 # Publish your mod
 It's as easy as...
 1. Fork and download this repo
-2. Add your own custom mod folder under \`src/\`
-3. Run \`npm run build\` to rebuild this document
+2. Add your own mod folder (not a .zip!) under \`src/\`
 4. [Submit a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)
+5. Your mod will automatically be added to the Octos gallery shortly after it's merged.
 
 # Gallery (auto-generated)
 `;
@@ -62,18 +62,19 @@ function publishMod(dir) {
         var name = config.name;
         if (config.include === false) return;
         if (!name) name = path.basename(dir);
-        var newPath = path.relative(__dirname, path.join(dist, path.basename(dir) + ".omod"));
-        content[name] = config;
-        content[name].path = newPath;
+        var newPath = path.relative(__dirname, path.join(dist, path.basename(dir) + ".zip"));
+        var obj = JSON.parse(JSON.stringify(config));
+        obj.path = newPath;
         var image = config.image;
         if (image) {
             var newImagePath = path.relative(__dirname, path.join(images, `${name}-${path.basename(image)}`));
             fs.copySync(path.join(dir, image), newImagePath, { overwrite: true });
-            content[name].image = newImagePath;
+            obj.image = newImagePath;
         }
+        content.push(obj)
         zip(dir, newPath);
         writeContent();
-        return content[name];
+        return obj;
     }
 }
 
@@ -86,7 +87,7 @@ function parseArgs() {
         }
     }
 
-    content = {};
+    content = [];
     for (var dir of fs.readdirSync(source)) {
         var target = path.resolve(__dirname, source, dir);
         console.log("Building " + target);

@@ -1,5 +1,5 @@
-{
-    "Ethereal": {
+[
+    {
         "name": "Ethereal",
         "entry": "index.html",
         "author": "Octos",
@@ -12,9 +12,9 @@
         },
         "image": "images\\Ethereal-ethereal.png",
         "description": "An interactive media player that ripples as your mouse passes over it.",
-        "path": "mods\\ethereal.omod"
+        "path": "build\\ethereal.zip"
     },
-    "Image Background": {
+    {
         "name": "Image Background",
         "entry": "index.html",
         "options": {
@@ -27,14 +27,14 @@
         "image": "images\\Image Background-imgbg.png",
         "author": "Octos",
         "description": "Choose an image/video to set as your wallpaper and customize it with interactive widgets.",
-        "path": "mods\\imgbg.omod"
+        "path": "build\\imgbg.zip"
     },
-    "Terminal": {
+    {
         "name": "Terminal",
         "entry": "3d.html",
         "author": "Octos",
         "image": "images\\Terminal-terminal.png",
         "description": "A digital clock with a live old TV effect and customizable 3D text art.",
-        "path": "mods\\terminal.omod"
+        "path": "build\\terminal.zip"
     }
-}
+]

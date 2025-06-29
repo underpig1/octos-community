@@ -1,6 +1,10 @@
 {
-    "name": "publish",
+    "name": "build",
     "scripts": {
-        "build": "node publish.js"
+        "build": "node ./build.js"
+    },
+    "devDependencies": {
+        "archiver": "^7.0.1",
+        "fs-extra": "^11.3.0"
     }
 }

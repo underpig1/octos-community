@@ -10,9 +10,9 @@ See resources and guides for creating your own live wallpaper in the [docs](http
 # Publish your mod
 It's as easy as...
 1. Fork and download this repo
-2. Add your own custom mod folder under `src/`
-3. Run `npm run build` to rebuild this document
+2. Add your own mod folder (not a .zip!) under `src/`
 4. [Submit a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)
+5. Your mod will automatically be added to the Octos gallery shortly after it's merged.
 
 # Gallery (auto-generated)
 <img src='images\Ethereal-ethereal.png' alt='Ethereal' width='300px'>
