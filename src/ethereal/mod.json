@@ -10,5 +10,6 @@
         }
     },
     "image": "ethereal.png",
+    "preview": "ethereal.gif",
     "description": "An interactive media player that ripples as your mouse passes over it."
 }

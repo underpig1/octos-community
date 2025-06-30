@@ -71,9 +71,15 @@ function publishMod(dir) {
         delete obj.options;
         var image = config.image;
         if (image) {
-            var newImagePath = path.relative(__dirname, path.join(images, `${name}-${path.basename(image)}`));
+            var newImagePath = path.relative(__dirname, path.join(images, `${name}-image-${path.basename(image)}`));
             fs.copySync(path.join(dir, image), newImagePath, { overwrite: true });
             obj.imagePath = newImagePath;
+        }
+        var preview = config.preview;
+        if (preview) {
+            var newPreviewPath = path.relative(__dirname, path.join(images, `${name}-preview-${path.basename(preview)}`));
+            fs.copySync(path.join(dir, preview), newPreviewPath, { overwrite: true });
+            obj.previewPath = newPreviewPath;
         }
         content.push(obj)
         zip(dir, newPath);
