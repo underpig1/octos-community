@@ -19,12 +19,6 @@ It's as easy as...
 # Gallery (auto-generated)
 [No image]
 
-### Contraption
-<br>
-<br>
-<br>
-[No image]
-
 ### Layout - By Octos
 Choose an image/video to set as your wallpaper and customize it with interactive widgets.
 <br>

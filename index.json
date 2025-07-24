@@ -1,11 +1,5 @@
 [
     {
-        "entry": "index.html",
-        "name": "Contraption",
-        "zipPath": "build\\contraption.zip",
-        "folderPath": "src\\contraption"
-    },
-    {
         "name": "Layout",
         "entry": "index.html",
         "author": "Octos",
