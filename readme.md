@@ -17,16 +17,15 @@ It's as easy as...
 5. Your mod will automatically be added to the Octos gallery shortly after it's merged.
 
 # Gallery (auto-generated)
-<img src='images\Ethereal-image-ethereal.png' alt='Ethereal' width='300px'>
+[No image]
 
-### Ethereal - By Octos
-An interactive media player that ripples as your mouse passes over it.
+### Contraption
 <br>
 <br>
 <br>
-<img src='images\Image Background-image-imgbg.png' alt='Image Background' width='300px'>
+[No image]
 
-### Image Background - By Octos
+### Layout - By Octos
 Choose an image/video to set as your wallpaper and customize it with interactive widgets.
 <br>
 <br>

@@ -12,7 +12,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background: white;
+            background: black;
             overflow: hidden;
         }
 
@@ -79,16 +79,19 @@
         }
 
         #tooltip:not(.active) .personalize {
-            fill: white;
-            filter: drop-shadow(0 0 2px #00000055);
-            opacity: 1;
+            fill: gray;
+            background-color: white;
+            padding: 5px;
+            opacity: 0.8;
+            border: 1px solid gray;
+            border-radius: 50%;
             position: absolute;
             top: 20px;
             right: 20px;
             z-index: 2;
         }
 
-        #tooltip:not(.active) .select::after {
+        /* #tooltip:not(.active) .select::after {
             position: absolute;
             content: "";
             display: block;
@@ -104,15 +107,15 @@
             transition: top, right, width, height, opacity;
             transition-duration: 0.1s;
             transition-timing-function: ease-in-out;
-        }
-
+        } */
+/* 
         #tooltip:not(.active) .select:hover::after {
             top: 17px;
             right: 15px;
             width: 30px;
             height: 30px;
             opacity: 0.5;
-        }
+        } */
 
         .accessory {
             z-index: 3;
@@ -194,33 +197,24 @@
             height: 15px;
             line-height: 15px;
             top: 26px;
-            left: 26px;
+            right: 60px;
             text-align: right;
             font-size: 12px;
             font-family: sans-serif;
-            color: white;
-            text-shadow: 0 0 2px #00000055;
+            color: gray;
+            /* text-shadow: 0 0 2px #00000055; */
+            background-color: white;
+            border-radius: 999px;
+            padding: 5px 10px;
+            outline: 1px solid gray;
             font-weight: 100;
             cursor: default;
-            opacity: 1;
+            opacity: 0.8;
             transition: opacity 1s;
         }
 
         #tooltip.active .edit {
             visibility: hidden;
-        }
-
-        .edit::after {
-            position: absolute;
-            content: "";
-            display: block;
-            width: 100%;
-            margin-top: -2px;
-            left: 0;
-            height: 1px;
-            background-color: white;
-            opacity: 0.5;
-            transition: width 0.5s, left 0.5s;
         }
 
         #tooltip:not(.active) .edit:hover::after {
@@ -478,7 +472,7 @@
                 </path>
             </svg>
             <span id="personalize-tip">&nbsp;Click to select a background image</span></label>
-            <div id="edit" class="edit" onclick="toggleEdit()">Enter layout mode (E)</div>
+            <div id="edit" class="edit" onclick="toggleEdit()">Toggle layout mode</div>
             <div id="layout-editor">
                 <div class="colors">
                     <p>Style:</p>
@@ -556,13 +550,13 @@
 
         background.style.display = "none";
         tooltip.classList.add("active");
-        window.storage.setStorage("url", "")
+        localStorage.setItem("url", JSON.stringify({}))
 
         setTimeout(() => {
-            window.storage.getStorage("url").then((url) => setBackground(url));
             getAccessoriesFromStorage();
             layoutButton();
-            window.media.isPlaying().then((data) => mediaplaying = data);
+            // window.media.isPlaying().then((data) => mediaplaying = data);
+            setBackground(localStorage.getItem("url"));
         }, 100);
 
         function mediaPlayPause(el) {
@@ -664,7 +658,7 @@
             if (file) setBackground(URL.createObjectURL(file));
 
             var reader = new FileReader();
-            reader.onload = () => window.storage.setStorage("url", reader.result);
+            reader.onload = () => localStorage.setItem("url", reader.result);
             reader.readAsDataURL(file);
         }
 
@@ -753,7 +747,7 @@
                     data: el.getAttribute("data")
                 };
             }
-            window.storage.setStorage("dacc", store);
+            localStorage.setItem("dacc", JSON.stringify(store));
         }
 
         function createAccessory(top = "100px", left = "100px", color = "white", type = "clock", transform = "scale(1)", font = "sans-serif", data = "") {
@@ -781,19 +775,20 @@
                 if (data) accessory.querySelector(".img-tooltip").style.opacity = "0";
             }
             else if (type == "tick") {
-                accessory.querySelector("canvas").setAttribute("data-color", color);
+                const cvs = accessory.querySelector("canvas")
+                if (cvs)
+                    cvs.setAttribute("data-color", color);
             }
         }
 
         function getAccessoriesFromStorage() {
-            window.storage.getStorage("dacc").then((store) => {
-                if (store) {
-                    for (var id of Object.keys(store)) {
-                        var data = store[id];
-                        createAccessory(data.top, data.left, data.color, data.type, data.transform, data.font, data.data);
-                    }
+            const store = JSON.parse(localStorage.getItem("dacc"))
+            if (store) {
+                for (var id of Object.keys(store)) {
+                    var data = store[id];
+                    createAccessory(data.top, data.left, data.color, data.type, data.transform, data.font, data.data);
                 }
-            });
+            }
         }
 
         function selectAccessory(el) {
@@ -859,7 +854,7 @@
             }, 10);
 
             document.addEventListener("mousemove", (e) => {
-                if (bgchosen) edit.style.opacity = 1;
+                if (bgchosen) edit.style.opacity = 0.8;
                 mouse = [e.clientX, e.clientY];
                 movetimer = 0;
             });

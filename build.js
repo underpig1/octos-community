@@ -59,7 +59,7 @@ function publishFromFile(dir) {
 }
 
 function publishMod(dir) {
-    var config = readJSON(path.join(dir, "mod.json"));
+    var config = readJSON(path.join(dir, "mod.json")) || readJSON(path.join(dir, "octos.json"));
     if (config) {
         var name = config.name;
         if (config.include === false) return;

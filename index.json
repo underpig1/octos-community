@@ -1,25 +1,17 @@
 [
     {
-        "name": "Ethereal",
         "entry": "index.html",
-        "author": "Octos",
-        "image": "ethereal.png",
-        "preview": "ethereal.gif",
-        "description": "An interactive media player that ripples as your mouse passes over it.",
-        "zipPath": "build\\ethereal.zip",
-        "folderPath": "src\\ethereal",
-        "imagePath": "images\\Ethereal-image-ethereal.png",
-        "previewPath": "images\\Ethereal-preview-ethereal.gif"
+        "name": "Contraption",
+        "zipPath": "build\\contraption.zip",
+        "folderPath": "src\\contraption"
     },
     {
-        "name": "Image Background",
+        "name": "Layout",
         "entry": "index.html",
-        "image": "imgbg.png",
         "author": "Octos",
         "description": "Choose an image/video to set as your wallpaper and customize it with interactive widgets.",
-        "zipPath": "build\\imgbg.zip",
-        "folderPath": "src\\imgbg",
-        "imagePath": "images\\Image Background-image-imgbg.png"
+        "zipPath": "build\\layout.zip",
+        "folderPath": "src\\layout"
     },
     {
         "name": "Terminal",
