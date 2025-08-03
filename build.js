@@ -88,7 +88,7 @@ function publishMod(dir) {
     }
 }
 
-function parseArgs() {
+async function parseArgs() {
     var ti = process.argv.findIndex((x) => x == "--path" || x == "-p");
     if (ti != -1) {
         if (ti <= process.argv.length) {
@@ -97,6 +97,11 @@ function parseArgs() {
         }
     }
 
+    await fs.rm('./build/', { recursive: true, force: true });
+    await fs.mkdir('./build/');
+    await fs.rm('./images/', { recursive: true, force: true });
+    await fs.mkdir('./images/');
+
     content = [];
     for (var dir of fs.readdirSync(source)) {
         var target = path.resolve(__dirname, source, dir);
@@ -104,7 +109,7 @@ function parseArgs() {
         var data = publishMod(target);
         if (data) updateMD(data);
     }
-    md += "Learn more about how to [publish your own mod](https://underpig1.github.io/octos/docs/?t=publish)"
+    md += "Learn more about how to [publish your own mod](https://underpig1.github.io/octos/docs/guides/publish/)"
     writeMD();
 }
 

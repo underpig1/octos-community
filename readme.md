@@ -17,10 +17,45 @@ It's as easy as...
 5. Your mod will automatically be added to the Octos gallery shortly after it's merged.
 
 # Gallery (auto-generated)
-[No image]
+<img src='images\Audio-image-audio.png' alt='Audio' width='300px'>
+
+### Audio - By Octos
+Visualize music on the wallpaper. Includes a media player widget for controlling audio on the desktop. Automatically syncs to the current playing media (including YouTube, Spotify, videos, etc.).
+<br>
+<br>
+<br>
+<img src='images\Contraption-image-contraption.png' alt='Contraption' width='300px'>
+
+### Contraption - By Octos
+A complete physics sandbox, right on your desktop. From cars to bridges, make complex machines and contraptions then let them run wild on your desktop.
+<br>
+<br>
+<br>
+<img src='images\Conway-image-conway.png' alt='Conway' width='300px'>
+
+### Conway - By squiemperor
+A simple mouse-interactive visualization for Conway's Game of Life.
+<br>
+<br>
+<br>
+<img src='images\Gradient-image-image.png' alt='Gradient' width='300px'>
+
+### Gradient - By Octos
+A simple customizable gradient background with an analog clock.
+<br>
+<br>
+<br>
+<img src='images\Layout-image-layout.png' alt='Layout' width='300px'>
 
 ### Layout - By Octos
 Choose an image/video to set as your wallpaper and customize it with interactive widgets.
+<br>
+<br>
+<br>
+<img src='images\Eyes on the Solar System-image-image.png' alt='Eyes on the Solar System' width='300px'>
+
+### Eyes on the Solar System - By NASA
+Explore planets, moons, asteroids, comets, and spacecraft in 3D. From eyes.nasa.gov
 <br>
 <br>
 <br>
@@ -28,6 +63,20 @@ Choose an image/video to set as your wallpaper and customize it with interactive
 
 ### Terminal - By Octos
 A digital clock with a live old TV effect and customizable 3D text art.
+<br>
+<br>
+<br>
+<img src='images\Terrain-image-img.png' alt='Terrain' width='300px'>
+
+### Terrain - By Octos
+A nice scrolling terrain. Click to draw.
+<br>
+<br>
+<br>
+<img src='images\Webpage-image-webpage.png' alt='Webpage' width='300px'>
+
+### Webpage - By Octos
+Load any webpage as your wallpaper.
 <br>
 <br>
 <br>

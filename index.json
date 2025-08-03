@@ -1,20 +1,107 @@
 [
     {
+        "name": "Audio",
+        "description": "Visualize music on the wallpaper. Includes a media player widget for controlling audio on the desktop. Automatically syncs to the current playing media (including YouTube, Spotify, videos, etc.).",
+        "author": "Octos",
+        "image": "audio.png",
+        "zipPath": "build\\audio.zip",
+        "folderPath": "src\\audio",
+        "imagePath": "images\\Audio-image-audio.png"
+    },
+    {
+        "entry": "index.html",
+        "name": "Contraption",
+        "image": "contraption.png",
+        "author": "Octos",
+        "description": "A complete physics sandbox, right on your desktop. From cars to bridges, make complex machines and contraptions then let them run wild on your desktop.",
+        "zipPath": "build\\contraption.zip",
+        "folderPath": "src\\contraption",
+        "imagePath": "images\\Contraption-image-contraption.png"
+    },
+    {
+        "name": "Conway",
+        "description": "A simple mouse-interactive visualization for Conway's Game of Life.",
+        "image": "conway.png",
+        "author": "squiemperor",
+        "zipPath": "build\\conway.zip",
+        "folderPath": "src\\conway",
+        "imagePath": "images\\Conway-image-conway.png"
+    },
+    {
+        "author": "Octos",
+        "description": "A simple customizable gradient background with an analog clock.",
+        "entry": "index.html",
+        "image": "image.png",
+        "name": "Gradient",
+        "prefs": {
+            "primary-color": {
+                "label": "Primary color",
+                "type": "color",
+                "value": "#78c4ce"
+            },
+            "secondary-color": {
+                "label": "Secondary color",
+                "type": "color",
+                "value": "#8d8ed3"
+            },
+            "speed": {
+                "label": "Scroll speed",
+                "max": "100",
+                "min": "0",
+                "type": "range",
+                "value": "50"
+            }
+        },
+        "zipPath": "build\\gradient.zip",
+        "folderPath": "src\\gradient",
+        "imagePath": "images\\Gradient-image-image.png"
+    },
+    {
         "name": "Layout",
         "entry": "index.html",
         "author": "Octos",
+        "image": "layout.png",
         "description": "Choose an image/video to set as your wallpaper and customize it with interactive widgets.",
         "zipPath": "build\\layout.zip",
-        "folderPath": "src\\layout"
+        "folderPath": "src\\layout",
+        "imagePath": "images\\Layout-image-layout.png"
+    },
+    {
+        "name": "Eyes on the Solar System",
+        "author": "NASA",
+        "entry": "https://eyes.nasa.gov/apps/solar-system/#/home?featured=false&detailPanel=false&logo=false&search=false&shareButton=false&menu=false&collapseSettingsOptions=true&hideFullScreenToggle=true&hideExternalLinks=true",
+        "image": "image.png",
+        "description": "Explore planets, moons, asteroids, comets, and spacecraft in 3D. From eyes.nasa.gov",
+        "zipPath": "build\\nasa.zip",
+        "folderPath": "src\\nasa",
+        "imagePath": "images\\Eyes on the Solar System-image-image.png"
     },
     {
         "name": "Terminal",
-        "entry": "3d.html",
+        "entry": "index.html",
         "author": "Octos",
         "image": "terminal.png",
         "description": "A digital clock with a live old TV effect and customizable 3D text art.",
         "zipPath": "build\\terminal.zip",
         "folderPath": "src\\terminal",
         "imagePath": "images\\Terminal-image-terminal.png"
+    },
+    {
+        "name": "Terrain",
+        "author": "Octos",
+        "description": "A nice scrolling terrain. Click to draw.",
+        "image": "img.png",
+        "zipPath": "build\\terrain.zip",
+        "folderPath": "src\\terrain",
+        "imagePath": "images\\Terrain-image-img.png"
+    },
+    {
+        "name": "Webpage",
+        "author": "Octos",
+        "description": "Load any webpage as your wallpaper.",
+        "image": "webpage.png",
+        "zipPath": "build\\webpage.zip",
+        "folderPath": "src\\webpage",
+        "imagePath": "images\\Webpage-image-webpage.png"
     }
 ]
