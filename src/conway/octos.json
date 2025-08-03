@@ -2,5 +2,21 @@
     "name": "Conway",
     "description": "A simple mouse-interactive visualization for Conway's Game of Life.",
     "image": "conway.png",
-    "author": "squiemperor"
+    "author": "squiemperor",
+    "options": {
+        "background": {
+            "type": "color-picker",
+            "label": "Background color",
+            "onchange": "updateBackground",
+            "onload": "updateBackground",
+            "value": "#000000"
+        },
+        "foreground": {
+            "type": "color-picker",
+            "label": "Foreground color",
+            "onchange": "updateForeground",
+            "onload": "updateForeground",
+            "value": "#ffffff"
+        }
+    }
 }

@@ -209,9 +209,16 @@
 
         function updateMediaProps(props) {
             if (props.title) {
-                overlayContainer.classList.add('active')
                 document.getElementById('title').innerText = props.title;
                 document.getElementById('artist').innerText = props.artist;
+            }
+        }
+
+        function updatePlaybackInfo(playbackInfo) {
+            console.log(playbackInfo.playbackStatus)
+            if (playbackInfo.playbackStatus == 'Playing' || playbackInfo.playbackStatus == 'Paused') {
+                overlayContainer.classList.add('active')
+                updatePlayPause(playbackInfo.playbackStatus);
                 active = true;
             }
             else {
@@ -219,12 +226,13 @@
                 setTimeout(() => {
                     active = false
                     drawRadialPattern()
-                }, 1000);
+                }, 500);
             }
         }
 
         function updateThumbnail(src) {
-            document.getElementById('thumbnail').src = src || "";
+            if (active)
+                document.getElementById('thumbnail').src = src || "";
         }
 
         function updateTimeline(props) {
@@ -234,7 +242,7 @@
         }
 
         mediaController.on('playbackChange', playbackInfo => {
-            updatePlayPause(playbackInfo.playbackStatus);
+            updatePlaybackInfo(playbackInfo);
         });
 
         mediaController.on('mediaChange', mediaProps => {
@@ -270,9 +278,7 @@
             drawRadialPattern()
             mediaController.requestMediaProperties().then(updateMediaProps);
             mediaController.requestThumbnail().then(updateThumbnail);
-            mediaController.requestPlaybackInfo().then(info => {
-                updatePlayPause(info.playbackStatus);
-            });
+            mediaController.requestPlaybackInfo().then(updatePlaybackInfo);
             mediaController.requestTimelineProperties().then(updateTimeline);
         });
 
@@ -384,19 +390,19 @@
                 ctx.stroke();
             }
 
-            const pulse = (x) => Math.cos(performance.now()/2000 + x);
+            const pulse = (x) => Math.cos(performance.now() / 2000 + x);
             const rotate = performance.now() / 8000
             ctx.strokeStyle = 'blue'
             ctx.fillStyle = 'rgba(0, 0, 255, 0.2)';
-            drawWave(250 + 10 * pulse(0), 20 + 5* pulse(0), 12, -rotate/3);
+            drawWave(250 + 10 * pulse(0), 20 + 5 * pulse(0), 12, -rotate / 3);
 
             ctx.strokeStyle = 'red'
             ctx.fillStyle = 'rgba(255, 0, 0, 0.2)';
-            drawWave(175 + 10 * pulse(Math.PI/2), 10 + 5* pulse(0), 10, rotate/2);
-            
+            drawWave(175 + 10 * pulse(Math.PI / 2), 10 + 5 * pulse(0), 10, rotate / 2);
+
             ctx.strokeStyle = 'green'
             ctx.fillStyle = 'rgba(0, 255, 0, 0.2)';
-            drawWave(100 + 10*pulse(Math.PI), 10, 6, -rotate);
+            drawWave(100 + 10 * pulse(Math.PI), 10, 6, -rotate);
 
             setTimeout(() => requestAnimationFrame(drawRadialPattern), 60);
         }
@@ -454,7 +460,7 @@
                     const reduction = 1 - (1 - i / displayBars) * 0.4;
                     let radius = (baseRadius + db * mult) * reduction;
                     radius = radius > 0 ? radius : 0
-                    const angle = i * angleStep + performance.now()/8000;
+                    const angle = i * angleStep + performance.now() / 8000;
 
                     const x = centerX + radius * Math.cos(angle);
                     const y = centerY + radius * Math.sin(angle);

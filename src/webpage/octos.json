@@ -7,7 +7,8 @@
         "url": {
             "type": "text",
             "label": "URL:",
-            "onchange": "(value) => { if (!/^https?:\\/\\//i.test(value)) { value = 'https://' + value; } window.location.href = value; }"
+            "onchange": "(value) => { if (!/^https?:\\/\\//i.test(value)) { value = 'https://' + value; } window.location.href = value; }",
+            "value": "https://www.wikipedia.com"
         }
     }
 }
