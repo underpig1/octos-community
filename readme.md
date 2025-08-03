@@ -80,4 +80,4 @@ Load any webpage as your wallpaper.
 <br>
 <br>
 <br>
-Learn more about how to [publish your own mod](https://underpig1.github.io/octos/docs/?t=publish)
+Learn more about how to [publish your own mod](https://underpig1.github.io/octos/docs/guides/publish/)
