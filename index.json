@@ -28,35 +28,6 @@
         "imagePath": "images\\Conway-image-conway.png"
     },
     {
-        "author": "Octos",
-        "description": "A simple customizable gradient background with an analog clock.",
-        "entry": "index.html",
-        "image": "image.png",
-        "name": "Gradient",
-        "prefs": {
-            "primary-color": {
-                "label": "Primary color",
-                "type": "color",
-                "value": "#78c4ce"
-            },
-            "secondary-color": {
-                "label": "Secondary color",
-                "type": "color",
-                "value": "#8d8ed3"
-            },
-            "speed": {
-                "label": "Scroll speed",
-                "max": "100",
-                "min": "0",
-                "type": "range",
-                "value": "50"
-            }
-        },
-        "zipPath": "build\\gradient.zip",
-        "folderPath": "src\\gradient",
-        "imagePath": "images\\Gradient-image-image.png"
-    },
-    {
         "name": "Layout",
         "entry": "index.html",
         "author": "Octos",

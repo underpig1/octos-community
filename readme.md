@@ -38,13 +38,6 @@ A simple mouse-interactive visualization for Conway's Game of Life.
 <br>
 <br>
 <br>
-<img src='images\Gradient-image-image.png' alt='Gradient' width='300px'>
-
-### Gradient - By Octos
-A simple customizable gradient background with an analog clock.
-<br>
-<br>
-<br>
 <img src='images\Layout-image-layout.png' alt='Layout' width='300px'>
 
 ### Layout - By Octos
