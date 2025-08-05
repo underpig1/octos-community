@@ -3,5 +3,6 @@
     "entry": "index.html",
     "author": "Octos",
     "image": "layout.png",
-    "description": "Choose an image/video to set as your wallpaper and customize it with interactive widgets."
+    "description": "Choose an image/video to set as your wallpaper and customize it with interactive widgets.",
+    "preview": "layout.gif"
 }

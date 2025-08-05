@@ -3,5 +3,6 @@
     "entry": "index.html",
     "author": "Octos",
     "image": "terminal.png",
-    "description": "A digital clock with a live old TV effect and customizable 3D text art."
+    "description": "A digital clock with a live old TV effect and customizable 3D text art.",
+    "preview": "terminal.gif"
 }

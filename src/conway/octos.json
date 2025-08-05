@@ -18,5 +18,6 @@
             "onload": "updateForeground",
             "value": "#ffffff"
         }
-    }
+    },
+    "preview": "conway.gif"
 }

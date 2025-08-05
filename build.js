@@ -2,6 +2,7 @@
 
 const fs = require("fs-extra");
 const path = require("path");
+const archiver = require("archiver");
 
 const source = path.join(__dirname, "src");
 const images = path.join(__dirname, "images");
@@ -82,9 +83,27 @@ function publishMod(dir) {
             obj.previewPath = newPreviewPath;
         }
         content.push(obj)
-        zip(dir, newPath);
+        zip(dir, newPath, config.preview ? config.preview : "");
         writeContent();
         return obj;
+    }
+}
+
+function clearDirSync(dir) {
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+        return;
+    }
+
+    for (const name of fs.readdirSync(dir)) {
+        const fullPath = path.join(dir, name);
+        const stat = fs.statSync(fullPath);
+
+        if (stat.isDirectory()) {
+            fs.rmSync(fullPath, { recursive: true, force: true });
+        } else {
+            fs.unlinkSync(fullPath);
+        }
     }
 }
 
@@ -97,10 +116,8 @@ async function parseArgs() {
         }
     }
 
-    await fs.rm('./build/', { recursive: true, force: true });
-    await fs.mkdir('./build/');
-    await fs.rm('./images/', { recursive: true, force: true });
-    await fs.mkdir('./images/');
+    clearDirSync('./build/');
+    clearDirSync('./images/');
 
     content = [];
     for (var dir of fs.readdirSync(source)) {
@@ -113,14 +130,24 @@ async function parseArgs() {
     writeMD();
 }
 
-function zip(dir, target) {
+function zip(dir, target, exclude = "") {
     return new Promise((resolve, reject) => {
-        const archiver = require("archiver");
         const archive = archiver("zip", { zlib: { level: 9 } });
         const stream = fs.createWriteStream(target);
 
+        console.log(exclude);
+
         stream.on("close", () => resolve(target));
-        archive.directory(dir, false).on("error", reject).pipe(stream);
+        stream.on("error", reject);
+        archive.pipe(stream);
+        archive.glob(
+            '**/*',
+            {
+                cwd: dir,
+                ignore: [exclude],
+            },
+            {}
+        );
         archive.finalize();
     });
 }
