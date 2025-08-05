@@ -68,5 +68,23 @@
         "folderPath": "src\\terminal",
         "imagePath": "images\\Terminal-image-terminal.png",
         "previewPath": "images\\Terminal-preview-terminal.gif"
+    },
+    {
+        "name": "Terrain",
+        "author": "Octos",
+        "description": "A nice scrolling terrain. Click to draw.",
+        "image": "img.png",
+        "zipPath": "build\\terrain.zip",
+        "folderPath": "src\\terrain",
+        "imagePath": "images\\Terrain-image-img.png"
+    },
+    {
+        "name": "Webpage",
+        "author": "Octos",
+        "description": "Load any webpage as your wallpaper.",
+        "image": "webpage.png",
+        "zipPath": "build\\webpage.zip",
+        "folderPath": "src\\webpage",
+        "imagePath": "images\\Webpage-image-webpage.png"
     }
 ]
