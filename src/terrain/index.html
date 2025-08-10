@@ -41,9 +41,10 @@
         function resize() {
             cols = Math.floor(window.innerWidth / pixelSize);
             rows = Math.floor(window.innerHeight / pixelSize);
-            canvas.width = cols * pixelSize; canvas.height = (rows - 1) * pixelSize;
-            canvas.style.width = cols * pixelSize + 'px';
-            canvas.style.height = rows * pixelSize + 'px';
+            canvas.width = cols;
+            canvas.height = (rows - 1);
+            canvas.style.width = window.innerWidth + 'px';
+            canvas.style.height = window.innerHeight + 'px';
         }
         resize();
         window.addEventListener('resize', resize);
@@ -115,6 +116,18 @@
             return row;
         }
 
+        // -- THROTTLED DRAW SCHEDULER --
+        let drawScheduled = false;
+        function scheduleDraw() {
+            if (!drawScheduled) {
+                drawScheduled = true;
+                requestAnimationFrame(() => {
+                    draw();
+                    drawScheduled = false;
+                });
+            }
+        }
+
         let isMouseDown = false;
 
         canvas.addEventListener('mousedown', e => {
@@ -162,7 +175,7 @@
                     }
                 }
             }
-            draw();
+            scheduleDraw(); // THROTTLED DRAW
         }
 
         function draw() {
@@ -175,7 +188,7 @@
                 const row = rowCache.get(worldY);
                 for (let x = 0; x < cols; x++) {
                     ctx.fillStyle = row[x].color;
-                    ctx.fillRect(x * pixelSize, y * pixelSize - (scrollY % 1) * pixelSize, pixelSize, pixelSize);
+                    ctx.fillRect(x, y, 1, 1);
                 }
             }
             for (const key of rowCache.keys()) {
@@ -186,15 +199,12 @@
         const userOptions = new octos.UserOptions();
 
         const handleOptions = ({ id, value }) => {
-            if (id == 'interval') {
+            if (id == 'speed') {
                 if (value) {
-                    interval = parseInt(value)
-                }
-            }
-            else if (id == 'speed') {
-                if (value) {
-                    const speed = parseInt(value);
-                    scrollSpeed = speed/10;
+                    if (parseInt(value) == 0) interval = Infinity
+                    else if (parseInt(value) == 5) interval = 100
+                    else
+                        interval = 1000 - parseInt(value)*2 * 100
                 }
             }
         };
@@ -202,13 +212,16 @@
         userOptions.on('change', handleOptions)
         userOptions.on('load', handleOptions)
 
-        let scrollSpeed = 0.5;
+        let scrollSpeed = 1;
         let lastTime = 0, interval = 500;
+
         function animate(time = 0) {
-            if (time - lastTime > interval) {
-                scrollY += scrollSpeed;
-                draw();
-                lastTime = time;
+            if (!isMouseDown) {
+                if (time - lastTime > interval) {
+                    scrollY += scrollSpeed;
+                    draw();
+                    lastTime = time;
+                }
             }
             requestAnimationFrame(animate);
         }

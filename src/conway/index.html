@@ -27,8 +27,8 @@
         canvas.height = innerHeight;
 
         const cellSize = 8;
-        const cols = Math.floor(canvas.width / cellSize);
-        const rows = Math.floor(canvas.height / cellSize);
+        let cols = Math.floor(canvas.width / cellSize);
+        let rows = Math.floor(canvas.height / cellSize);
 
         let mouseX = -1, mouseY = -1;
 
@@ -201,6 +201,27 @@
         }
 
         animate();
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            cols = Math.floor(canvas.width / cellSize);
+            rows = Math.floor(canvas.height / cellSize);
+
+            grid = createGrid();
+            nextGrid = createGrid();
+
+            for (let i = 0; i < 5000; i++) {
+                const x = Math.floor(Math.random() * cols);
+                const y = Math.floor(Math.random() * rows);
+                grid[y][x] = 1;
+            }
+        }
+
+        resize();
+
+        window.addEventListener('resize', resize);
     </script>
 </body>
 

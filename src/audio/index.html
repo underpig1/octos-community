@@ -327,7 +327,15 @@
             return logBins;
         }
 
+        let tout = 0;
+
         function handleAudioStream(audioStream) {
+            clearTimeout(tout)
+            tout = setTimeout(() => {
+                active = false;
+                drawRadialPattern()
+                console.log('DIDNT RECIEVE AUDIO STREAM')
+            }, 150)
             if (!active)
                 return;
             const samples = audioStream.samples;
