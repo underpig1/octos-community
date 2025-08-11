@@ -38,6 +38,20 @@ A simple mouse-interactive visualization for Conway's Game of Life.
 <br>
 <br>
 <br>
+<img src='images\Donut-image-donut.png' alt='Donut' width='300px'>
+
+### Donut
+Just a donut. From Donut-JS
+<br>
+<br>
+<br>
+<img src='images\Fluid-image-image.png' alt='Fluid' width='300px'>
+
+### Fluid
+WebGL fluid simulation, adapted from paveldogreat
+<br>
+<br>
+<br>
 <img src='images\Layout-image-layout.png' alt='Layout' width='300px'>
 
 ### Layout - By Octos
@@ -47,8 +61,22 @@ Choose an image/video to set as your wallpaper and customize it with interactive
 <br>
 <img src='images\Eyes on the Solar System-image-image.png' alt='Eyes on the Solar System' width='300px'>
 
-### Eyes on the Solar System - By NASA
+### Eyes on the Solar System
 Explore planets, moons, asteroids, comets, and spacecraft in 3D. From eyes.nasa.gov
+<br>
+<br>
+<br>
+<img src='images\Notes-image-image.png' alt='Notes' width='300px'>
+
+### Notes - By Octos
+A simple whiteboard for note-taking and drawing. Saves content between sessions.
+<br>
+<br>
+<br>
+<img src='images\Constellation-image-particles.png' alt='Constellation' width='300px'>
+
+### Constellation
+A simple particle animation. Click to add particles.
 <br>
 <br>
 <br>

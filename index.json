@@ -34,6 +34,23 @@
         "previewPath": "images\\Conway-preview-conway.gif"
     },
     {
+        "name": "Donut",
+        "description": "Just a donut. From Donut-JS",
+        "image": "donut.png",
+        "zipPath": "build\\donut.zip",
+        "folderPath": "src\\donut",
+        "imagePath": "images\\Donut-image-donut.png"
+    },
+    {
+        "name": "Fluid",
+        "description": "WebGL fluid simulation, adapted from paveldogreat",
+        "entry": "index.html",
+        "image": "image.png",
+        "zipPath": "build\\fluid.zip",
+        "folderPath": "src\\fluid",
+        "imagePath": "images\\Fluid-image-image.png"
+    },
+    {
         "name": "Layout",
         "entry": "index.html",
         "author": "Octos",
@@ -47,7 +64,6 @@
     },
     {
         "name": "Eyes on the Solar System",
-        "author": "NASA",
         "entry": "https://eyes.nasa.gov/apps/solar-system/#/home?featured=false&detailPanel=false&logo=false&search=false&shareButton=false&menu=false&collapseSettingsOptions=true&hideFullScreenToggle=true&hideExternalLinks=true",
         "image": "image.png",
         "description": "Explore planets, moons, asteroids, comets, and spacecraft in 3D. From eyes.nasa.gov",
@@ -56,6 +72,24 @@
         "folderPath": "src\\nasa",
         "imagePath": "images\\Eyes on the Solar System-image-image.png",
         "previewPath": "images\\Eyes on the Solar System-preview-nasa.gif"
+    },
+    {
+        "name": "Notes",
+        "author": "Octos",
+        "description": "A simple whiteboard for note-taking and drawing. Saves content between sessions.",
+        "entry": "index.html",
+        "image": "image.png",
+        "zipPath": "build\\notes.zip",
+        "folderPath": "src\\notes",
+        "imagePath": "images\\Notes-image-image.png"
+    },
+    {
+        "name": "Constellation",
+        "description": "A simple particle animation. Click to add particles.",
+        "image": "particles.png",
+        "zipPath": "build\\particles.zip",
+        "folderPath": "src\\particles",
+        "imagePath": "images\\Constellation-image-particles.png"
     },
     {
         "name": "Terminal",
