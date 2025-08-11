@@ -17,10 +17,16 @@ It's as easy as...
 5. Your mod will automatically be added to the Octos gallery shortly after it's merged.
 
 # Gallery (auto-generated)
-<img src='images\Audio-image-audio.png' alt='Audio' width='300px'>
+<img src='images\Simple Audio-image-audio.png' alt='Simple Audio' width='300px'>
 
-### Audio - By Octos
+### Simple Audio - By Octos
 Visualize music on the wallpaper. Includes a media player widget for controlling audio on the desktop. Automatically syncs to the current playing media (including YouTube, Spotify, videos, etc.).
+<br>
+<br>
+<br>
+[No image]
+
+### Ferrari
 <br>
 <br>
 <br>
@@ -38,17 +44,17 @@ A simple mouse-interactive visualization for Conway's Game of Life.
 <br>
 <br>
 <br>
-<img src='images\Donut-image-donut.png' alt='Donut' width='300px'>
-
-### Donut
-Just a donut. From Donut-JS
-<br>
-<br>
-<br>
 <img src='images\Fluid-image-image.png' alt='Fluid' width='300px'>
 
 ### Fluid
 WebGL fluid simulation, adapted from paveldogreat
+<br>
+<br>
+<br>
+<img src='images\Globe-image-image.png' alt='Globe' width='300px'>
+
+### Globe - By Octos
+Interactive WebGL Globe.
 <br>
 <br>
 <br>
@@ -69,7 +75,7 @@ Explore planets, moons, asteroids, comets, and spacecraft in 3D. From eyes.nasa.
 <img src='images\Notes-image-image.png' alt='Notes' width='300px'>
 
 ### Notes - By Octos
-A simple whiteboard for note-taking and drawing. Saves content between sessions.
+A simple whiteboard for note-taking and drawing. Saves content between sessions. Has both light/dark mode.
 <br>
 <br>
 <br>

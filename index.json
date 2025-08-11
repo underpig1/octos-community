@@ -1,14 +1,19 @@
 [
     {
-        "name": "Audio",
+        "name": "Simple Audio",
         "description": "Visualize music on the wallpaper. Includes a media player widget for controlling audio on the desktop. Automatically syncs to the current playing media (including YouTube, Spotify, videos, etc.).",
         "author": "Octos",
         "image": "audio.png",
         "preview": "audio.gif",
         "zipPath": "build\\audio.zip",
         "folderPath": "src\\audio",
-        "imagePath": "images\\Audio-image-audio.png",
-        "previewPath": "images\\Audio-preview-audio.gif"
+        "imagePath": "images\\Simple Audio-image-audio.png",
+        "previewPath": "images\\Simple Audio-preview-audio.gif"
+    },
+    {
+        "name": "Ferrari",
+        "zipPath": "build\\car.zip",
+        "folderPath": "src\\car"
     },
     {
         "entry": "index.html",
@@ -34,14 +39,6 @@
         "previewPath": "images\\Conway-preview-conway.gif"
     },
     {
-        "name": "Donut",
-        "description": "Just a donut. From Donut-JS",
-        "image": "donut.png",
-        "zipPath": "build\\donut.zip",
-        "folderPath": "src\\donut",
-        "imagePath": "images\\Donut-image-donut.png"
-    },
-    {
         "name": "Fluid",
         "description": "WebGL fluid simulation, adapted from paveldogreat",
         "entry": "index.html",
@@ -49,6 +46,15 @@
         "zipPath": "build\\fluid.zip",
         "folderPath": "src\\fluid",
         "imagePath": "images\\Fluid-image-image.png"
+    },
+    {
+        "name": "Globe",
+        "description": "Interactive WebGL Globe.",
+        "author": "Octos",
+        "image": "image.png",
+        "zipPath": "build\\globe.zip",
+        "folderPath": "src\\globe",
+        "imagePath": "images\\Globe-image-image.png"
     },
     {
         "name": "Layout",
@@ -76,7 +82,7 @@
     {
         "name": "Notes",
         "author": "Octos",
-        "description": "A simple whiteboard for note-taking and drawing. Saves content between sessions.",
+        "description": "A simple whiteboard for note-taking and drawing. Saves content between sessions. Has both light/dark mode.",
         "entry": "index.html",
         "image": "image.png",
         "zipPath": "build\\notes.zip",
