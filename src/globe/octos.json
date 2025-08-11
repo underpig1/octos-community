@@ -1,0 +1,15 @@
+{
+    "name": "Globe",
+    "description": "Interactive WebGL Globe.",
+    "author": "Octos",
+    "options": {
+        "data": {
+            "label": "Data to display:",
+            "type": "select",
+            "options": ["Population", "Search", "Elevation", "None"],
+            "value": "Population",
+            "onchangeload": "onDataChange"
+        }
+    },
+    "image": "image.png"
+}

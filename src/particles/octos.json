@@ -1,5 +1,46 @@
 {
     "name": "Constellation",
     "description": "A simple particle animation. Click to add particles.",
-    "image": "particles.png"
+    "image": "particles.png",
+    "options": {
+        "0background": {
+            "type": "color-picker",
+            "label": "Background",
+            "value": "#111111",
+            "onchangeload": "onChangeBg"
+        },
+        "1particle-color": {
+            "type": "color-picker",
+            "label": "Particle color",
+            "value": "#ffffff",
+            "onchangeload": "onChangeParticleColor"
+        },
+        "2speed": {
+            "type": "range",
+            "label": "Speed",
+            "value": 1,
+            "step": 1,
+            "min": 0,
+            "max": 5,
+            "onchangeload": "onChangeSpeed"
+        },
+        "3size": {
+            "type": "range",
+            "label": "Thickness",
+            "value": 1,
+            "step": 1,
+            "min": 1,
+            "max": 10,
+            "onchangeload": "onChangeSize"
+        },
+        "4link": {
+            "type": "range",
+            "label": "Links",
+            "value": 150,
+            "step": 50,
+            "min": 0,
+            "max": 300,
+            "onchangeload": "onChangeLink"
+        }
+    }
 }

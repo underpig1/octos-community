@@ -1,5 +1,6 @@
 {
     "name": "Donut",
     "description": "Just a donut. From Donut-JS",
-    "image": "donut.png"
+    "image": "donut.png",
+    "include": false
 }

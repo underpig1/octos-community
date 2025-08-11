@@ -20,6 +20,7 @@
     <div id="tsparticles"></div>
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@1.37.4/tsparticles.min.js"></script>
     <script>
+        let tspContainer = null;
         tsParticles.load("tsparticles", {
             background: {
                 color: "#111"
@@ -36,7 +37,7 @@
                     type: "circle"
                 },
                 opacity: {
-                    value: 0.5,
+                    value: 1,
                     animation: {
                         enable: false
                     }
@@ -89,6 +90,7 @@
             },
             detectRetina: false
         }).then((container) => {
+            tspContainer = container;
             window.onclick = (e) => {
                 container.particles.addParticle({
                     x: e.clientX,
@@ -96,6 +98,44 @@
                 });
             }
         });
+
+        function onChangeBg(value) {
+            if (tspContainer) {
+                tspContainer.options.background.color = value;
+                tspContainer.refresh();
+            }
+        }
+
+        function onChangeParticleColor(value) {
+            if (tspContainer) {
+                tspContainer.options.particles.color.value = value;
+                tspContainer.options.particles.links.color = value;
+                tspContainer.refresh();
+            }
+        }
+
+        function onChangeSpeed(value) {
+            if (tspContainer) {
+                tspContainer.options.particles.move.speed = parseFloat(value);
+                tspContainer.refresh();
+            }
+        }
+
+        function onChangeSize(value) {
+            if (tspContainer) {
+                tspContainer.options.particles.size.value.min = parseFloat(value);
+                tspContainer.options.particles.size.value.max = parseFloat(value) + 4;
+                tspContainer.options.particles.links.width = parseFloat(value);
+                tspContainer.refresh();
+            }
+        }
+
+        function onChangeLink(value) {
+            if (tspContainer) {
+                tspContainer.options.particles.links.distance = parseFloat(value);
+                tspContainer.refresh();
+            }
+        }
     </script>
 </body>
 

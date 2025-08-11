@@ -28,71 +28,76 @@
         const jsons = {
             "search": "https://cdn.jsdelivr.net/gh/dataarts/webgl-globe@refs/heads/master/globe-search/search.json",
             "population": "https://cdn.jsdelivr.net/gh/dataarts/webgl-globe@refs/heads/master/globe/population909500.json",
-            "elevation": "./elevation.json"
-        }
-        let current = "elevation"
-        const colorFn = (label) => new THREE.Color([
-                        0xd9d9d9, 0xb6b4b5, 0x9966cc, 0x15adff, 0x3e66a3,
-                        0x216288, 0xff7e7e, 0xff1f13, 0xc0120b, 0x5a1301, 0xffcc02,
-                        0xedb113, 0x9fce66, 0x0c9a39,
-                        0xfe9872, 0x7f3f98, 0xf26522, 0x2bb673, 0xd7df23,
-                        0xe6b23a, 0x7ed3f7][label]);
+            "elevation": "./globe_elevation.json"
+        };
+        let current = "population";
+        let globe, renderer, camera; // store references
 
-        var container = document.getElementById('container');
-        var globe = new DAT.Globe(container, { imgDir: "./", colorFn: (current == "search") ? colorFn : null } );
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', jsons[current], true);
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                var data = JSON.parse(xhr.responseText);
-                console.log(data);
-                if (current == "population") {
-                    for (var i = 0; i < data.length; i++) {
-                        globe.addData(data[i][1], { format: 'magnitude', name: data[i][0] });
-                    }
-                }
-                else if (current == "elevation") {
-                    globe.addData(data, { format: 'magnitude' });
-                }
-                else if (current == "search") {
-                    globe.addData(data, { format: 'legend' });
-                }
-                globe.createPoints();
+        const colorFn = (label) => new THREE.Color([
+            0xd9d9d9, 0xb6b4b5, 0x9966cc, 0x15adff, 0x3e66a3,
+            0x216288, 0xff7e7e, 0xff1f13, 0xc0120b, 0x5a1301, 0xffcc02,
+            0xedb113, 0x9fce66, 0x0c9a39,
+            0xfe9872, 0x7f3f98, 0xf26522, 0x2bb673, 0xd7df23,
+            0xe6b23a, 0x7ed3f7
+        ][label]);
+
+        function createGlobe() {
+            const container = document.getElementById('container');
+            globe = new DAT.Globe(container, {
+                imgDir: "./",
+                colorFn: (current == "search") ? colorFn : null
+            });
+
+            // Capture references to renderer & camera for resizing
+            renderer = globe.renderer;
+            camera = globe.camera;
+
+            if (current == "none") {
                 globe.animate();
+                return;
             }
 
-        };
-        xhr.send(null);
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', jsons[current], true);
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const data = JSON.parse(xhr.responseText);
+                    if (current == "population") {
+                        for (let i = 0; i < data.length; i++) {
+                            globe.addData(data[i][1], { format: 'magnitude', name: data[i][0] });
+                        }
+                    }
+                    else if (current == "elevation") {
+                        globe.addData(data, { format: 'magnitude' });
+                    }
+                    else if (current == "search") {
+                        globe.addData(data, { format: 'legend' });
+                    }
+                    globe.createPoints();
+                    globe.animate();
+                }
+            };
+            xhr.send(null);
+        }
 
-        // var dataFrame1 = [
-        //     37.7749, -122.4194, 0.05,  // San Francisco, small size
-        //     40.7128, -74.0060, 0.05    // New York, small size
-        // ];
+        function onDataChange(value) {
+            value = value.toLowerCase();
+            current = value;
+            container.removeChild(container.firstChild);
+            createGlobe();
+        }
 
-        // // Frame 2: larger points (rise)
-        // var dataFrame2 = [
-        //     37.7749, -122.4194, 0.5,   // San Francisco, bigger size
-        //     40.7128, -74.0060, 0.7     // New York, bigger size
-        // ];
-        // globe.addData(dataFrame1, { animated: true, format: 'magnitude' });
-        // globe.addData(dataFrame2, { animated: true, format: 'magnitude' });
+        function onWindowResize() {
+            if (camera && renderer) {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+        }
 
-        // globe.createPoints();
+        window.addEventListener('resize', onWindowResize, false);
 
-        // globe.animate();
-
-        // var t = 0;
-        // var speed = 0.01;
-
-        // function animateRise() {
-        //     requestAnimationFrame(animateRise);
-        //     t += speed;
-        //     if (t > 1 || t < 0) speed = -speed;
-        //     globe.time = t;
-        // }
-
-        // animateRise();
-
+        createGlobe();
     </script>
 </body>
 

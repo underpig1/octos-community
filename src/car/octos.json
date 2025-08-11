@@ -1,0 +1,10 @@
+{
+    "name": "Ferrari",
+    "options": {
+        "body-color": {
+            "type": "color-picker",
+            "label": "Color",
+            "value": "#ff0000"
+        }
+    }
+}
