@@ -12,7 +12,6 @@
 
         canvas {
             display: block;
-            vertical-align: bottom;
         }
     </style>
 </head>
@@ -63,7 +62,7 @@
                 }
             },
             interactivity: {
-                detectsOn: "canvas",
+                detectsOn: "window",
                 events: {
                     onHover: {
                         enable: true,
@@ -74,10 +73,9 @@
                         }
                     },
                     onClick: {
-                        enable: true,
+                        enable: false,
                         mode: "push"
-                    },
-                    resize: true
+                    }
                 },
                 modes: {
                     push: {
@@ -90,6 +88,13 @@
                 }
             },
             detectRetina: false
+        }).then((container) => {
+            window.onclick = (e) => {
+                container.particles.addParticle({
+                    x: e.clientX,
+                    y: e.clientY
+                });
+            }
         });
     </script>
 </body>
