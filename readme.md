@@ -31,6 +31,13 @@ Customizable car. Left mouse to drag. Right mouse to pan.
 <br>
 <br>
 <br>
+<img src='images\Cloudy Day-image-image.png' alt='Cloudy Day' width='300px'>
+
+### Cloudy Day
+Animated scrolling clouds with a digital time display.
+<br>
+<br>
+<br>
 <img src='images\Contraption-image-contraption.png' alt='Contraption' width='300px'>
 
 ### Contraption - By Octos

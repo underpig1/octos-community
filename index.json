@@ -20,6 +20,14 @@
         "imagePath": "images\\3D Car-image-image.png"
     },
     {
+        "name": "Cloudy Day",
+        "description": "Animated scrolling clouds with a digital time display.",
+        "image": "image.png",
+        "zipPath": "build\\clouds.zip",
+        "folderPath": "src\\clouds",
+        "imagePath": "images\\Cloudy Day-image-image.png"
+    },
+    {
         "entry": "index.html",
         "name": "Contraption",
         "image": "contraption.png",
