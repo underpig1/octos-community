@@ -30,13 +30,13 @@
     {
         "entry": "index.html",
         "name": "Contraption",
-        "image": "contraption.png",
+        "image": "image.png",
         "author": "Octos",
         "description": "A complete physics sandbox, right on your desktop. From cars to bridges, make complex machines and contraptions then let them run wild on your desktop.",
         "preview": "contraption.gif",
         "zipPath": "build\\contraption.zip",
         "folderPath": "src\\contraption",
-        "imagePath": "images\\Contraption-image-contraption.png",
+        "imagePath": "images\\Contraption-image-image.png",
         "previewPath": "images\\Contraption-preview-contraption.gif"
     },
     {
@@ -104,10 +104,10 @@
     {
         "name": "Constellation",
         "description": "A simple particle animation. Click to add particles.",
-        "image": "particles.png",
+        "image": "image.png",
         "zipPath": "build\\particles.zip",
         "folderPath": "src\\particles",
-        "imagePath": "images\\Constellation-image-particles.png"
+        "imagePath": "images\\Constellation-image-image.png"
     },
     {
         "name": "Terminal",
@@ -129,6 +129,14 @@
         "zipPath": "build\\terrain.zip",
         "folderPath": "src\\terrain",
         "imagePath": "images\\Terrain-image-img.png"
+    },
+    {
+        "name": "test3",
+        "author": "test2",
+        "description": "test1",
+        "entry": "index.html",
+        "zipPath": "build\\test.zip",
+        "folderPath": "src\\test"
     },
     {
         "name": "Webpage",
