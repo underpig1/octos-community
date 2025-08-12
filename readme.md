@@ -1,3 +1,4 @@
+<img src="img/community.png" alt="Octos Community" width="600px" />
 
 # A collection of mods for [Octos](https://github.com/underpig1/octos)
 
