@@ -1,0 +1,270 @@
+<style>
+    html,
+    body {
+        margin: 0;
+        overflow: hidden;
+    }
+
+    #time {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+<!-- <h1 id="time">10:00</h1> -->
+<script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+
+<script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/"
+        }
+    }
+
+</script>
+<script type="module">
+    import * as THREE from 'three';
+    import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
+    import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+    import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+
+    const cloudShader = {
+        vertexShader:
+            `
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+    }
+  `,
+        fragmentShader:
+            `
+    uniform sampler2D map;
+    uniform vec3 fogColor;
+    uniform float fogNear;
+    uniform float fogFar;
+    varying vec2 vUv;
+
+    void main() {
+
+      float depth = gl_FragCoord.z / gl_FragCoord.w;
+      float fogFactor = smoothstep( fogNear, fogFar, depth );
+
+      gl_FragColor = texture2D( map, vUv );
+      gl_FragColor.w *= pow( gl_FragCoord.z, 20.0 );
+      gl_FragColor = mix( gl_FragColor, vec4( fogColor , gl_FragColor.w ), fogFactor );
+
+    }
+  `
+    }
+
+    const container = document.querySelector('.container');
+    const sizes = {
+        width: container.offsetWidth,
+        height: container.offsetHeight
+    }
+
+    const scene = new THREE.Scene()
+    const camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 3000)
+    const renderer = new THREE.WebGLRenderer({ antialias: true, gammaOutput: true, alpha: true });
+    const mouse = new THREE.Vector2();
+
+    let mesh, geometry, material;
+    let position
+
+    var mouseX = 0, mouseY = 0;
+    var start_time = Date.now();
+
+    var windowHalfX = window.innerWidth / 2;
+    var windowHalfY = window.innerHeight / 2;
+
+    var tLoader = new THREE.TextureLoader()
+    const times = [];
+
+    function getTime(date) {
+        let hours = date.getHours();
+        const minutes = date.getMinutes();
+        hours = hours % 12;
+        if (hours == 0) hours = 12;
+        const minutesStr = minutes < 10 ? '0' + minutes : minutes;
+        return `${hours}:${minutesStr}`;
+    }
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 5);
+    scene.add(ambientLight);
+
+    const y = (z) => (8000 - z) / 3
+    
+    setTimeout(() => {
+    const fLoader = new FontLoader()
+    const font = fLoader.load(
+            'https://cdn.jsdelivr.net/gh/mrdoob/three.js@r165/examples/fonts/helvetiker_bold.typeface.json',
+            (font) => {
+                const timeOffset = 500
+
+                function createTime(date) {
+                    const geometry = new THREE.ShapeGeometry(font.generateShapes(getTime(date), 75));
+                    geometry.computeBoundingBox();
+                    const box = geometry.boundingBox;
+                    const width = box.max.x - box.min.x;
+                    const height = box.max.y - box.min.y;
+                    const material = new THREE.MeshStandardMaterial({ color: 0xffffff, fog: true, transparent: true, opacity: 0.5 });
+
+                    const time = new THREE.Mesh(geometry, material);
+                    time.width = width;
+                    time.height = height;
+
+                    const now = new Date();
+                    const elapsedSeconds = now.getSeconds() + now.getMilliseconds() / 1000 - 60*(date.getMinutes() - now.getMinutes());
+                    // const lastMin = now.getSeconds() * 1000 + now.getMilliseconds();
+                    // const elapsedSeconds = date.getMilliseconds() - lastMin;
+                    console.log(elapsedSeconds);
+                    const positionOffset = speed*elapsedSeconds;
+
+                    const z = camera.position.z - 2000 + positionOffset + timeOffset;
+                    time.position.set(-width / 2, -height / 2 + y(z) - 100, z);
+                    scene.add(time);
+                    time.t = date.getMinutes();
+                    times.push(time);
+                }
+
+                var lastTime = new Date();
+                createTime(lastTime);
+                createTime(new Date(lastTime.getTime() - 60 * 1000));
+                createTime(new Date(lastTime.getTime() + 60 * 1000));
+
+                setInterval(() => {
+                    const now = new Date(new Date().getTime() + 60 * 1000);
+                    for (let i = times.length - 1; i >= 0; i--) {
+                        if (times[i].position.z > camera.position.z + 100 || Math.abs(times[i].t - now.getMinutes()) > 2) {
+                            scene.remove(times[i]);
+                            times[i].geometry.dispose();
+                            times[i].material.dispose();
+                            times.splice(i, 1);
+                        }
+                        if (times[i].t == now.getMinutes()) return;
+                    }
+                    if (lastTime.getMinutes() != now.getMinutes() || lastTime.getHours() != now.getHours()) {
+                        createTime(now);
+                        lastTime = now;
+                    }
+                }, 1000);
+            }, null, (e) => console.error(e));
+
+    }, 1000)
+
+    tLoader.load('https://mrdoob.com/lab/javascript/webgl/clouds/cloud10.png', (t) => {
+        t.colorSpace = THREE.SRGBColorSpace
+        var canvas = document.createElement('canvas');
+        canvas.width = 32;
+        canvas.height = window.innerHeight;
+
+        var context = canvas.getContext('2d');
+
+        var gradient = context.createLinearGradient(0, 0, 0, canvas.height);
+        gradient.addColorStop(0, "#1e4877");
+        gradient.addColorStop(0.5, "#4584b4");
+
+        context.fillStyle = gradient;
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
+        container.style.background = 'url(' + canvas.toDataURL('image/png') + ')';
+        container.style.backgroundSize = '32px 100%';
+
+        camera.position.z = 6000;
+
+        geometry = new THREE.BufferGeometry();
+
+        var texture = t
+        texture.magFilter = THREE.LinearMipMapLinearFilter;
+        texture.minFilter = THREE.LinearMipMapLinearFilter;
+
+        var fog = new THREE.Fog(0x4584b4, - 100, 4000);
+        scene.fog = fog
+
+        material = new THREE.ShaderMaterial({
+            uniforms: {
+                "map": { type: "t", value: texture },
+                "fogColor": { type: "c", value: fog.color },
+                "fogNear": { type: "f", value: fog.near },
+                "fogFar": { type: "f", value: fog.far },
+            },
+            vertexShader: cloudShader.vertexShader,
+            fragmentShader: cloudShader.fragmentShader,
+            depthWrite: false,
+            depthTest: true,
+            transparent: true,
+        });
+
+        const planeGeo = new THREE.PlaneGeometry(64, 64)
+        var planeObj = new THREE.Object3D()
+        const geometries = []
+
+        for (var i = 0; i < 8000; i++) {
+            planeObj.position.z = i;
+            planeObj.position.x = Math.random() * 900 - 450;
+            planeObj.position.y = (- Math.random() * 300 - 50 + Math.random() * Math.abs(planeObj.position.x / 10) ** 2 / 5) + y(i) - 100;
+            // if (i < 6000) planeObj.position.y += 100
+            planeObj.scale.x = planeObj.scale.y = Math.random() * 2 + 1;
+            planeObj.updateMatrix()
+
+            const clonedPlaneGeo = planeGeo.clone();
+            clonedPlaneGeo.applyMatrix4(planeObj.matrix);
+
+            geometries.push(clonedPlaneGeo)
+        }
+
+        const planeGeos = BufferGeometryUtils.mergeGeometries(geometries)
+        const planesMesh = new THREE.Mesh(planeGeos, material)
+        planesMesh.renderOrder = 2
+
+        const planesMeshA = planesMesh.clone();
+        planesMeshA.position.z = - 8000;
+        planesMeshA.renderOrder = 1
+
+        scene.add(planesMesh);
+        scene.add(planesMeshA);
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+
+        document.addEventListener('mousemove', onDocumentMouseMove, false);
+        window.addEventListener('resize', onWindowResize, false);
+
+        animate()
+    })
+
+    function onDocumentMouseMove(event) {
+        mouseX = (event.clientX - windowHalfX) * 0.05;
+        mouseY = (event.clientY - windowHalfY) * 0.05;
+    }
+
+    function onWindowResize(event) {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    const speed = 25; // per second
+    function animate() {
+        requestAnimationFrame(animate);
+        position = ((Date.now() - start_time) / 1000 * speed) % 7000;
+        camera.position.z = - position + 8000;
+        camera.position.x += (mouseX - camera.position.x) * 0.01;
+        camera.position.y += (- mouseY - camera.position.y) * 0.01;
+        // if (time) {
+        // time.position.x = camera.position.x / 200 - time.width/2
+        // time.position.y = camera.position.y / 200 - time.height / 2 + y(camera.position.z) + 100
+        // time.position.z = camera.position.z - 500
+        // }
+        camera.position.y += y(camera.position.z)
+        renderer.render(scene, camera);
+        camera.position.y -= y(camera.position.z)
+    }
+</script>
+
+<div class="container" id="container"></div>
