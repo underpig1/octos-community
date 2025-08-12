@@ -1021,6 +1021,7 @@
                 obj.height = image.height;
                 gl.bindTexture(gl.TEXTURE_2D, texture);
                 gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
+                // ready = true;
             };
             image.src = url;
 
@@ -1041,6 +1042,7 @@
 
         let lastUpdateTime = Date.now();
         let colorUpdateTimer = 0.0;
+        let ready = false;
         update();
 
         function update() {
@@ -1053,6 +1055,7 @@
                 step(dt);
             render(null);
             requestAnimationFrame(update);
+            // if (!ready) ready = true;
         }
 
         function calcDeltaTime() {
@@ -1294,7 +1297,9 @@
             }
         }
 
+        setTimeout(() => ready = true, 1000)
         function splatPointer(pointer) {
+            if (!ready) return;
             let dx = pointer.deltaX * config.SPLAT_FORCE;
             let dy = pointer.deltaY * config.SPLAT_FORCE;
             splat(pointer.texcoordX, pointer.texcoordY, dx, dy, pointer.color);
@@ -1337,18 +1342,37 @@
             return radius;
         }
 
-        canvas.addEventListener('mousedown', e => {
-            let posX = scaleByPixelRatio(e.offsetX);
-            let posY = scaleByPixelRatio(e.offsetY);
-            let pointer = pointers.find(p => p.id == -1);
-            if (pointer == null)
-                pointer = new pointerPrototype();
-            updatePointerDownData(pointer, -1, posX, posY);
-        });
+        // canvas.addEventListener('mousedown', e => {
+        //     let posX = scaleByPixelRatio(e.offsetX);
+        //     let posY = scaleByPixelRatio(e.offsetY);
+        //     let pointer = pointers.find(p => p.id == -1);
+        //     if (pointer == null)
+        //         pointer = new pointerPrototype();
+        //     updatePointerDownData(pointer, -1, posX, posY);
+        // });
 
         let lastMove = 0
+        // canvas.addEventListener('mousemove', e => {
+        //     // if (!ready) return;
+        //     if (performance.now() - lastMove > 1000) {
+        //         let pointer = pointers.find((p) => p.id == -1);
+        //         if (pointer == null) pointer = new pointerPrototype();
+        //         let posX = scaleByPixelRatio(e.offsetX);
+        //         let posY = scaleByPixelRatio(e.offsetY);
+        //         updatePointerDownData(pointer, -1, posX, posY);
+        //         lastMove = performance.now()
+        //     }
+        //     let pointer = pointers[0]
+        //     let posX = scaleByPixelRatio(e.offsetX);
+        //     let posY = scaleByPixelRatio(e.offsetY);
+        //     if (!pointer.down) return;
+        //     updatePointerMoveData(pointer, posX, posY);
+        // });
+
         canvas.addEventListener('mousemove', e => {
             let pointer = pointers[0];
+            console.log(pointer);
+            if (!pointer) return
             let posX = scaleByPixelRatio(e.offsetX);
             let posY = scaleByPixelRatio(e.offsetY);
             if (performance.now() - lastMove < 10) return
@@ -1393,12 +1417,12 @@
             }
         });
 
-        window.addEventListener('keydown', e => {
-            if (e.code === 'KeyP')
-                config.PAUSED = !config.PAUSED;
-            if (e.key === ' ')
-                splatStack.push(parseInt(Math.random() * 20) + 5);
-        });
+        // window.addEventListener('keydown', e => {
+        //     if (e.code === 'KeyP')
+        //         config.PAUSED = !config.PAUSED;
+        //     if (e.key === ' ')
+        //         splatStack.push(parseInt(Math.random() * 20) + 5);
+        // });
 
         function updatePointerDownData(pointer, id, posX, posY) {
             pointer.id = id;
