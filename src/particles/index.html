@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>tsParticles Starter with Parallax</title>
+    <style>
+        body {
+            margin: 0;
+            font: normal 75% Arial, Helvetica, sans-serif;
+        }
+
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="tsparticles"></div>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@1.37.4/tsparticles.min.js"></script>
+    <script>
+        let tspContainer = null;
+        tsParticles.load("tsparticles", {
+            background: {
+                color: "#111"
+            },
+            fpsLimit: 30,
+            particles: {
+                number: {
+                    value: 60
+                },
+                color: {
+                    value: "#ffffff"
+                },
+                shape: {
+                    type: "circle"
+                },
+                opacity: {
+                    value: 1,
+                    animation: {
+                        enable: false
+                    }
+                },
+                size: {
+                    value: { min: 1, max: 4 },
+                    animation: {
+                        enable: false
+                    }
+                },
+                links: {
+                    enable: true,
+                    distance: 150,
+                    color: "#ffffff",
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1.0,
+                    random: true,
+                    outModes: "out"
+                }
+            },
+            interactivity: {
+                detectsOn: "window",
+                events: {
+                    onHover: {
+                        enable: true,
+                        parallax: {
+                            enable: true,
+                            force: 60,
+                            smooth: 10
+                        }
+                    },
+                    onClick: {
+                        enable: false,
+                        mode: "push"
+                    }
+                },
+                modes: {
+                    push: {
+                        quantity: 1
+                    },
+                    repulse: {
+                        distance: 100,
+                        duration: 0.4
+                    }
+                }
+            },
+            detectRetina: false
+        }).then((container) => {
+            tspContainer = container;
+            window.onclick = (e) => {
+                container.particles.addParticle({
+                    x: e.clientX,
+                    y: e.clientY
+                });
+            }
+        });
+
+        function onChangeBg(value) {
+            if (tspContainer) {
+                tspContainer.options.background.color = value;
+                tspContainer.refresh();
+            }
+        }
+
+        function onChangeParticleColor(value) {
+            if (tspContainer) {
+                tspContainer.options.particles.color.value = value;
+                tspContainer.options.particles.links.color = value;
+                tspContainer.refresh();
+            }
+        }
+
+        function onChangeSpeed(value) {
+            if (tspContainer) {
+                tspContainer.options.particles.move.speed = parseFloat(value);
+                tspContainer.refresh();
+            }
+        }
+
+        function onChangeSize(value) {
+            if (tspContainer) {
+                tspContainer.options.particles.size.value.min = parseFloat(value);
+                tspContainer.options.particles.size.value.max = parseFloat(value) + 4;
+                tspContainer.options.particles.links.width = parseFloat(value);
+                tspContainer.refresh();
+            }
+        }
+
+        function onChangeLink(value) {
+            if (tspContainer) {
+                tspContainer.options.particles.links.distance = parseFloat(value);
+                tspContainer.refresh();
+            }
+        }
+    </script>
+</body>
+
+</html>

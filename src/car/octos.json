@@ -1,0 +1,39 @@
+{
+    "name": "3D Car",
+    "author": "Octos",
+    "description": "Customizable car. Left mouse to drag. Right mouse to pan.",
+    "options": {
+        "body-color": {
+            "type": "color-picker",
+            "label": "Body",
+            "value": "#ad7db0"
+        },
+        "grid-color": {
+            "type": "color-picker",
+            "label": "Grid",
+            "value": "#ffffff"
+        },
+        "animated": {
+            "type": "checkbox",
+            "label": "Animate",
+            "value": true
+        },
+        "blur": {
+            "type": "checkbox",
+            "label": "Depth of field",
+            "value": false
+        },
+        "rotate": {
+            "type": "checkbox",
+            "label": "Turntable",
+            "value": true
+        },
+        "cubemap": {
+            "type": "select",
+            "label": "Environment",
+            "options": ["Galaxy", "Sky", "Sunset", "Black", "Blue", "Red", "White"],
+            "value": "Sunset"
+        }
+    },
+    "image": "image.png"
+}

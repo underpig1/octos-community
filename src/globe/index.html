@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>WebGL Globe</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: black;
+        }
+
+        #container {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r69/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/dataarts/webgl-globe@master/globe/globe.js"></script>
+
+    <script>
+        const jsons = {
+            "search": "https://cdn.jsdelivr.net/gh/dataarts/webgl-globe@refs/heads/master/globe-search/search.json",
+            "population": "https://cdn.jsdelivr.net/gh/dataarts/webgl-globe@refs/heads/master/globe/population909500.json",
+            "elevation": "./globe_elevation.json"
+        };
+        let current = "population";
+        let globe, renderer, camera; // store references
+
+        const colorFn = (label) => new THREE.Color([
+            0xd9d9d9, 0xb6b4b5, 0x9966cc, 0x15adff, 0x3e66a3,
+            0x216288, 0xff7e7e, 0xff1f13, 0xc0120b, 0x5a1301, 0xffcc02,
+            0xedb113, 0x9fce66, 0x0c9a39,
+            0xfe9872, 0x7f3f98, 0xf26522, 0x2bb673, 0xd7df23,
+            0xe6b23a, 0x7ed3f7
+        ][label]);
+
+        function createGlobe() {
+            const container = document.getElementById('container');
+            globe = new DAT.Globe(container, {
+                imgDir: "./",
+                colorFn: (current == "search") ? colorFn : null
+            });
+
+            // Capture references to renderer & camera for resizing
+            renderer = globe.renderer;
+            camera = globe.camera;
+
+            if (current == "none") {
+                globe.animate();
+                return;
+            }
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', jsons[current], true);
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const data = JSON.parse(xhr.responseText);
+                    if (current == "population") {
+                        for (let i = 0; i < data.length; i++) {
+                            globe.addData(data[i][1], { format: 'magnitude', name: data[i][0] });
+                        }
+                    }
+                    else if (current == "elevation") {
+                        globe.addData(data, { format: 'magnitude' });
+                    }
+                    else if (current == "search") {
+                        globe.addData(data, { format: 'legend' });
+                    }
+                    globe.createPoints();
+                    globe.animate();
+                }
+            };
+            xhr.send(null);
+        }
+
+        function onDataChange(value) {
+            value = value.toLowerCase();
+            current = value;
+            container.removeChild(container.firstChild);
+            createGlobe();
+        }
+
+        function onWindowResize() {
+            if (camera && renderer) {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+        }
+
+        window.addEventListener('resize', onWindowResize, false);
+
+        createGlobe();
+    </script>
+</body>
+
+</html>

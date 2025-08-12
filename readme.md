@@ -17,10 +17,17 @@ It's as easy as...
 5. Your mod will automatically be added to the Octos gallery shortly after it's merged.
 
 # Gallery (auto-generated)
-<img src='images\Audio-image-audio.png' alt='Audio' width='300px'>
+<img src='images\Simple Audio-image-audio.png' alt='Simple Audio' width='300px'>
 
-### Audio - By Octos
+### Simple Audio - By Octos
 Visualize music on the wallpaper. Includes a media player widget for controlling audio on the desktop. Automatically syncs to the current playing media (including YouTube, Spotify, videos, etc.).
+<br>
+<br>
+<br>
+<img src='images\3D Car-image-image.png' alt='3D Car' width='300px'>
+
+### 3D Car - By Octos
+Customizable car. Left mouse to drag. Right mouse to pan.
 <br>
 <br>
 <br>
@@ -38,6 +45,20 @@ A simple mouse-interactive visualization for Conway's Game of Life.
 <br>
 <br>
 <br>
+<img src='images\Fluid-image-image.png' alt='Fluid' width='300px'>
+
+### Fluid
+WebGL fluid simulation, adapted from paveldogreat
+<br>
+<br>
+<br>
+<img src='images\Globe-image-image.png' alt='Globe' width='300px'>
+
+### Globe - By Octos
+Interactive WebGL Globe.
+<br>
+<br>
+<br>
 <img src='images\Layout-image-layout.png' alt='Layout' width='300px'>
 
 ### Layout - By Octos
@@ -47,8 +68,22 @@ Choose an image/video to set as your wallpaper and customize it with interactive
 <br>
 <img src='images\Eyes on the Solar System-image-image.png' alt='Eyes on the Solar System' width='300px'>
 
-### Eyes on the Solar System - By NASA
+### Eyes on the Solar System
 Explore planets, moons, asteroids, comets, and spacecraft in 3D. From eyes.nasa.gov
+<br>
+<br>
+<br>
+<img src='images\Notes-image-image.png' alt='Notes' width='300px'>
+
+### Notes - By Octos
+A simple whiteboard for note-taking and drawing. Saves content between sessions. Has both light/dark mode.
+<br>
+<br>
+<br>
+<img src='images\Constellation-image-particles.png' alt='Constellation' width='300px'>
+
+### Constellation
+A simple particle animation. Click to add particles.
 <br>
 <br>
 <br>

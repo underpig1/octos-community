@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>three.js webgl - materials - car</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        body {
+            color: #bbbbbb;
+            background: #333333;
+            overflow: hidden;
+            user-select: none;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+
+        .colorPicker {
+            display: inline-block;
+            margin: 0 10px
+        }
+
+        #info {
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container"></div>
+    <script src="https://cdn.jsdelivr.net/npm/octos@0.1.2/octos.min.js"></script>
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.179.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.179.0/examples/jsm/"
+      }
+    }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+        import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
+        let HDRLoader = RGBELoader;
+
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+        import { BokehPass } from 'three/addons/postprocessing/BokehPass.js';
+        import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+        let userOptions = new octos.UserOptions();
+
+        let camera, scene, renderer, controls;
+
+        const wheels = [];
+
+        const container = document.getElementById('container');
+
+        renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setAnimationLoop(animate);
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 0.85;
+        container.appendChild(renderer.domElement);
+
+        window.addEventListener('resize', onWindowResize);
+
+        camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.set(-5, 1, - 5);
+
+        controls = new OrbitControls(camera, container);
+        controls.maxDistance = 12;
+        // controls.maxPolarAngle = THREE.MathUtils.degToRad(90);
+        controls.target.set(0, 0.5, 0);
+        controls.update();
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 0.15;
+
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x333333);
+        // const hdrLoader = new HDRLoader();
+        // hdrLoader.load('https://cdn.jsdelivr.net/gh/mrdoob/three.js@dev/examples/textures/equirectangular/blouberg_sunrise_2_1k.hdr', function (texture) {
+        //     texture.mapping = THREE.EquirectangularReflectionMapping;
+        //     scene.environment = texture;
+        //     // scene.background = texture;
+        // });
+
+        const cubeLoader = new THREE.CubeTextureLoader();
+
+        camera.fov = 70;
+        camera.updateProjectionMatrix();
+
+        function loadCubeMap(path) {
+            let setScene = false;
+            if (path == 'Black') {
+                scene.background = new THREE.Color(0x111111);
+                setScene = true;
+            }
+            else if (path == 'Blue') {
+                scene.background = new THREE.Color(0x6495ED);
+                setScene = true;
+            }
+            else if (path == 'Red') {
+                scene.background = new THREE.Color(0xCC4444);
+                setScene = true;
+            }
+            else if (path == 'White') {
+                scene.background = new THREE.Color(0xffffff);
+                setScene = true;
+            }
+            if (setScene) path = 'cubemap2'
+            const textureCube = cubeLoader.load([
+                `${path}/px.png`,
+                `${path}/nx.png`,
+                `${path}/py.png`,
+                `${path}/ny.png`,
+                `${path}/pz.png`,
+                `${path}/nz.png`
+            ]);
+            if (!setScene) scene.background = textureCube;
+            scene.environment = textureCube;
+        }
+
+        loadCubeMap('cubemap');
+
+        const purple = new THREE.Color(0xb086db);
+
+        // scene.fog = new THREE.Fog(purple, 10, 12);
+
+        const size = 20;
+        const divisions = 40;
+
+        const gridGeometry = new THREE.PlaneGeometry(size, size, divisions, divisions);
+        gridGeometry.rotateX(-Math.PI / 2);
+
+        const gridMaterial = new THREE.ShaderMaterial({
+                vertexShader: `
+        varying vec3 vPosition;
+        void main() {
+            vPosition = position;
+            gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
+        }
+    `,
+                fragmentShader: `
+        varying vec3 vPosition;
+        uniform vec3 color;
+        uniform float gridOpacity;
+        uniform float uTime;
+
+        float gridFactor() {
+    vec2 coord = vPosition.xz;
+    coord.y += uTime;
+    vec2 grid = abs(fract(coord - 0.5) - 0.5) / fwidth(coord);
+    float line = min(grid.x, grid.y);
+    return 1.0 - smoothstep(0.0, 1.0, line);
+}
+
+        void main() {
+            float dist = length(vPosition.xz);
+            float fade = smoothstep(2.0, 5.0, dist);
+            float alpha = (1.0 - fade) * gridOpacity * gridFactor();
+            if(alpha < 0.01) discard;
+            gl_FragColor = vec4(color, alpha);
+        }
+    `,
+                uniforms: {
+                    color: { value: new THREE.Color(0xffffff) },
+                    gridOpacity: { value: 0.5 },
+                    uTime: { value: 0 }
+                },
+                transparent: true,
+                depthWrite: false,
+            });
+
+        const grid = new THREE.Mesh(gridGeometry, gridMaterial);
+        scene.add(grid);
+
+        // const hemiLight = new THREE.HemisphereLight(0xfff, 0xfff, 5.0);
+        // hemiLight.position.set(0, 5, 0);
+        // scene.add(hemiLight);
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
+        scene.add(ambientLight);
+
+        const sunLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        sunLight.position.set(2, 3, 2);
+        scene.add(sunLight);
+
+        // materials
+        const bodyMaterial = new THREE.MeshPhysicalMaterial({
+            color: purple, metalness: 1.0, roughness: 0.5, clearcoat: 1.0, clearcoatRoughness: 0.03
+        });
+        const detailsMaterial = new THREE.MeshStandardMaterial({
+            color: 0xffffff, metalness: 1.0, roughness: 0.5
+        });
+        const glassMaterial = new THREE.MeshPhysicalMaterial({
+            color: 0xffffff, metalness: 0.25, roughness: 0, transmission: 1.0
+        });
+
+
+        function handleOptions({ id, value }) {
+            if (id == 'body-color') {
+                bodyMaterial.color.set(value);
+                // gridMaterial.uniforms.color.value = new THREE.Color(value);
+            }
+            else if (id == 'details-color') {
+                detailsMaterial.color.set(value);
+            }
+            else if (id == 'glass-color') {
+                glassMaterial.color.set(value);
+            }
+            else if (id == 'grid-color') {
+                gridMaterial.uniforms.color.value = new THREE.Color(value);
+            }
+            else if (id == 'animated') {
+                console.log(value);
+                is_animated = value;
+            }
+            else if (id == 'blur') {
+                if (!is_dof) initPostprocessing()
+                is_dof = value;
+            }
+            else if (id == 'rotate') {
+                controls.autoRotate = value;
+            }
+            else if (id == 'cubemap') {
+                const map = { 'Galaxy': 'cubemap', 'Sky': 'cubemap2', 'Sunset': 'cubemap3' }
+                loadCubeMap(map[value] ? map[value] : value);
+            }
+        }
+
+        userOptions.on('change', handleOptions);
+        userOptions.on('load', handleOptions);
+
+        // Car
+        // const shadow = new THREE.TextureLoader().load('https://cdn.jsdelivr.net/gh/mrdoob/three.js@dev/examples/models/gltf/ferrari_ao.png');
+        const dracoLoader = new DRACOLoader();
+        dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');
+        const loader = new GLTFLoader();
+        loader.setDRACOLoader(dracoLoader);
+        loader.load('https://cdn.jsdelivr.net/gh/mrdoob/three.js@dev/examples/models/gltf/ferrari.glb', function (gltf) {
+            const carModel = gltf.scene.children[0];
+            carModel.getObjectByName('body').material = bodyMaterial;
+            carModel.getObjectByName('rim_fl').material = detailsMaterial;
+            carModel.getObjectByName('rim_fr').material = detailsMaterial;
+            carModel.getObjectByName('rim_rr').material = detailsMaterial;
+            carModel.getObjectByName('rim_rl').material = detailsMaterial;
+            carModel.getObjectByName('trim').material = detailsMaterial;
+            carModel.getObjectByName('glass').material = glassMaterial;
+            wheels.push(
+                carModel.getObjectByName('wheel_fl'),
+                carModel.getObjectByName('wheel_fr'),
+                carModel.getObjectByName('wheel_rl'),
+                carModel.getObjectByName('wheel_rr')
+            );
+            // shadow
+            // const mesh = new THREE.Mesh(
+            //     new THREE.PlaneGeometry(0.655 * 4, 1.3 * 4),
+            //     new THREE.MeshBasicMaterial({
+            //         map: shadow, blending: THREE.MultiplyBlending, toneMapped: false, transparent: true, premultipliedAlpha: true
+            //     })
+            // );
+            // mesh.rotation.x = - Math.PI / 2;
+            // mesh.renderOrder = 2;
+            // carModel.add(mesh);
+            scene.add(carModel);
+        });
+
+        let postprocessing = {};
+
+        function initPostprocessing() {
+            const renderPass = new RenderPass(scene, camera);
+            const bokehPass = new BokehPass(scene, camera, {
+                focus: 5,
+                aperture: 0.005,
+                maxblur: 0.01
+            });
+            const outputPass = new OutputPass();
+            const composer = new EffectComposer(renderer);
+            composer.addPass(renderPass);
+            composer.addPass(bokehPass);
+            composer.addPass(outputPass);
+            postprocessing.composer = composer;
+            postprocessing.bokeh = bokehPass;
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        let is_animated = true;
+        let is_dof = false;
+        function animate() {
+            controls.update();
+            const time = - performance.now() / 1000;
+            if (is_animated) {
+                for (let i = 0; i < wheels.length; i++) {
+                    wheels[i].rotation.x = time * Math.PI * 5;
+                }
+                gridMaterial.uniforms.uTime.value = (time * 10) % 1
+            }
+            renderer.render(scene, camera);
+            if (is_dof) postprocessing.composer.render(0.1);
+        }
+
+        // initPostprocessing()
+    </script>
+
+</body>
+
+</html>

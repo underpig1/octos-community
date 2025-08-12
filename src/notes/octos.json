@@ -1,0 +1,7 @@
+{
+    "name": "Notes",
+    "author": "Octos",
+    "description": "A simple whiteboard for note-taking and drawing. Saves content between sessions. Has both light/dark mode.",
+    "entry": "index.html",
+    "image": "image.png"
+}

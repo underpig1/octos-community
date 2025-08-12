@@ -1,14 +1,23 @@
 [
     {
-        "name": "Audio",
+        "name": "Simple Audio",
         "description": "Visualize music on the wallpaper. Includes a media player widget for controlling audio on the desktop. Automatically syncs to the current playing media (including YouTube, Spotify, videos, etc.).",
         "author": "Octos",
         "image": "audio.png",
         "preview": "audio.gif",
         "zipPath": "build\\audio.zip",
         "folderPath": "src\\audio",
-        "imagePath": "images\\Audio-image-audio.png",
-        "previewPath": "images\\Audio-preview-audio.gif"
+        "imagePath": "images\\Simple Audio-image-audio.png",
+        "previewPath": "images\\Simple Audio-preview-audio.gif"
+    },
+    {
+        "name": "3D Car",
+        "author": "Octos",
+        "description": "Customizable car. Left mouse to drag. Right mouse to pan.",
+        "image": "image.png",
+        "zipPath": "build\\car.zip",
+        "folderPath": "src\\car",
+        "imagePath": "images\\3D Car-image-image.png"
     },
     {
         "entry": "index.html",
@@ -34,6 +43,24 @@
         "previewPath": "images\\Conway-preview-conway.gif"
     },
     {
+        "name": "Fluid",
+        "description": "WebGL fluid simulation, adapted from paveldogreat",
+        "entry": "index.html",
+        "image": "image.png",
+        "zipPath": "build\\fluid.zip",
+        "folderPath": "src\\fluid",
+        "imagePath": "images\\Fluid-image-image.png"
+    },
+    {
+        "name": "Globe",
+        "description": "Interactive WebGL Globe.",
+        "author": "Octos",
+        "image": "image.png",
+        "zipPath": "build\\globe.zip",
+        "folderPath": "src\\globe",
+        "imagePath": "images\\Globe-image-image.png"
+    },
+    {
         "name": "Layout",
         "entry": "index.html",
         "author": "Octos",
@@ -47,7 +74,6 @@
     },
     {
         "name": "Eyes on the Solar System",
-        "author": "NASA",
         "entry": "https://eyes.nasa.gov/apps/solar-system/#/home?featured=false&detailPanel=false&logo=false&search=false&shareButton=false&menu=false&collapseSettingsOptions=true&hideFullScreenToggle=true&hideExternalLinks=true",
         "image": "image.png",
         "description": "Explore planets, moons, asteroids, comets, and spacecraft in 3D. From eyes.nasa.gov",
@@ -56,6 +82,24 @@
         "folderPath": "src\\nasa",
         "imagePath": "images\\Eyes on the Solar System-image-image.png",
         "previewPath": "images\\Eyes on the Solar System-preview-nasa.gif"
+    },
+    {
+        "name": "Notes",
+        "author": "Octos",
+        "description": "A simple whiteboard for note-taking and drawing. Saves content between sessions. Has both light/dark mode.",
+        "entry": "index.html",
+        "image": "image.png",
+        "zipPath": "build\\notes.zip",
+        "folderPath": "src\\notes",
+        "imagePath": "images\\Notes-image-image.png"
+    },
+    {
+        "name": "Constellation",
+        "description": "A simple particle animation. Click to add particles.",
+        "image": "particles.png",
+        "zipPath": "build\\particles.zip",
+        "folderPath": "src\\particles",
+        "imagePath": "images\\Constellation-image-particles.png"
     },
     {
         "name": "Terminal",

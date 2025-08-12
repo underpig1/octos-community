@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Drawing with Per-Stroke Color & Thickness & Dark Mode</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: #fff;
+            font-family: Arial, sans-serif;
+            user-select: none;
+            transition: background-color 0.3s, color 0.3s;
+            color: #000;
+        }
+
+        body.dark {
+            background: #121212;
+            color: #eee;
+        }
+
+        #toolbar {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            padding: 5px 10px;
+            z-index: 10;
+            align-items: center;
+            user-select: none;
+            transition: background-color 0.3s, color 0.3s;
+            border: 1px solid #555;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        #toolbar.active {
+            opacity: 1;
+            transform: translateX(-50%);
+        }
+
+        body.dark #toolbar {
+            background: rgba(30, 30, 30, 0.9);
+            color: #eee;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        #canvas {
+            display: block;
+            touch-action: none;
+            cursor: crosshair;
+            background: transparent;
+            transition: background-color 0.3s;
+        }
+
+        body.dark #canvas {
+            background: #121212;
+        }
+
+        .ui-picker {
+            display: flex;
+            gap: 5px;
+        }
+
+        .colorCircle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            outline: 1px solid transparent;
+            cursor: pointer;
+            box-sizing: border-box;
+            transition: outline-color 0.3s, background-color 0.3s;
+        }
+
+        .colorCircle.active {
+            outline-color: #555;
+        }
+
+        body.dark .colorCircle.active {
+            outline-color: #aaa;
+        }
+
+        .colorCircle.black {
+            background: #000;
+            transition: background-color 0.3s;
+        }
+
+        body.dark .colorCircle.black {
+            background: #fff;
+        }
+
+        .thicknessCircle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 1px solid transparent;
+            box-sizing: border-box;
+            position: relative;
+            transition: border-color 0.3s, background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body.dark .thicknessCircle {
+            border-color: transparent;
+        }
+
+        .thicknessCircle.active {
+            border-color: #555;
+        }
+
+        body.dark .thicknessCircle.active {
+            border-color: #aaa;
+        }
+
+        .thicknessLine {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            background: black;
+            transform-origin: center;
+            transform: translate(-50%, -50%) rotate(45deg);
+            border-radius: 999px;
+            transition: background-color 0.3s;
+        }
+
+        body.dark .thicknessLine {
+            background: white;
+        }
+
+        .circleBtn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12pt;
+            background: transparent;
+            color: #555;
+            border: 1px solid transparent;
+            transition: border-color 0.3s, color 0.3s;
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        .circleBtn.active {
+            border-color: #555;
+            color: #000;
+            background: transparent;
+        }
+
+        body.dark .circleBtn {
+            background: transparent;
+            color: #eee;
+            border: 1px solid transparent;
+        }
+
+        body.dark .circleBtn.active {
+            border-color: #aaa;
+            color: #eee;
+            background: transparent;
+        }
+
+        .circleBtn i {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .toolbar-separator {
+            width: 1px;
+            height: 28px;
+            background: #bbb;
+            margin: 0 15px;
+            border-radius: 1px;
+            align-self: center;
+        }
+
+        body.dark .toolbar-separator {
+            background: #555;
+        }
+
+        .drawBtn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            gap: 10px;
+            width: fit-content;
+            padding: 15px;
+            font-size: 10pt;
+            font-weight: normal;
+            border-radius: 4px;
+            border: 1px solid #555;
+            color: #555;
+            background: white;
+            opacity: 0.5;
+        }
+
+        #drawHint {
+            position: absolute;
+            opacity: 0.5;
+            width: 500px;
+            top: 75px;
+            right: 75px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        #drawHint.active {
+            opacity: 0.5;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="toolbar">
+        <div id="toolPicker" class="ui-picker">
+            <button id="penBtn" class="circleBtn active" aria-label="Pen"><i class="ri-pencil-line"></i></button>
+            <button id="eraseBtn" class="circleBtn" aria-label="Erase"><i class="ri-eraser-line"></i></button>
+        </div>
+        <div class="toolbar-separator"></div>
+        <div id="colorPicker" class="ui-picker" title="Select Color">
+            <div class="colorCircle black active" data-color="#000"></div>
+            <div class="colorCircle" style="background: #a3bffa;" data-color="#a3bffa"></div>
+            <div class="colorCircle" style="background: #ff9a9e;" data-color="#ff9a9e"></div>
+            <div class="colorCircle" style="background: #a0f2c1;" data-color="#a0f2c1"></div>
+            <div class="colorCircle" style="background: #b5a6f0;" data-color="#b5a6f0"></div>
+            <div class="colorCircle" style="background: #ffe5a0;" data-color="#ffe5a0"></div>
+        </div>
+        <div class="toolbar-separator"></div>
+        <div id="thicknessPicker" class="ui-picker" title="Select Thickness">
+        </div>
+        <div class="toolbar-separator"></div>
+        <div class="ui-picker">
+            <button id="clearBtn" class="circleBtn" aria-label="Clear"><i class="ri-delete-bin-7-line"></i></button>
+            <button id="darkModeToggle" class="circleBtn" aria-label="Toggle Dark Mode"><i
+                    class="ri-moon-line"></i></button>
+        </div>
+    </div>
+    <button id="drawToggle" class="circleBtn drawBtn" aria-label="Toggle Draw Mode"><i class="ri-palette-line"></i><span>Enter
+        draw mode</span></button>
+    <img id="drawHint" src="hint.png" />
+
+    <canvas id="canvas"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/octos@latest/octos.min.js"></script>
+
+    <script>
+        (() => {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            const penBtn = document.getElementById('penBtn');
+            const eraseBtn = document.getElementById('eraseBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const colorPicker = document.getElementById('colorPicker');
+            const thicknessPicker = document.getElementById('thicknessPicker');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const drawToggle = document.getElementById('drawToggle');
+            const toolbarElement = document.getElementById('toolbar');
+            const drawHint = document.getElementById('drawHint');
+            let active = false;
+
+            let w, h;
+            let strokes = [];
+            let currentStroke = null;
+            let tool = 'pen';
+            let drawing = false;
+
+            // Current pen color and thickness (base thickness added to velocity-based width)
+            let penColor = '#000000';
+            let baseThickness = 0;
+
+            // Thickness options for the UI (offsets in pixels)
+            const thicknessOptions = [0, 3, 6];
+
+            // Offscreen canvas & context for caching finished strokes
+            const offscreenCanvas = document.createElement('canvas');
+            const offscreenCtx = offscreenCanvas.getContext('2d');
+
+            // Dark mode flag
+            let darkMode = false;
+
+            function dist(a, b) {
+                return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2);
+            }
+            function velocity(a, b) {
+                return dist(a, b) / (b.time - a.time || 1);
+            }
+            function lineWidthFromVelocity(v) {
+                const maxV = 1.5,
+                    minW = 1,
+                    maxW = 6;
+                const val = maxW - (v / maxV) * (maxW - minW);
+                return Math.max(minW, Math.min(maxW, val));
+            }
+
+            function resize() {
+                w = window.innerWidth;
+                h = window.innerHeight;
+
+                // Resize visible canvas
+                canvas.width = w * devicePixelRatio;
+                canvas.height = h * devicePixelRatio;
+                canvas.style.width = w + 'px';
+                canvas.style.height = h + 'px';
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.scale(devicePixelRatio, devicePixelRatio);
+
+                // Resize offscreen canvas
+                offscreenCanvas.width = w * devicePixelRatio;
+                offscreenCanvas.height = h * devicePixelRatio;
+                offscreenCtx.setTransform(1, 0, 0, 1, 0, 0);
+                offscreenCtx.scale(devicePixelRatio, devicePixelRatio);
+
+                redrawOffscreen();
+                redraw();
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            function smoothPoints(rawPoints, windowSize = 3) {
+                if (rawPoints.length < windowSize) return rawPoints.slice();
+
+                const smoothed = [];
+                for (let i = 0; i < rawPoints.length; i++) {
+                    let count = 0,
+                        sumX = 0,
+                        sumY = 0,
+                        sumT = 0;
+                    for (let j = i - windowSize + 1; j <= i; j++) {
+                        if (j >= 0) {
+                            sumX += rawPoints[j].x;
+                            sumY += rawPoints[j].y;
+                            sumT += rawPoints[j].time;
+                            count++;
+                        }
+                    }
+                    smoothed.push({
+                        x: sumX / count,
+                        y: sumY / count,
+                        time: sumT / count,
+                    });
+                }
+                return smoothed;
+            }
+
+            function mapColorForMode(color) {
+                // Only black <-> white switch in dark mode, else return color
+                if (!darkMode) return color;
+                if (color.toLowerCase() === '#000' || color.toLowerCase() === '#000000') return '#fff';
+                if (color.toLowerCase() === '#fff' || color.toLowerCase() === '#ffffff') return '#000';
+                return color;
+            }
+
+            function drawStrokeToCtx(context, points, faded, color, thickness) {
+                if (points.length === 0) return;
+                if (points.length === 1) {
+                    context.fillStyle = faded ? '#ccc' : mapColorForMode(color);
+                    const p = points[0];
+                    context.beginPath();
+                    context.arc(p.x, p.y, 2 + thickness, 0, Math.PI * 2);
+                    context.fill();
+                    return;
+                }
+
+                context.strokeStyle = faded ? '#ccc' : mapColorForMode(color);
+                context.lineCap = 'round';
+                context.lineJoin = 'round';
+
+                context.beginPath();
+
+                for (let i = 0; i < points.length - 1; i++) {
+                    const p0 = points[i];
+                    const p1 = points[i + 1];
+                    const midX = (p0.x + p1.x) / 2;
+                    const midY = (p0.y + p1.y) / 2;
+
+                    const v = velocity(p0, p1);
+                    context.lineWidth = lineWidthFromVelocity(v) + thickness;
+
+                    if (i === 0) {
+                        context.moveTo(p0.x, p0.y);
+                    }
+                    context.quadraticCurveTo(p0.x, p0.y, midX, midY);
+
+                    if (i === points.length - 2) {
+                        context.lineTo(p1.x, p1.y);
+                    }
+                    context.stroke();
+                    context.beginPath();
+                    context.moveTo(midX, midY);
+                }
+            }
+
+            function drawEraseStroke(stroke) {
+                if (stroke.length < 2) {
+                    if (stroke.length === 1) {
+                        if (darkMode) ctx.strokeStyle = '#111'
+                        else ctx.strokeStyle = '#fff';
+                        ctx.lineCap = 'round';
+                        ctx.lineJoin = 'round';
+                        ctx.lineWidth = 20;
+                        const p = stroke[0];
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, 10, 0, Math.PI * 2);
+                        ctx.stroke();
+                    }
+                    return;
+                }
+                if (darkMode) ctx.strokeStyle = '#111'
+                else ctx.strokeStyle = '#fff';
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.lineWidth = 20;
+
+                ctx.beginPath();
+                ctx.moveTo(stroke[0].x, stroke[0].y);
+                for (let i = 1; i < stroke.length; i++) {
+                    ctx.lineTo(stroke[i].x, stroke[i].y);
+                }
+                ctx.stroke();
+            }
+
+            function redrawOffscreen() {
+                offscreenCtx.clearRect(0, 0, w, h);
+                for (const stroke of strokes) {
+                    drawStrokeToCtx(
+                        offscreenCtx,
+                        stroke.points,
+                        false,
+                        stroke.color,
+                        stroke.thickness
+                    );
+                }
+            }
+
+            function redraw() {
+                ctx.clearRect(0, 0, w, h);
+                ctx.drawImage(offscreenCanvas, 0, 0, w, h);
+                updateDrawHint();
+            }
+
+            function save() {
+                localStorage.setItem('minimal-drawing-v6', JSON.stringify(strokes));
+                updateDrawHint();
+            }
+
+            function load() {
+                const data = localStorage.getItem('minimal-drawing-v6');
+                if (!data) {
+                    strokes = [];
+                    updateDrawHint();
+                    return;
+                }
+                try {
+                    strokes = JSON.parse(data);
+                    redrawOffscreen();
+                    redraw();
+                } catch {
+                    strokes = [];
+                    updateDrawHint();
+                }
+            }
+            load();
+
+            function strokesIntersect(strokeA, strokeB) {
+                const getBounds = (s) => {
+                    let minX = Infinity,
+                        minY = Infinity,
+                        maxX = -Infinity,
+                        maxY = -Infinity;
+                    for (const p of s) {
+                        if (p.x < minX) minX = p.x;
+                        if (p.y < minY) minY = p.y;
+                        if (p.x > maxX) maxX = p.x;
+                        if (p.y > maxY) maxY = p.y;
+                    }
+                    return { minX, minY, maxX, maxY };
+                };
+                const a = getBounds(strokeA);
+                const b = getBounds(strokeB);
+                if (
+                    a.maxX < b.minX ||
+                    a.minX > b.maxX ||
+                    a.maxY < b.minY ||
+                    a.minY > b.maxY
+                )
+                    return false;
+
+                for (let i = 0; i < strokeA.length; i++) {
+                    const p = strokeA[i];
+                    for (let j = 1; j < strokeB.length; j++) {
+                        if (pointNearSegment(p, strokeB[j - 1], strokeB[j], 10)) return true;
+                    }
+                }
+                return false;
+            }
+
+            function pointNearSegment(p, v, w, r) {
+                const l2 = distSq(v, w);
+                if (l2 === 0) return dist(p, v) <= r;
+                let t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2;
+                t = Math.max(0, Math.min(1, t));
+                const proj = { x: v.x + t * (w.x - v.x), y: v.y + t * (w.y - v.y) };
+                return dist(p, proj) <= r;
+            }
+            function distSq(a, b) {
+                return (a.x - b.x) ** 2 + (a.y - b.y) ** 2;
+            }
+
+            let rawPoints = [];
+            let smoothedPoints = [];
+
+            function pointerDown(e) {
+                e.preventDefault();
+                const x = e.clientX || e.touches[0].clientX;
+                const y = e.clientY || e.touches[0].clientY;
+                const time = Date.now();
+
+                drawing = true;
+                rawPoints = [{ x, y, time }];
+                smoothedPoints = [{ x, y, time }];
+                currentStroke = null;
+                redraw();
+            }
+
+            function pointerMove(e) {
+                if (!drawing || !active) return;
+                e.preventDefault();
+                const x = e.clientX || e.touches[0].clientX;
+                const y = e.clientY || e.touches[0].clientY;
+                const time = Date.now();
+
+                rawPoints.push({ x, y, time });
+                smoothedPoints = smoothPoints(rawPoints, 6);
+
+                if (tool === "pen") {
+                    ctx.clearRect(0, 0, w, h);
+                    ctx.drawImage(offscreenCanvas, 0, 0, w, h);
+                    drawStrokeToCtx(ctx, smoothedPoints, false, penColor, baseThickness);
+                } else if (tool === "erase") {
+                    currentStroke = smoothedPoints;
+                    const intersecting = new Set();
+                    for (const stroke of strokes) {
+                        if (strokesIntersect(stroke.points, currentStroke)) {
+                            intersecting.add(stroke);
+                        }
+                    }
+                    redraw();
+                    drawEraseStroke(currentStroke);
+                }
+            }
+
+            function pointerUp(e) {
+                if (!drawing) return;
+                drawing = false;
+
+                if (tool === "pen" && active) {
+                    currentStroke = {
+                        points: smoothedPoints,
+                        color: penColor,
+                        thickness: baseThickness,
+                    };
+                    strokes.push(currentStroke);
+                    save();
+                    redrawOffscreen();
+                    redraw();
+                } else if (tool === "erase") {
+                    strokes = strokes.filter(
+                        (stroke) => !strokesIntersect(stroke.points, currentStroke)
+                    );
+                    save();
+                    redrawOffscreen();
+                    redraw();
+                }
+            }
+
+            canvas.addEventListener("mousedown", pointerDown);
+            canvas.addEventListener("touchstart", pointerDown);
+
+            canvas.addEventListener("mousemove", pointerMove);
+            canvas.addEventListener("touchmove", pointerMove);
+
+            window.addEventListener("mouseup", pointerUp);
+            window.addEventListener("touchend", pointerUp);
+            window.addEventListener("touchcancel", pointerUp);
+
+            penBtn.addEventListener("click", () => {
+                tool = "pen";
+                penBtn.classList.add("active");
+                eraseBtn.classList.remove("active");
+                canvas.style.cursor = "crosshair";
+                redraw();
+            });
+            eraseBtn.addEventListener("click", () => {
+                tool = "erase";
+                eraseBtn.classList.add("active");
+                penBtn.classList.remove("active");
+                canvas.style.cursor = "crosshair";
+                redraw();
+            });
+            clearBtn.addEventListener("click", () => {
+                strokes = [];
+                offscreenCtx.clearRect(0, 0, w, h);
+                ctx.clearRect(0, 0, w, h);
+                save();
+                updateDrawHint();
+            });
+
+            // Color picker logic with black <-> white swap in UI on dark mode
+            colorPicker.querySelectorAll(".colorCircle").forEach((circle) => {
+                circle.addEventListener("click", () => {
+                    colorPicker
+                        .querySelectorAll(".colorCircle")
+                        .forEach((c) => c.classList.remove("active"));
+                    circle.classList.add("active");
+                    penColor = circle.dataset.color;
+                    // If dark mode active and color is black, map to white for drawing
+                    // if (darkMode && penColor.toLowerCase() === "#000") penColor = "#fff";
+                    // if (!darkMode && penColor.toLowerCase() === "#fff") penColor = "#000";
+                });
+            });
+
+            // Create thickness selectors with diagonal lines
+            thicknessOptions.forEach((thickness, i) => {
+                const circle = document.createElement("div");
+                circle.classList.add("thicknessCircle");
+                if (i === 0) circle.classList.add("active");
+                circle.dataset.size = thickness;
+
+                const line = document.createElement("div");
+                line.classList.add("thicknessLine");
+                const lineWidth = 20; // fixed length for all lines
+                line.style.width = lineWidth + "px";
+                const lineHeight = Math.max(2, thickness);
+                line.style.height = lineHeight + "px";
+                line.style.backgroundColor = darkMode ? "white" : "black";
+                circle.appendChild(line);
+
+                thicknessPicker.appendChild(circle);
+
+                circle.addEventListener("click", () => {
+                    thicknessPicker
+                        .querySelectorAll(".thicknessCircle")
+                        .forEach((c) => c.classList.remove("active"));
+                    circle.classList.add("active");
+                    baseThickness = Number(circle.dataset.size);
+                });
+            });
+
+            // Dark mode toggle handler
+            darkModeToggle.addEventListener("click", () => {
+                darkMode = !darkMode;
+                localStorage.setItem('darkMode', darkMode);
+                document.body.classList.toggle("dark", darkMode);
+
+                // Update pen color if black or white
+                const activeColorCircle = colorPicker.querySelector(".colorCircle.active");
+                if (activeColorCircle) {
+                    let c = activeColorCircle.dataset.color.toLowerCase();
+                    if (darkMode && c === "#000") {
+                        penColor = "#000";
+                        activeColorCircle.dataset.color = "#000";
+                        activeColorCircle.style.background = "#fff";
+                        activeColorCircle.classList.add("black");
+                    } else {
+                        penColor = c;
+                    }
+                }
+
+                // Update black color circle background to toggle black/white
+                const blackCircle = colorPicker.querySelector(".colorCircle.black");
+                if (blackCircle) {
+                    if (darkMode) {
+                        blackCircle.style.background = "#fff";
+                    } else {
+                        blackCircle.style.background = "#000";
+                    }
+                }
+
+                // Update thickness lines color
+                thicknessPicker.querySelectorAll(".thicknessLine").forEach((line) => {
+                    line.style.backgroundColor = darkMode ? "white" : "black";
+                });
+
+                redrawOffscreen();
+                redraw();
+            });
+
+            if (localStorage.getItem('darkMode') == "true") {
+                document.addEventListener('DOMContentLoaded', () => darkModeToggle.click())
+            }
+
+            const system = new octos.System();
+            let defaultDeskVis = true
+            system.getDesktopIconVisibility().then((v) => defaultDeskVis = v)
+
+            drawToggle.addEventListener("click", () => {
+                active = !active
+                if (active) {
+                    toolbarElement.classList.add('active')
+                    drawToggle.querySelector("span").innerText = "Leave draw mode"
+                    system.setDesktopIconVisibility(false);
+                }
+                else {
+                    toolbarElement.classList.remove('active')
+                    drawToggle.querySelector("span").innerText = "Enter draw mode"
+                    if (defaultDeskVis) system.setDesktopIconVisibility(true);
+                }
+                updateDrawHint();
+            })
+
+            function updateDrawHint() {
+                if ((strokes && strokes.length > 0) || active) {
+                    drawHint.classList.remove('active');
+                } else {
+                    drawHint.classList.add('active');
+                }
+            }
+
+            // Initial hint state
+            updateDrawHint();
+        })();
+    </script>
+</body>
+
+</html>

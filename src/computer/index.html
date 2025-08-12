@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Improved 3D Terrain</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.min.js"></script>
+    <style>
+        body,
+        html {
+            margin: 0;
+            overflow: hidden;
+            background: #111;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        let cols, rows;
+        let scale = 40;           // smaller grid for more detail
+        let w = 3000;
+        let h = 1200;
+
+        let terrain = [];
+
+        let flying = 0;
+        let flyingSpeed = 0.01;
+
+        function setup() {
+            createCanvas(window.innerWidth, window.innerHeight, WEBGL);
+            cols = Math.floor(w / scale);
+            rows = Math.floor(h / scale);
+
+            for (let x = 0; x < cols; x++) {
+                terrain[x] = [];
+                for (let y = 0; y < rows; y++) {
+                    terrain[x][y] = 0;
+                }
+            }
+            stroke(255);
+            strokeWeight(1);
+            noFill();
+        }
+
+        function draw() {
+            flying -= flyingSpeed;
+
+            let yoff = flying;
+            for (let y = 0; y < rows; y++) {
+                let xoff = 0;
+                for (let x = 0; x < cols; x++) {
+                    // Combine two noise layers for richer terrain
+                    let noise1 = noise(xoff, yoff);
+                    let noise2 = noise(xoff * 2, yoff * 2);
+                    let height1 = map(noise1, 0, 1, -80, 80);
+                    let height2 = map(noise2, 0, 1, -30, 30);
+
+                    terrain[x][y] = height1 + height2;
+
+                    xoff += 0.12;
+                }
+                yoff += 0.12;
+            }
+
+            background(17);
+
+            // Camera transform
+            rotateX(PI / 3);
+            translate(-w / 2, -h / 2);
+
+            for (let y = 0; y < rows - 1; y++) {
+                beginShape(TRIANGLE_STRIP);
+                for (let x = 0; x < cols; x++) {
+                    vertex(x * scale, y * scale, terrain[x][y]);
+                    vertex(x * scale, (y + 1) * scale, terrain[x][y + 1]);
+                }
+                endShape();
+            }
+        }
+
+        function windowResized() {
+            resizeCanvas(window.innerWidth, window.innerHeight);
+        }
+    </script>
+</body>
+
+</html>
