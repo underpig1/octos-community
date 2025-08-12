@@ -1,0 +1,48 @@
+{
+    "name": "test3",
+    "author": "test2",
+    "description": "test1",
+    "entry": "index.html",
+    "options": {
+        "a": {
+            "type": "range",
+            "label": "test"
+        },
+        "b": {
+            "type": "checkbox",
+            "label": "test"
+        },
+        "c": {
+            "type": "file",
+            "label": "test"
+        },
+        "d": {
+            "type": "description",
+            "label": "test"
+        },
+        "e": {
+            "type": "select",
+            "label": "test",
+            "value": "A"
+        },
+        "f": {
+            "type": "color-picker",
+            "label": "test"
+        },
+        "g": {
+            "type": "dropdown",
+            "label": "test",
+            "value": "A"
+        },
+        "h": {
+            "type": "number",
+            "label": "test",
+            "value": "A"
+        },
+        "i": {
+            "type": "text",
+            "label": "test",
+            "value": "A"
+        }
+    }
+}

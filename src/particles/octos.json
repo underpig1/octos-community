@@ -1,7 +1,7 @@
 {
     "name": "Constellation",
     "description": "A simple particle animation. Click to add particles.",
-    "image": "particles.png",
+    "image": "image.png",
     "options": {
         "0background": {
             "type": "color-picker",
