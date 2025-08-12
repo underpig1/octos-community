@@ -1,4 +1,3 @@
-<img src="img/community.png" alt="Octos Community" width="600px" />
 
 # A collection of mods for [Octos](https://github.com/underpig1/octos)
 
@@ -25,9 +24,10 @@ Visualize music on the wallpaper. Includes a media player widget for controlling
 <br>
 <br>
 <br>
-[No image]
+<img src='images\3D Car-image-image.png' alt='3D Car' width='300px'>
 
-### Ferrari
+### 3D Car - By Octos
+Customizable car. Left mouse to drag. Right mouse to pan.
 <br>
 <br>
 <br>

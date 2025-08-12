@@ -11,9 +11,13 @@
         "previewPath": "images\\Simple Audio-preview-audio.gif"
     },
     {
-        "name": "Ferrari",
+        "name": "3D Car",
+        "author": "Octos",
+        "description": "Customizable car. Left mouse to drag. Right mouse to pan.",
+        "image": "image.png",
         "zipPath": "build\\car.zip",
-        "folderPath": "src\\car"
+        "folderPath": "src\\car",
+        "imagePath": "images\\3D Car-image-image.png"
     },
     {
         "entry": "index.html",
