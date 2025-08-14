@@ -59,6 +59,13 @@ WebGL fluid simulation, adapted from paveldogreat
 <br>
 <br>
 <br>
+<img src='images\Mandelbrot-image-image.png' alt='Mandelbrot' width='300px'>
+
+### Mandelbrot - By Octos
+Explore the Mandelbrot fractal set right on your desktop with the power of WebAssembly. Click and drag to zoom.
+<br>
+<br>
+<br>
 <img src='images\Globe-image-image.png' alt='Globe' width='300px'>
 
 ### Globe - By Octos

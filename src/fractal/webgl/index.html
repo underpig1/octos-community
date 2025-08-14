@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>WebGL2 Mandelbrot Infinite Zoom</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        #overlay {
+            position: absolute;
+            border: 1px solid white;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <div id="overlay"></div>
+    <script>
+        const canvas = document.getElementById("canvas");
+        const overlay = document.getElementById("overlay");
+        const gl = canvas.getContext("webgl2");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        gl.viewport(0, 0, canvas.width, canvas.height);
+
+        // Shaders
+        const vertexShaderSource = `#version 300 es
+in vec2 aPosition;
+void main(){ gl_Position = vec4(aPosition,0,1); }`;
+
+        const fragmentShaderSource = `#version 300 es
+precision highp float;
+uniform vec2 uResolution;
+uniform vec2 uCenter;
+uniform float uScale;
+uniform int uMaxIter;
+out vec4 fragColor;
+
+void main(){
+    vec2 c = vec2(
+        (gl_FragCoord.x - 0.5*uResolution.x) * uScale / uResolution.y + uCenter.x,
+        (gl_FragCoord.y - 0.5*uResolution.y) * uScale / uResolution.y + uCenter.y
+    );
+
+    vec2 z = vec2(0.0);
+    float x2=0.0, y2=0.0;
+    int iter=0;
+
+    for(int i=0;i<uMaxIter&&(x2+y2<=4.0);i++){
+        float xy = 2.0*z.x*z.y + c.y;
+        z.x = x2 - y2 + c.x;
+        z.y = xy;
+        x2 = z.x*z.x;
+        y2 = z.y*z.y;
+        iter = i;
+    }
+
+    float mu = float(iter);
+    if(iter<uMaxIter){
+        float log_zn = log(x2+y2)/2.0;
+        float nu = log(log_zn/log(2.0))/log(2.0);
+        mu = float(iter)+1.0-nu;
+    }
+
+    vec3 color = vec3(
+        0.5+0.5*cos(3.0+mu*0.15),
+        0.5+0.5*cos(3.0+mu*0.13),
+        0.5+0.5*cos(3.0+mu*0.1)
+    );
+    fragColor = vec4(color,1.0);
+}`;
+
+        // Helpers
+        function createShader(gl, type, source) {
+            const s = gl.createShader(type);
+            gl.shaderSource(s, source);
+            gl.compileShader(s);
+            if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+                console.error(gl.getShaderInfoLog(s));
+                return null;
+            }
+            return s;
+        }
+        function createProgram(gl, v, f) {
+            const p = gl.createProgram();
+            gl.attachShader(p, v);
+            gl.attachShader(p, f);
+            gl.linkProgram(p);
+            if (!gl.getProgramParameter(p, gl.LINK_STATUS)) {
+                console.error(gl.getProgramInfoLog(p));
+                return null;
+            }
+            return p;
+        }
+
+        const vShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
+        const fShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
+        const program = createProgram(gl, vShader, fShader);
+        gl.useProgram(program);
+
+        // Fullscreen quad
+        const buffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+        const aPos = gl.getAttribLocation(program, "aPosition");
+        gl.enableVertexAttribArray(aPos);
+        gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+        // Uniforms
+        const uResolution = gl.getUniformLocation(program, "uResolution");
+        const uCenter = gl.getUniformLocation(program, "uCenter");
+        const uScale = gl.getUniformLocation(program, "uScale");
+        const uMaxIter = gl.getUniformLocation(program, "uMaxIter");
+
+        // Mandelbrot state
+        let center = { x: -0.5, y: 0 };
+        let scale = 3.0;
+        let baseIter = 500;
+        let maxIter = baseIter;
+
+        // Render
+        function render() {
+            gl.uniform2f(uResolution, canvas.width, canvas.height);
+            gl.uniform2f(uCenter, center.x, center.y);
+            gl.uniform1f(uScale, scale);
+            gl.uniform1i(uMaxIter, maxIter);
+            gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        }
+
+        // Initial render
+        render();
+
+        // Drag zoom
+        let dragging = false;
+        let dragStart = { x: 0, y: 0 };
+        let dragEnd = { x: 0, y: 0 };
+
+        canvas.addEventListener("mousedown", e => {
+            dragging = true;
+            dragStart = { x: e.clientX, y: e.clientY };
+            overlay.style.left = dragStart.x + "px";
+            overlay.style.top = dragStart.y + "px";
+            overlay.style.width = "0px";
+            overlay.style.height = "0px";
+            overlay.style.display = "block";
+        });
+
+        canvas.addEventListener("mousemove", e => {
+            if (dragging) {
+                dragEnd = { x: e.clientX, y: e.clientY };
+                const x = Math.min(dragStart.x, dragEnd.x);
+                const y = Math.min(dragStart.y, dragEnd.y);
+                const w = Math.abs(dragEnd.x - dragStart.x);
+                const h = Math.abs(dragEnd.y - dragStart.y);
+                overlay.style.left = x + "px";
+                overlay.style.top = y + "px";
+                overlay.style.width = w + "px";
+                overlay.style.height = h + "px";
+            }
+        });
+
+        canvas.addEventListener("mouseup", e => {
+            if (dragging) {
+                dragging = false;
+                overlay.style.display = "none";
+
+                // Convert box pixels to complex coords
+                const minX = Math.min(dragStart.x, dragEnd.x);
+                const maxX = Math.max(dragStart.x, dragEnd.x);
+                const minY = Math.min(dragStart.y, dragEnd.y);
+                const maxY = Math.max(dragStart.y, dragEnd.y);
+
+                const left = (minX - canvas.width / 2) * scale / canvas.height + center.x;
+                const right = (maxX - canvas.width / 2) * scale / canvas.height + center.x;
+                const top = (canvas.height / 2 - minY) * scale / canvas.height + center.y;
+                const bottom = (canvas.height / 2 - maxY) * scale / canvas.height + center.y;
+
+                const boxWidth = Math.abs(right - left);
+                const boxHeight = Math.abs(top - bottom);
+                const canvasAR = canvas.width / canvas.height;
+
+                // adjust scale to fit box
+                if (boxWidth / boxHeight > canvasAR) {
+                    scale = boxWidth * canvas.height / canvas.width;
+                } else {
+                    scale = boxHeight;
+                }
+
+                center.x = (left + right) / 2;
+                center.y = (top + bottom) / 2;
+
+                // Adaptive iteration: increase as zooms in
+                maxIter = Math.min(5000, Math.floor(baseIter + 200 * Math.log10(3.0 / scale)));
+
+                // Render once
+                render();
+            }
+        });
+    </script>
+</body>
+
+</html>

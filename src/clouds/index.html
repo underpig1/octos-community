@@ -239,8 +239,9 @@
     })
 
     function onDocumentMouseMove(event) {
-        mouseX = (event.clientX - windowHalfX) * 0.05;
-        mouseY = (event.clientY - windowHalfY) * 0.05;
+        const sizeFac = 1920 / window.innerWidth*1.5;
+        mouseX = (event.clientX - windowHalfX) * 0.05 * sizeFac;
+        mouseY = (event.clientY - windowHalfY) * 0.05 * sizeFac;
     }
 
     function onWindowResize(event) {

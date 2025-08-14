@@ -1,0 +1,7 @@
+{
+    "name": "Mandelbrot",
+    "author": "Octos",
+    "description": "Explore the Mandelbrot fractal set right on your desktop with the power of WebAssembly. Click and drag to zoom.",
+    "entry": "wasm4/index.html",
+    "image": "image.png"
+}
