@@ -1,5 +1,6 @@
 {
     "name": "Cloudy Day",
-    "description": "Animated scrolling clouds with a digital time display.",
+    "author": "Octos",
+    "description": "Animated scrolling clouds with a digital time display. Adapted from mrdoob.",
     "image": "image.png"
 }

@@ -1,6 +1,6 @@
 {
     "name": "Fluid",
-    "description": "WebGL fluid simulation, adapted from paveldogreat",
+    "description": "WebGL fluid simulation, adapted from paveldogreat.",
     "entry": "index.html",
     "options": {
         "0DYE_RESOLUTION": {

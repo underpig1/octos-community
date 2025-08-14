@@ -99,7 +99,7 @@
 
     const y = (z) => (8000 - z) / 3
     
-    setTimeout(() => {
+    const initClock = () => setTimeout(() => {
     const fLoader = new FontLoader()
     const font = fLoader.load(
             'https://cdn.jsdelivr.net/gh/mrdoob/three.js@r165/examples/fonts/helvetiker_bold.typeface.json',
@@ -155,7 +155,7 @@
                 }, 1000);
             }, null, (e) => console.error(e));
 
-    }, 1000)
+    })
 
     tLoader.load('https://mrdoob.com/lab/javascript/webgl/clouds/cloud10.png', (t) => {
         t.colorSpace = THREE.SRGBColorSpace
@@ -236,6 +236,8 @@
         window.addEventListener('resize', onWindowResize, false);
 
         animate()
+
+        initClock();
     })
 
     function onDocumentMouseMove(event) {
