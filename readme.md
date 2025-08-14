@@ -33,8 +33,8 @@ Customizable car. Left mouse to drag. Right mouse to pan.
 <br>
 <img src='images\Cloudy Day-image-image.png' alt='Cloudy Day' width='300px'>
 
-### Cloudy Day
-Animated scrolling clouds with a digital time display.
+### Cloudy Day - By Octos
+Animated scrolling clouds with a digital time display. Adapted from mrdoob.
 <br>
 <br>
 <br>
@@ -55,7 +55,7 @@ A simple mouse-interactive visualization for Conway's Game of Life.
 <img src='images\Fluid-image-image.png' alt='Fluid' width='300px'>
 
 ### Fluid
-WebGL fluid simulation, adapted from paveldogreat
+WebGL fluid simulation, adapted from paveldogreat.
 <br>
 <br>
 <br>

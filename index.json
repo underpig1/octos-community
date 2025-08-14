@@ -21,7 +21,8 @@
     },
     {
         "name": "Cloudy Day",
-        "description": "Animated scrolling clouds with a digital time display.",
+        "author": "Octos",
+        "description": "Animated scrolling clouds with a digital time display. Adapted from mrdoob.",
         "image": "image.png",
         "zipPath": "build\\clouds.zip",
         "folderPath": "src\\clouds",
@@ -52,7 +53,7 @@
     },
     {
         "name": "Fluid",
-        "description": "WebGL fluid simulation, adapted from paveldogreat",
+        "description": "WebGL fluid simulation, adapted from paveldogreat.",
         "entry": "index.html",
         "image": "image.png",
         "zipPath": "build\\fluid.zip",
