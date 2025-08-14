@@ -1,0 +1,1 @@
+em++ mandelbrot.cpp -O3 -s WASM=1 -s MODULARIZE=1 -s EXPORT_NAME="MandelbrotModule" -s EXPORTED_FUNCTIONS="['_allocBuffer','_computeMandelbrotTile','_computeMandelbrotFull','_exposeHeap','_getPixelBuffer']" -o mandelbrot.js
