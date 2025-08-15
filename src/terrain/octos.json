@@ -12,5 +12,6 @@
             "value": 1
         }
     },
-    "image": "img.png"
+    "image": "img.png",
+    "preview": "terrain.gif"
 }

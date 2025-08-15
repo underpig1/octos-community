@@ -141,8 +141,8 @@
                 const boxWidth = Math.abs(right - left);
                 const boxHeight = Math.abs(top - bottom);
                 const canvasAR = width / height;
-                if (boxWidth / boxHeight > canvasAR) scale = boxWidth * height / width;
-                else scale = boxHeight;
+                scale = boxWidth * height / width;
+                // else scale = boxHeight;
 
                 center.x = (left + right) / 2;
                 center.y = (top + bottom) / 2;

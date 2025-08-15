@@ -11,5 +11,6 @@
             "onchangeload": "onDataChange"
         }
     },
-    "image": "image.png"
+    "image": "image.png",
+    "preview": "globe.gif"
 }

@@ -2,5 +2,23 @@
     "name": "Cloudy Day",
     "author": "Octos",
     "description": "Animated scrolling clouds with a digital time display. Adapted from mrdoob.",
-    "image": "image.png"
+    "image": "image.png",
+    "options": {
+        "time": {
+            "label": "Display time",
+            "value": true,
+            "onchangeload": "(value) => window.setTime(value == 'true')"
+        },
+        "parallax": {
+            "label": "Parallax",
+            "value": true,
+            "onchangeload": "(value) => window.parallax = value == 'true';"
+        },
+        "fly": {
+            "label": "Fly-through",
+            "value": true,
+            "onchangeload": "(value) => window.fly = value == 'true';"
+        }
+    },
+    "preview": "clouds.gif"
 }

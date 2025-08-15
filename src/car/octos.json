@@ -35,5 +35,6 @@
             "value": "Sunset"
         }
     },
-    "image": "image.png"
+    "image": "image.png",
+    "preview": "car.gif"
 }

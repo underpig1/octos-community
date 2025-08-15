@@ -45,5 +45,5 @@
             "value": "A"
         }
     },
-    "include": "false"
+    "include": false
 }

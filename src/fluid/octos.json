@@ -79,5 +79,6 @@
             "onchangeload": "(value) => { config.BLOOM_INTENSITY = parseFloat(value); }"
         }
     },
-    "image": "image.png"
+    "image": "image.png",
+    "preview": "fluid.gif"
 }

@@ -24,6 +24,18 @@
         #info {
             position: absolute;
         }
+
+        #loader {
+            position: absolute;
+            font-family: sans-serif;
+            font-size: 24pt;
+            color: white;
+            left: 50%;
+            top: 50%;
+            letter-spacing: 10px;
+            font-weight: 500;
+            transform: translate(-50%, -50%);
+        }
     </style>
 </head>
 
@@ -38,6 +50,7 @@
       }
     }
     </script>
+    <h1 id="loader">LOADING MODELS...</h1>
     <script type="module">
         import * as THREE from 'three';
 
@@ -238,6 +251,9 @@
         userOptions.on('change', handleOptions);
         userOptions.on('load', handleOptions);
 
+        let loading = true;
+        const loaderEl = document.getElementById('loader');
+
         // Car
         // const shadow = new THREE.TextureLoader().load('https://cdn.jsdelivr.net/gh/mrdoob/three.js@dev/examples/models/gltf/ferrari_ao.png');
         const dracoLoader = new DRACOLoader();
@@ -270,6 +286,8 @@
             // mesh.renderOrder = 2;
             // carModel.add(mesh);
             scene.add(carModel);
+            loading = false;
+            loaderEl.style.display = "none";
         });
 
         let postprocessing = {};
