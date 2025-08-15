@@ -15,18 +15,22 @@
         "author": "Octos",
         "description": "Customizable car. Left mouse to drag. Right mouse to pan.",
         "image": "image.png",
+        "preview": "car.gif",
         "zipPath": "build\\car.zip",
         "folderPath": "src\\car",
-        "imagePath": "images\\3D Car-image-image.png"
+        "imagePath": "images\\3D Car-image-image.png",
+        "previewPath": "images\\3D Car-preview-car.gif"
     },
     {
         "name": "Cloudy Day",
         "author": "Octos",
         "description": "Animated scrolling clouds with a digital time display. Adapted from mrdoob.",
         "image": "image.png",
+        "preview": "clouds.gif",
         "zipPath": "build\\clouds.zip",
         "folderPath": "src\\clouds",
-        "imagePath": "images\\Cloudy Day-image-image.png"
+        "imagePath": "images\\Cloudy Day-image-image.png",
+        "previewPath": "images\\Cloudy Day-preview-clouds.gif"
     },
     {
         "entry": "index.html",
@@ -56,28 +60,34 @@
         "description": "WebGL fluid simulation, adapted from paveldogreat.",
         "entry": "index.html",
         "image": "image.png",
+        "preview": "fluid.gif",
         "zipPath": "build\\fluid.zip",
         "folderPath": "src\\fluid",
-        "imagePath": "images\\Fluid-image-image.png"
+        "imagePath": "images\\Fluid-image-image.png",
+        "previewPath": "images\\Fluid-preview-fluid.gif"
     },
     {
         "name": "Mandelbrot",
         "author": "Octos",
-        "description": "Explore the Mandelbrot fractal set right on your desktop with the power of WebAssembly. Click and drag to zoom.",
+        "description": "The Mandelbrot set is a computationally-intesive fractal visualized in the complex plane by Benoit Mandelbrot in 1980. Explore it right on your desktop with the power of WebAssembly. Click and drag to zoom.",
         "entry": "wasm4/index.html",
         "image": "image.png",
+        "preview": "fractal.gif",
         "zipPath": "build\\fractal.zip",
         "folderPath": "src\\fractal",
-        "imagePath": "images\\Mandelbrot-image-image.png"
+        "imagePath": "images\\Mandelbrot-image-image.png",
+        "previewPath": "images\\Mandelbrot-preview-fractal.gif"
     },
     {
         "name": "Globe",
         "description": "Interactive WebGL Globe.",
         "author": "Octos",
         "image": "image.png",
+        "preview": "globe.gif",
         "zipPath": "build\\globe.zip",
         "folderPath": "src\\globe",
-        "imagePath": "images\\Globe-image-image.png"
+        "imagePath": "images\\Globe-image-image.png",
+        "previewPath": "images\\Globe-preview-globe.gif"
     },
     {
         "name": "Layout",
@@ -116,9 +126,11 @@
         "name": "Constellation",
         "description": "A simple particle animation. Click to add particles.",
         "image": "image.png",
+        "preview": "particles.gif",
         "zipPath": "build\\particles.zip",
         "folderPath": "src\\particles",
-        "imagePath": "images\\Constellation-image-image.png"
+        "imagePath": "images\\Constellation-image-image.png",
+        "previewPath": "images\\Constellation-preview-particles.gif"
     },
     {
         "name": "Terminal",
@@ -137,18 +149,11 @@
         "author": "Octos",
         "description": "A nice scrolling terrain. Click to draw.",
         "image": "img.png",
+        "preview": "terrain.gif",
         "zipPath": "build\\terrain.zip",
         "folderPath": "src\\terrain",
-        "imagePath": "images\\Terrain-image-img.png"
-    },
-    {
-        "name": "test3",
-        "author": "test2",
-        "description": "test1",
-        "entry": "index.html",
-        "include": "false",
-        "zipPath": "build\\test.zip",
-        "folderPath": "src\\test"
+        "imagePath": "images\\Terrain-image-img.png",
+        "previewPath": "images\\Terrain-preview-terrain.gif"
     },
     {
         "name": "Webpage",
