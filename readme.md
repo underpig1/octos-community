@@ -22,7 +22,7 @@ It's as easy as...
 <img src='images\Simple Audio-image-audio.png' alt='Simple Audio' width='300px'>
 
 ### Simple Audio - By Octos
-Visualize music on the wallpaper. Includes a media player widget for controlling audio on the desktop. Automatically syncs to the current playing media (including YouTube, Spotify, videos, etc.).
+A simple music visualizer on the wallpaper. Includes a media player widget for controlling audio. Automatically syncs to the current playing media (including YouTube, Spotify, videos, etc.).
 
 [Preview in browser](https://underpig1.github.io/octos-community/src/audio)
 <br>
@@ -31,7 +31,7 @@ Visualize music on the wallpaper. Includes a media player widget for controlling
 <img src='images\3D Car-image-image.png' alt='3D Car' width='300px'>
 
 ### 3D Car - By Octos
-Customizable car. Left mouse to drag. Right mouse to pan.
+Customizable 3D car display. Left mouse to drag. Right mouse to pan.
 
 [Preview in browser](https://underpig1.github.io/octos-community/src/car)
 <br>
@@ -40,7 +40,7 @@ Customizable car. Left mouse to drag. Right mouse to pan.
 <img src='images\Cloudy Day-image-image.png' alt='Cloudy Day' width='300px'>
 
 ### Cloudy Day - By Octos
-Animated scrolling clouds with a digital time display. Adapted from mrdoob.
+Animated scrolling clouds with a digital time display. Adapted from mrdoob's cloud demo.
 
 [Preview in browser](https://underpig1.github.io/octos-community/src/clouds)
 <br>
@@ -58,7 +58,7 @@ A complete physics sandbox, right on your desktop. From cars to bridges, make co
 <img src='images\Conway-image-conway.png' alt='Conway' width='300px'>
 
 ### Conway - By squiemperor
-A simple mouse-interactive visualization for Conway's Game of Life.
+A simple interactive visualization for Conway's Game of Life.
 
 [Preview in browser](https://underpig1.github.io/octos-community/src/conway)
 <br>
@@ -76,7 +76,7 @@ WebGL fluid simulation, adapted from paveldogreat.
 <img src='images\Mandelbrot-image-image.png' alt='Mandelbrot' width='300px'>
 
 ### Mandelbrot - By Octos
-The Mandelbrot set is a computationally-intesive fractal visualized in the complex plane by Benoit Mandelbrot in 1980. Explore it right on your desktop with up to 64-bit scale precision with the power of WebAssembly. Click and drag to zoom.
+The Mandelbrot set is a fractal in the complex plane originally visualized by Benoit Mandelbrot in 1980. Explore it right on your desktop with up to 64-bit scale precision with the power of WebAssembly. Click and drag anywhere to zoom.
 
 [Preview in browser](https://underpig1.github.io/octos-community/src/fractal/index.html)
 <br>
@@ -85,7 +85,7 @@ The Mandelbrot set is a computationally-intesive fractal visualized in the compl
 <img src='images\Globe-image-image.png' alt='Globe' width='300px'>
 
 ### Globe - By Octos
-Interactive WebGL Globe.
+Interactive WebGL globe.
 
 [Preview in browser](https://underpig1.github.io/octos-community/src/globe)
 <br>
@@ -103,7 +103,7 @@ Choose an image/video to set as your wallpaper and customize it with interactive
 <img src='images\Eyes on the Solar System-image-image.png' alt='Eyes on the Solar System' width='300px'>
 
 ### Eyes on the Solar System
-Explore planets, moons, asteroids, comets, and spacecraft in 3D. From eyes.nasa.gov
+Explore planets, moons, asteroids, comets, and spacecraft in 3D. From eyes.nasa.gov.
 
 [Preview in browser](https://eyes.nasa.gov/apps/solar-system/#/home?featured=false&detailPanel=false&logo=false&search=false&shareButton=false&menu=false&collapseSettingsOptions=true&hideFullScreenToggle=true&hideExternalLinks=true)
 <br>
@@ -112,7 +112,7 @@ Explore planets, moons, asteroids, comets, and spacecraft in 3D. From eyes.nasa.
 <img src='images\Notes-image-image.png' alt='Notes' width='300px'>
 
 ### Notes - By Octos
-A simple whiteboard for note-taking and drawing. Saves content between sessions. Has both light/dark mode.
+A simple whiteboard for note-taking, drawing, and sketching. Saves notes between sessions and adapts for both light and dark themes.
 
 [Preview in browser](https://underpig1.github.io/octos-community/src/notes/index.html)
 <br>
@@ -139,7 +139,7 @@ A digital clock with a live old TV effect and customizable 3D text art.
 <img src='images\Terrain-image-img.png' alt='Terrain' width='300px'>
 
 ### Terrain - By Octos
-Auto-scrolling terrain. Click to draw.
+Interactive auto-scrolling terrain with a variety of biomes to choose from. Explore dense forests, deep blue oceans, archipelagos, and more right from your desktop. Click to draw.
 
 [Preview in browser](https://underpig1.github.io/octos-community/src/terrain/index.html)
 <br>

@@ -1,7 +1,7 @@
 [
     {
         "name": "Simple Audio",
-        "description": "Visualize music on the wallpaper. Includes a media player widget for controlling audio on the desktop. Automatically syncs to the current playing media (including YouTube, Spotify, videos, etc.).",
+        "description": "A simple music visualizer on the wallpaper. Includes a media player widget for controlling audio. Automatically syncs to the current playing media (including YouTube, Spotify, videos, etc.).",
         "author": "Octos",
         "image": "audio.png",
         "preview": "audio.gif",
@@ -14,7 +14,7 @@
     {
         "name": "3D Car",
         "author": "Octos",
-        "description": "Customizable car. Left mouse to drag. Right mouse to pan.",
+        "description": "Customizable 3D car display. Left mouse to drag. Right mouse to pan.",
         "image": "image.png",
         "preview": "car.gif",
         "zipPath": "build\\car.zip",
@@ -26,7 +26,7 @@
     {
         "name": "Cloudy Day",
         "author": "Octos",
-        "description": "Animated scrolling clouds with a digital time display. Adapted from mrdoob.",
+        "description": "Animated scrolling clouds with a digital time display. Adapted from mrdoob's cloud demo.",
         "image": "image.png",
         "preview": "clouds.gif",
         "zipPath": "build\\clouds.zip",
@@ -50,7 +50,7 @@
     },
     {
         "name": "Conway",
-        "description": "A simple mouse-interactive visualization for Conway's Game of Life.",
+        "description": "A simple interactive visualization for Conway's Game of Life.",
         "image": "conway.png",
         "author": "squiemperor",
         "preview": "conway.gif",
@@ -75,7 +75,7 @@
     {
         "name": "Mandelbrot",
         "author": "Octos",
-        "description": "The Mandelbrot set is a computationally-intesive fractal visualized in the complex plane by Benoit Mandelbrot in 1980. Explore it right on your desktop with up to 64-bit scale precision with the power of WebAssembly. Click and drag to zoom.",
+        "description": "The Mandelbrot set is a fractal in the complex plane originally visualized by Benoit Mandelbrot in 1980. Explore it right on your desktop with up to 64-bit scale precision with the power of WebAssembly. Click and drag anywhere to zoom.",
         "entry": "index.html",
         "image": "image.png",
         "preview": "fractal.gif",
@@ -87,7 +87,7 @@
     },
     {
         "name": "Globe",
-        "description": "Interactive WebGL Globe.",
+        "description": "Interactive WebGL globe.",
         "author": "Octos",
         "image": "image.png",
         "preview": "globe.gif",
@@ -114,7 +114,7 @@
         "name": "Eyes on the Solar System",
         "entry": "https://eyes.nasa.gov/apps/solar-system/#/home?featured=false&detailPanel=false&logo=false&search=false&shareButton=false&menu=false&collapseSettingsOptions=true&hideFullScreenToggle=true&hideExternalLinks=true",
         "image": "image.png",
-        "description": "Explore planets, moons, asteroids, comets, and spacecraft in 3D. From eyes.nasa.gov",
+        "description": "Explore planets, moons, asteroids, comets, and spacecraft in 3D. From eyes.nasa.gov.",
         "preview": "nasa.gif",
         "zipPath": "build\\nasa.zip",
         "folderPath": "src\\nasa",
@@ -125,7 +125,7 @@
     {
         "name": "Notes",
         "author": "Octos",
-        "description": "A simple whiteboard for note-taking and drawing. Saves content between sessions. Has both light/dark mode.",
+        "description": "A simple whiteboard for note-taking, drawing, and sketching. Saves notes between sessions and adapts for both light and dark themes.",
         "entry": "index.html",
         "image": "image.png",
         "zipPath": "build\\notes.zip",
@@ -160,7 +160,7 @@
     {
         "name": "Terrain",
         "author": "Octos",
-        "description": "Auto-scrolling terrain. Click to draw.",
+        "description": "Interactive auto-scrolling terrain with a variety of biomes to choose from. Explore dense forests, deep blue oceans, archipelagos, and more right from your desktop. Click to draw.",
         "entry": "index.html",
         "image": "img.png",
         "preview": "terrain.gif",
