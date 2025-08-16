@@ -76,7 +76,7 @@ WebGL fluid simulation, adapted from paveldogreat.
 <img src='images\Mandelbrot-image-image.png' alt='Mandelbrot' width='300px'>
 
 ### Mandelbrot - By Octos
-The Mandelbrot set is a computationally-intesive fractal visualized in the complex plane by Benoit Mandelbrot in 1980. Explore it right on your desktop with the power of WebAssembly. Click and drag to zoom.
+The Mandelbrot set is a computationally-intesive fractal visualized in the complex plane by Benoit Mandelbrot in 1980. Explore it right on your desktop with up to 64-bit scale precision with the power of WebAssembly. Click and drag to zoom.
 
 [Preview in browser](https://underpig1.github.io/octos-community/src/fractal/index.html)
 <br>
@@ -141,7 +141,7 @@ A digital clock with a live old TV effect and customizable 3D text art.
 ### Terrain - By Octos
 Auto-scrolling terrain. Click to draw.
 
-[Preview in browser](https://underpig1.github.io/octos-community/src/terrain)
+[Preview in browser](https://underpig1.github.io/octos-community/src/terrain/index.html)
 <br>
 <br>
 <br>

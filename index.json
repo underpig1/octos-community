@@ -75,7 +75,7 @@
     {
         "name": "Mandelbrot",
         "author": "Octos",
-        "description": "The Mandelbrot set is a computationally-intesive fractal visualized in the complex plane by Benoit Mandelbrot in 1980. Explore it right on your desktop with the power of WebAssembly. Click and drag to zoom.",
+        "description": "The Mandelbrot set is a computationally-intesive fractal visualized in the complex plane by Benoit Mandelbrot in 1980. Explore it right on your desktop with up to 64-bit scale precision with the power of WebAssembly. Click and drag to zoom.",
         "entry": "index.html",
         "image": "image.png",
         "preview": "fractal.gif",
@@ -161,13 +161,14 @@
         "name": "Terrain",
         "author": "Octos",
         "description": "Auto-scrolling terrain. Click to draw.",
+        "entry": "index.html",
         "image": "img.png",
         "preview": "terrain.gif",
         "zipPath": "build\\terrain.zip",
         "folderPath": "src\\terrain",
         "imagePath": "images\\Terrain-image-img.png",
         "previewPath": "images\\Terrain-preview-terrain.gif",
-        "browserPath": "https://underpig1.github.io/octos-community/src/terrain"
+        "browserPath": "https://underpig1.github.io/octos-community/src/terrain/index.html"
     },
     {
         "name": "Webpage",
