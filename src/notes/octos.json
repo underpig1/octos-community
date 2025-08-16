@@ -3,5 +3,6 @@
     "author": "Octos",
     "description": "A simple whiteboard for note-taking, drawing, and sketching. Saves notes between sessions and adapts for both light and dark themes.",
     "entry": "index.html",
-    "image": "image.png"
+    "image": "image.png",
+    "preview": "notes.gif"
 }
