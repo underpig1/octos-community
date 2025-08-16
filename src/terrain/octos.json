@@ -7,9 +7,32 @@
             "type": "range",
             "label": "Scroll speed",
             "min": 0,
-            "max": 5,
+            "max": 10,
             "step": 1,
-            "value": 1
+            "value": 1,
+            "onchangeload": "(value) => window.setScrollSpeed(parseInt(value)/20)"
+        },
+        "scale": {
+            "type": "range",
+            "label": "Scale",
+            "min": 1,
+            "max": 8,
+            "step": 1,
+            "value": 6,
+            "onchangeload": "(value) => window.setScale(parseInt(value))"
+        },
+        "theme": {
+            "type": "select",
+            "label": "Theme",
+            "options": [
+                "Archipelago",
+                "Desert",
+                "Ocean",
+                "Tundra",
+                "Savanna",
+                "Forest"
+            ],
+            "onchangeload": "window.setTheme"
         }
     },
     "entry": "index.html",
