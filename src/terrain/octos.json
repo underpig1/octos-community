@@ -1,7 +1,7 @@
 {
     "name": "Terrain",
     "author": "Octos",
-    "description": "Auto-scrolling terrain. Click to draw.",
+    "description": "Interactive auto-scrolling terrain with a variety of biomes to choose from. Explore dense forests, deep blue oceans, archipelagos, and more right from your desktop. Click to draw.",
     "options": {
         "speed": {
             "type": "range",

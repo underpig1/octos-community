@@ -1,7 +1,7 @@
 {
     "name": "Notes",
     "author": "Octos",
-    "description": "A simple whiteboard for note-taking and drawing. Saves content between sessions. Has both light/dark mode.",
+    "description": "A simple whiteboard for note-taking, drawing, and sketching. Saves notes between sessions and adapts for both light and dark themes.",
     "entry": "index.html",
     "image": "image.png"
 }

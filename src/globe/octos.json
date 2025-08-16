@@ -1,6 +1,6 @@
 {
     "name": "Globe",
-    "description": "Interactive WebGL Globe.",
+    "description": "Interactive WebGL globe.",
     "author": "Octos",
     "options": {
         "data": {

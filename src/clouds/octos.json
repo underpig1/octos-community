@@ -1,7 +1,7 @@
 {
     "name": "Cloudy Day",
     "author": "Octos",
-    "description": "Animated scrolling clouds with a digital time display. Adapted from mrdoob.",
+    "description": "Animated scrolling clouds with a digital time display. Adapted from mrdoob's cloud demo.",
     "image": "image.png",
     "options": {
         "time": {

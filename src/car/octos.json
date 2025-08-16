@@ -1,7 +1,7 @@
 {
     "name": "3D Car",
     "author": "Octos",
-    "description": "Customizable car. Left mouse to drag. Right mouse to pan.",
+    "description": "Customizable 3D car display. Left mouse to drag. Right mouse to pan.",
     "options": {
         "body-color": {
             "type": "color-picker",

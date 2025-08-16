@@ -46,6 +46,10 @@ function freezeBody(body) {
     Matter.Body.setAngularVelocity(body, 0);
 }
 
+const sys = new octos.System();
+let defaultIconVis = true;
+sys.getDesktopIconVisibility().then((val) => defaultIconVis = val);
+
 function togglePause() {
     paused = !paused;
     const el = document.getElementById('pause-btn')
@@ -56,6 +60,7 @@ function togglePause() {
             freezeBody(body)
         });
         engine.world.gravity.y = 0
+        sys.setDesktopIconVisibility(false);
     }
     else {
         el.className = 'ri-pause-line'
@@ -66,6 +71,7 @@ function togglePause() {
                 body.isSensor = false;
         });
         engine.world.gravity.y = settings.gravity;
+        if (defaultIconVis) sys.setDesktopIconVisibility(true);
     }
 }
 

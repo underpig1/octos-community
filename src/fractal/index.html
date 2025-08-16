@@ -10,6 +10,7 @@
             margin: 0;
             height: 100%;
             overflow: hidden;
+            background-color: black;
         }
 
         canvas {
@@ -27,7 +28,7 @@
             pointer-events: none;
         }
 
-        #resetZoom {
+        button {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -36,13 +37,19 @@
             color: white;
             border: none;
             cursor: pointer;
-            display: none;
+            /* display: none; */
             z-index: 10;
         }
 
         #copyCanvas {
             pointer-events: none;
             display: none;
+        }
+
+        #info {
+            left: 10px;
+            right: auto;
+            opacity: 0.5;
         }
     </style>
 </head>
@@ -53,6 +60,7 @@
     <div id="overlay"></div>
     <button id="resetZoom">Reset Zoom</button>
     <script src="./mandelbrot.js"></script>
+    <button id="info" onclick="window.open('https://github.com/underpig1/octos-community/tree/master/src/fractal', '_blank');">?</button>
     <script>
         (async () => {
             const numWorkers = Math.max(2, navigator.hardwareConcurrency || 4);
@@ -60,7 +68,7 @@
             const maxIter = 500;
 
             const canvas = document.getElementById('canvas');
-            const copyCanvas = document.getElementById('copyCanvas');
+            const copyCanvas = document.getElementById('copyCanvas', { alpha: true });
             const ctx = canvas.getContext('2d');
             let width = canvas.width = window.innerWidth;
             let height = canvas.height = window.innerHeight;
@@ -73,10 +81,15 @@
             const resetBtn = document.getElementById("resetZoom");
 
             function updateResetButton() {
+                resetBtn.style.display = 'block';
                 if (scale !== initialScale || center.x !== initialCenter.x || center.y !== initialCenter.y) {
-                    resetBtn.style.display = 'block';
+                    // resetBtn.style.display = 'block';
+                    resetBtn.innerText = 'Reset Zoom'
+                    resetBtn.style.opacity = 1
                 } else {
-                    resetBtn.style.display = 'none';
+                    // resetBtn.style.display = 'none';
+                    resetBtn.innerText = 'Click and drag to zoom'
+                    resetBtn.style.opacity = 0.5
                 }
             }
 
@@ -104,7 +117,6 @@
             const pixels = new Uint8ClampedArray(mandelbrot.HEAPU8.buffer, ptr, width * height * 4);
             mandelbrot._computeMandelbrotTile(width, height, centerX, centerY, scale, maxIter, yStart, yEnd);
     
-            // Send just this tile back
             const tilePixels = pixels.slice(yStart * width * 4, yEnd * width * 4);
             self.postMessage({ yStart, yEnd, pixels: tilePixels }, [tilePixels.buffer]);
         };
@@ -156,7 +168,6 @@
                 });
             }
 
-            // Drag-to-zoom
             let dragging = false, dragStart = { x: 0, y: 0 }, dragEnd = { x: 0, y: 0 };
             const overlay = document.getElementById('overlay');
 
@@ -199,7 +210,7 @@
                 const top = (height / 2 - minY) * scale / height + center.y;
                 const bottom = (height / 2 - maxY) * scale / height + center.y;
                 if (minX == 0 && minY == 0) {
-                    zoomTo(right, bottom, 0.5*scale * height / width)
+                    // zoomTo(right, bottom, 0.5*scale * height / width)
                     return;
                 }
 
@@ -210,21 +221,6 @@
                 const s = boxWidth * height / width
                 zoomTo(x, y, s)
             });
-
-            function zoomCanvas(newX, newY, newScale) {
-                canvas.style.display = "none"
-                copyCanvas.style.display = "block";
-                copyCanvas.style.transition = "none";
-                copyCanvas.style.transform = "none";
-                const copyCtx = copyCanvas.getContext('2d');
-                copyCanvas.width = canvas.width;
-                copyCanvas.height = canvas.height;
-                copyCtx.drawImage(canvas, 0, 0);
-                setTimeout(() => {
-                    copyCanvas.style.transition = "transform 0.3s ease";
-                    copyCanvas.style.transform = `scale(${scale})`;
-                })
-            }
 
             function worldToCanvas(xWorld, yWorld, worldScale, element = canvas) {
                 const w = element.width || parseInt(element.style.width);
@@ -246,6 +242,7 @@
                 copyCanvas.style.opacity = '1';
                 copyCanvas.style.transform = "none";
                 copyCanvas.style.transition = 'none';
+                copyCtx.clearRect(0, 0, copyCanvas.width, copyCanvas.height);
                 copyCtx.drawImage(canvas, 0, 0);
                 const { dx, dy, s } = worldToCanvas(x, y, newScale)
                 overlay.width = parseInt(overlay.style.width)
@@ -300,17 +297,20 @@
                     setTimeout(() => copyCanvas.style.display = 'none', transformDuration);
                     canvas.style.display = 'block'
                 });
+                updateResetButton();
             }
 
             resetBtn.addEventListener('click', () => {
-                center = { ...initialCenter };
-                scale = initialScale;
-                render();
+                // center = { ...initialCenter };
+                // scale = initialScale;
+                console.log('dezooming');
+                zoomTo(initialCenter.x, initialCenter.y, initialScale);
+                // render();
             });
 
             window.addEventListener('resize', () => {
-                width = canvas.width = window.innerWidth;
-                height = canvas.height = window.innerHeight;
+                width = canvas.width = copyCanvas.width = window.innerWidth;
+                height = canvas.height = copyCanvas.height = window.innerHeight;
                 render();
             });
 
