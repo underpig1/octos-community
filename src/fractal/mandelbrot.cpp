@@ -9,7 +9,6 @@ extern "C"
 
     std::vector<uint8_t> pixels;
 
-    // Allocate shared buffer
     EMSCRIPTEN_KEEPALIVE
     uint8_t *allocBuffer(int width, int height)
     {
@@ -17,7 +16,6 @@ extern "C"
         return pixels.data();
     }
 
-    // Cardioid / period-2 bulb check
     inline bool inCardioidOrBulb(double x, double y)
     {
         double p = std::sqrt((x - 0.25) * (x - 0.25) + y * y);
@@ -28,38 +26,20 @@ extern "C"
         return false;
     }
 
-    // HSL -> RGB (double precision)
-    inline void hslToRgb(double h, double s, double l, uint8_t &r, uint8_t &g, uint8_t &b)
+    inline void mandelbrotPalette(double t, uint8_t &r, uint8_t &g, uint8_t &b)
     {
-        if (s == 0)
-        {
-            r = g = b = (uint8_t)(l * 255);
-            return;
-        }
-        auto hue2rgb = [](double p, double q, double t) -> double
-        {
-            if (t < 0)
-                t += 1;
-            if (t > 1)
-                t -= 1;
-            if (t < 1.0 / 6)
-                return p + (q - p) * 6 * t;
-            if (t < 1.0 / 2)
-                return q;
-            if (t < 2.0 / 3)
-                return p + (q - p) * (2.0 / 3 - t) * 6;
-            return p;
-        };
-        double q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-        double p = 2 * l - q;
-        r = (uint8_t)(hue2rgb(p, q, h + 1.0 / 3) * 255);
-        g = (uint8_t)(hue2rgb(p, q, h) * 255);
-        b = (uint8_t)(hue2rgb(p, q, h - 1.0 / 3) * 255);
+        double tt = t;
+        r = (uint8_t)(9 * (1 - tt) * tt * tt * tt * 255);
+        g = (uint8_t)(15 * (1 - tt) * (1 - tt) * tt * tt * 255);
+        b = (uint8_t)(8.5 * (1 - tt) * (1 - tt) * (1 - tt) * tt * 255);
+
+        r = std::min(255, int(r * 1.1));
+        g = std::min(255, int(g * 1.05));
+        b = std::min(255, int(b * 1.2));
     }
 
-    // Compute one tile
-    EMSCRIPTEN_KEEPALIVE
-    void computeMandelbrotTile(int width, int height, double cx, double cy, double scale, int maxIter, int yStart, int yEnd)
+    EMSCRIPTEN_KEEPALIVE void
+    computeMandelbrotTile(int width, int height, double cx, double cy, double scale, int maxIter, int yStart, int yEnd)
     {
         if (pixels.empty())
             return;
@@ -89,34 +69,28 @@ extern "C"
                     iter++;
                 }
 
-                uint8_t r, g, b;
                 if (iter < maxIter)
                 {
-                    // Smooth coloring for escaped points
                     double log_zn = std::log(x * x + y * y) / 2.0;
                     double nu = std::log(log_zn / std::log(2)) / std::log(2);
                     double mu = iter + 1 - nu;
-
-                    double hue = std::fmod(0.95 + 10.0 * mu / maxIter, 1.0);
-                    double lightness = 0.5 * (1.0 + std::sin(3.1415 * mu / maxIter));
-                    double saturation = 0.5;
-
-                    hslToRgb(hue, saturation, lightness, r, g, b);
+                    double t = mu / maxIter;
+                    uint8_t r, g, b;
+                    mandelbrotPalette(t, r, g, b);
+                    pixels[idx] = r;
+                    pixels[idx + 1] = g;
+                    pixels[idx + 2] = b;
+                    pixels[idx + 3] = 255;
                 }
                 else
                 {
-                    // Inside the set -> black
-                    r = g = b = 0;
+                    pixels[idx] = pixels[idx + 1] = pixels[idx + 2] = 0;
+                    pixels[idx + 3] = 255;
                 }
-                pixels[idx] = r;
-                pixels[idx + 1] = g;
-                pixels[idx + 2] = b;
-                pixels[idx + 3] = 255;
             }
         }
     }
 
-    // Progressive full canvas
     EMSCRIPTEN_KEEPALIVE
     void computeMandelbrotFull(int width, int height, double cx, double cy, double scale, int maxIter, int tileHeight)
     {
@@ -130,15 +104,12 @@ extern "C"
         }
     }
 
-    // Expose HEAPU8 to JS
     EMSCRIPTEN_KEEPALIVE
     void exposeHeap()
     {
         EM_ASM({ Module.HEAPU8 = HEAPU8; });
     }
 
-    // Pointer to buffer
     EMSCRIPTEN_KEEPALIVE
     uint8_t *getPixelBuffer() { return pixels.data(); }
-
-} // extern "C"
+}

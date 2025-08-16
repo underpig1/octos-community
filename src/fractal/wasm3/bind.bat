@@ -1,1 +1,0 @@
-emcc backend.cpp -O3 -s WASM=1 --bind -o mandelbrot.js
