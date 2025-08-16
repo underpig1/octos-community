@@ -128,9 +128,11 @@
         "description": "A simple whiteboard for note-taking, drawing, and sketching. Saves notes between sessions and adapts for both light and dark themes.",
         "entry": "index.html",
         "image": "image.png",
+        "preview": "notes.gif",
         "zipPath": "build\\notes.zip",
         "folderPath": "src\\notes",
         "imagePath": "images\\Notes-image-image.png",
+        "previewPath": "images\\Notes-preview-notes.gif",
         "browserPath": "https://underpig1.github.io/octos-community/src/notes/index.html"
     },
     {
