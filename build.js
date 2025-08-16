@@ -11,6 +11,8 @@ const contentPath = path.join(__dirname, "index.json");
 var content = require(contentPath);
 const mdpath = path.join(__dirname, "readme.md");
 var md = `
+<img src="img/community.png" width=600 />
+
 # A collection of mods for [Octos](https://github.com/underpig1/octos)
 
 [![Build](https://github.com/underpig1/octos-community/actions/workflows/build.yml/badge.svg)](https://github.com/underpig1/octos-community/actions/workflows/build.yml)
@@ -48,6 +50,8 @@ function updateMD(data) {
     md += `${data.imagePath ? `<img src='${data.imagePath}' alt='${data.name}' width='300px'>` : "[No image]"}
 
 ### ${data.name}${data.author ? " - By " + data.author : ""}${data.description ? "\n" + data.description : ""}
+
+[Preview in browser](${data.browserPath})
 <br>
 <br>
 <br>
@@ -82,9 +86,10 @@ function publishMod(dir) {
             fs.copySync(path.join(dir, preview), newPreviewPath, { overwrite: true });
             obj.previewPath = newPreviewPath;
         }
+        const browserPath = /^https?:\/\//i.test(obj.entry) ? obj.entry : `https://underpig1.github.io/octos-community/${path.join(obj.folderPath, obj.entry ? obj.entry : '').replaceAll('\\', '/')}`
+        obj.browserPath = browserPath
         content.push(obj)
         zip(dir, newPath, config.preview ? config.preview : "");
-        writeContent();
         return obj;
     }
 }
@@ -126,7 +131,8 @@ async function parseArgs() {
         var data = publishMod(target);
         if (data) updateMD(data);
     }
-    md += "Learn more about how to [publish your own mod](https://underpig1.github.io/octos/docs/guides/publish/)"
+    md += "<hr />\n\nLearn more about [publishing your own mod](https://underpig1.github.io/octos/docs/guides/publish/)"
+    writeContent();
     writeMD();
 }
 

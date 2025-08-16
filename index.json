@@ -8,7 +8,8 @@
         "zipPath": "build\\audio.zip",
         "folderPath": "src\\audio",
         "imagePath": "images\\Simple Audio-image-audio.png",
-        "previewPath": "images\\Simple Audio-preview-audio.gif"
+        "previewPath": "images\\Simple Audio-preview-audio.gif",
+        "browserPath": "https://underpig1.github.io/octos-community/src/audio"
     },
     {
         "name": "3D Car",
@@ -19,7 +20,8 @@
         "zipPath": "build\\car.zip",
         "folderPath": "src\\car",
         "imagePath": "images\\3D Car-image-image.png",
-        "previewPath": "images\\3D Car-preview-car.gif"
+        "previewPath": "images\\3D Car-preview-car.gif",
+        "browserPath": "https://underpig1.github.io/octos-community/src/car"
     },
     {
         "name": "Cloudy Day",
@@ -30,7 +32,8 @@
         "zipPath": "build\\clouds.zip",
         "folderPath": "src\\clouds",
         "imagePath": "images\\Cloudy Day-image-image.png",
-        "previewPath": "images\\Cloudy Day-preview-clouds.gif"
+        "previewPath": "images\\Cloudy Day-preview-clouds.gif",
+        "browserPath": "https://underpig1.github.io/octos-community/src/clouds"
     },
     {
         "entry": "index.html",
@@ -42,7 +45,8 @@
         "zipPath": "build\\contraption.zip",
         "folderPath": "src\\contraption",
         "imagePath": "images\\Contraption-image-image.png",
-        "previewPath": "images\\Contraption-preview-contraption.gif"
+        "previewPath": "images\\Contraption-preview-contraption.gif",
+        "browserPath": "https://underpig1.github.io/octos-community/src/contraption/index.html"
     },
     {
         "name": "Conway",
@@ -53,7 +57,8 @@
         "zipPath": "build\\conway.zip",
         "folderPath": "src\\conway",
         "imagePath": "images\\Conway-image-conway.png",
-        "previewPath": "images\\Conway-preview-conway.gif"
+        "previewPath": "images\\Conway-preview-conway.gif",
+        "browserPath": "https://underpig1.github.io/octos-community/src/conway"
     },
     {
         "name": "Fluid",
@@ -64,7 +69,8 @@
         "zipPath": "build\\fluid.zip",
         "folderPath": "src\\fluid",
         "imagePath": "images\\Fluid-image-image.png",
-        "previewPath": "images\\Fluid-preview-fluid.gif"
+        "previewPath": "images\\Fluid-preview-fluid.gif",
+        "browserPath": "https://underpig1.github.io/octos-community/src/fluid/index.html"
     },
     {
         "name": "Mandelbrot",
@@ -76,7 +82,8 @@
         "zipPath": "build\\fractal.zip",
         "folderPath": "src\\fractal",
         "imagePath": "images\\Mandelbrot-image-image.png",
-        "previewPath": "images\\Mandelbrot-preview-fractal.gif"
+        "previewPath": "images\\Mandelbrot-preview-fractal.gif",
+        "browserPath": "https://underpig1.github.io/octos-community/src/fractal/index.html"
     },
     {
         "name": "Globe",
@@ -87,7 +94,8 @@
         "zipPath": "build\\globe.zip",
         "folderPath": "src\\globe",
         "imagePath": "images\\Globe-image-image.png",
-        "previewPath": "images\\Globe-preview-globe.gif"
+        "previewPath": "images\\Globe-preview-globe.gif",
+        "browserPath": "https://underpig1.github.io/octos-community/src/globe"
     },
     {
         "name": "Layout",
@@ -99,7 +107,8 @@
         "zipPath": "build\\layout.zip",
         "folderPath": "src\\layout",
         "imagePath": "images\\Layout-image-layout.png",
-        "previewPath": "images\\Layout-preview-layout.gif"
+        "previewPath": "images\\Layout-preview-layout.gif",
+        "browserPath": "https://underpig1.github.io/octos-community/src/layout/index.html"
     },
     {
         "name": "Eyes on the Solar System",
@@ -110,7 +119,8 @@
         "zipPath": "build\\nasa.zip",
         "folderPath": "src\\nasa",
         "imagePath": "images\\Eyes on the Solar System-image-image.png",
-        "previewPath": "images\\Eyes on the Solar System-preview-nasa.gif"
+        "previewPath": "images\\Eyes on the Solar System-preview-nasa.gif",
+        "browserPath": "https://eyes.nasa.gov/apps/solar-system/#/home?featured=false&detailPanel=false&logo=false&search=false&shareButton=false&menu=false&collapseSettingsOptions=true&hideFullScreenToggle=true&hideExternalLinks=true"
     },
     {
         "name": "Notes",
@@ -120,7 +130,8 @@
         "image": "image.png",
         "zipPath": "build\\notes.zip",
         "folderPath": "src\\notes",
-        "imagePath": "images\\Notes-image-image.png"
+        "imagePath": "images\\Notes-image-image.png",
+        "browserPath": "https://underpig1.github.io/octos-community/src/notes/index.html"
     },
     {
         "name": "Constellation",
@@ -130,7 +141,8 @@
         "zipPath": "build\\particles.zip",
         "folderPath": "src\\particles",
         "imagePath": "images\\Constellation-image-image.png",
-        "previewPath": "images\\Constellation-preview-particles.gif"
+        "previewPath": "images\\Constellation-preview-particles.gif",
+        "browserPath": "https://underpig1.github.io/octos-community/src/particles"
     },
     {
         "name": "Terminal",
@@ -142,18 +154,20 @@
         "zipPath": "build\\terminal.zip",
         "folderPath": "src\\terminal",
         "imagePath": "images\\Terminal-image-terminal.png",
-        "previewPath": "images\\Terminal-preview-terminal.gif"
+        "previewPath": "images\\Terminal-preview-terminal.gif",
+        "browserPath": "https://underpig1.github.io/octos-community/src/terminal/index.html"
     },
     {
         "name": "Terrain",
         "author": "Octos",
-        "description": "A nice scrolling terrain. Click to draw.",
+        "description": "Auto-scrolling terrain. Click to draw.",
         "image": "img.png",
         "preview": "terrain.gif",
         "zipPath": "build\\terrain.zip",
         "folderPath": "src\\terrain",
         "imagePath": "images\\Terrain-image-img.png",
-        "previewPath": "images\\Terrain-preview-terrain.gif"
+        "previewPath": "images\\Terrain-preview-terrain.gif",
+        "browserPath": "https://underpig1.github.io/octos-community/src/terrain"
     },
     {
         "name": "Webpage",
@@ -162,6 +176,7 @@
         "image": "webpage.png",
         "zipPath": "build\\webpage.zip",
         "folderPath": "src\\webpage",
-        "imagePath": "images\\Webpage-image-webpage.png"
+        "imagePath": "images\\Webpage-image-webpage.png",
+        "browserPath": "https://underpig1.github.io/octos-community/src/webpage"
     }
 ]

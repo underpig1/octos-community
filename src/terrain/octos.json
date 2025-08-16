@@ -1,7 +1,7 @@
 {
     "name": "Terrain",
     "author": "Octos",
-    "description": "A nice scrolling terrain. Click to draw.",
+    "description": "Auto-scrolling terrain. Click to draw.",
     "options": {
         "speed": {
             "type": "range",

@@ -1,4 +1,6 @@
 
+<img src="img/community.png" width=600 />
+
 # A collection of mods for [Octos](https://github.com/underpig1/octos)
 
 [![Build](https://github.com/underpig1/octos-community/actions/workflows/build.yml/badge.svg)](https://github.com/underpig1/octos-community/actions/workflows/build.yml)
@@ -21,6 +23,8 @@ It's as easy as...
 
 ### Simple Audio - By Octos
 Visualize music on the wallpaper. Includes a media player widget for controlling audio on the desktop. Automatically syncs to the current playing media (including YouTube, Spotify, videos, etc.).
+
+[Preview in browser](https://underpig1.github.io/octos-community/src/audio)
 <br>
 <br>
 <br>
@@ -28,6 +32,8 @@ Visualize music on the wallpaper. Includes a media player widget for controlling
 
 ### 3D Car - By Octos
 Customizable car. Left mouse to drag. Right mouse to pan.
+
+[Preview in browser](https://underpig1.github.io/octos-community/src/car)
 <br>
 <br>
 <br>
@@ -35,6 +41,8 @@ Customizable car. Left mouse to drag. Right mouse to pan.
 
 ### Cloudy Day - By Octos
 Animated scrolling clouds with a digital time display. Adapted from mrdoob.
+
+[Preview in browser](https://underpig1.github.io/octos-community/src/clouds)
 <br>
 <br>
 <br>
@@ -42,6 +50,8 @@ Animated scrolling clouds with a digital time display. Adapted from mrdoob.
 
 ### Contraption - By Octos
 A complete physics sandbox, right on your desktop. From cars to bridges, make complex machines and contraptions then let them run wild on your desktop.
+
+[Preview in browser](https://underpig1.github.io/octos-community/src/contraption/index.html)
 <br>
 <br>
 <br>
@@ -49,6 +59,8 @@ A complete physics sandbox, right on your desktop. From cars to bridges, make co
 
 ### Conway - By squiemperor
 A simple mouse-interactive visualization for Conway's Game of Life.
+
+[Preview in browser](https://underpig1.github.io/octos-community/src/conway)
 <br>
 <br>
 <br>
@@ -56,6 +68,8 @@ A simple mouse-interactive visualization for Conway's Game of Life.
 
 ### Fluid
 WebGL fluid simulation, adapted from paveldogreat.
+
+[Preview in browser](https://underpig1.github.io/octos-community/src/fluid/index.html)
 <br>
 <br>
 <br>
@@ -63,6 +77,8 @@ WebGL fluid simulation, adapted from paveldogreat.
 
 ### Mandelbrot - By Octos
 The Mandelbrot set is a computationally-intesive fractal visualized in the complex plane by Benoit Mandelbrot in 1980. Explore it right on your desktop with the power of WebAssembly. Click and drag to zoom.
+
+[Preview in browser](https://underpig1.github.io/octos-community/src/fractal/index.html)
 <br>
 <br>
 <br>
@@ -70,6 +86,8 @@ The Mandelbrot set is a computationally-intesive fractal visualized in the compl
 
 ### Globe - By Octos
 Interactive WebGL Globe.
+
+[Preview in browser](https://underpig1.github.io/octos-community/src/globe)
 <br>
 <br>
 <br>
@@ -77,6 +95,8 @@ Interactive WebGL Globe.
 
 ### Layout - By Octos
 Choose an image/video to set as your wallpaper and customize it with interactive widgets.
+
+[Preview in browser](https://underpig1.github.io/octos-community/src/layout/index.html)
 <br>
 <br>
 <br>
@@ -84,6 +104,8 @@ Choose an image/video to set as your wallpaper and customize it with interactive
 
 ### Eyes on the Solar System
 Explore planets, moons, asteroids, comets, and spacecraft in 3D. From eyes.nasa.gov
+
+[Preview in browser](https://eyes.nasa.gov/apps/solar-system/#/home?featured=false&detailPanel=false&logo=false&search=false&shareButton=false&menu=false&collapseSettingsOptions=true&hideFullScreenToggle=true&hideExternalLinks=true)
 <br>
 <br>
 <br>
@@ -91,6 +113,8 @@ Explore planets, moons, asteroids, comets, and spacecraft in 3D. From eyes.nasa.
 
 ### Notes - By Octos
 A simple whiteboard for note-taking and drawing. Saves content between sessions. Has both light/dark mode.
+
+[Preview in browser](https://underpig1.github.io/octos-community/src/notes/index.html)
 <br>
 <br>
 <br>
@@ -98,6 +122,8 @@ A simple whiteboard for note-taking and drawing. Saves content between sessions.
 
 ### Constellation
 A simple particle animation. Click to add particles.
+
+[Preview in browser](https://underpig1.github.io/octos-community/src/particles)
 <br>
 <br>
 <br>
@@ -105,13 +131,17 @@ A simple particle animation. Click to add particles.
 
 ### Terminal - By Octos
 A digital clock with a live old TV effect and customizable 3D text art.
+
+[Preview in browser](https://underpig1.github.io/octos-community/src/terminal/index.html)
 <br>
 <br>
 <br>
 <img src='images\Terrain-image-img.png' alt='Terrain' width='300px'>
 
 ### Terrain - By Octos
-A nice scrolling terrain. Click to draw.
+Auto-scrolling terrain. Click to draw.
+
+[Preview in browser](https://underpig1.github.io/octos-community/src/terrain)
 <br>
 <br>
 <br>
@@ -119,7 +149,11 @@ A nice scrolling terrain. Click to draw.
 
 ### Webpage - By Octos
 Load any webpage as your wallpaper.
+
+[Preview in browser](https://underpig1.github.io/octos-community/src/webpage)
 <br>
 <br>
 <br>
-Learn more about how to [publish your own mod](https://underpig1.github.io/octos/docs/guides/publish/)
+<hr />
+
+Learn more about [publishing your own mod](https://underpig1.github.io/octos/docs/guides/publish/)
