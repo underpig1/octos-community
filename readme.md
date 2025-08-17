@@ -91,6 +91,15 @@ Interactive WebGL globe.
 <br>
 <br>
 <br>
+<img src='images\Gradient-image-image.png' alt='Gradient' width='300px'>
+
+### Gradient - By Octos
+A simple customizable gradient background with an analog clock.
+
+[Preview in browser](https://underpig1.github.io/octos-community/src/gradient/index.html)
+<br>
+<br>
+<br>
 <img src='images\Layout-image-layout.png' alt='Layout' width='300px'>
 
 ### Layout - By Octos
@@ -120,7 +129,7 @@ A simple whiteboard for note-taking, drawing, and sketching. Saves notes between
 <br>
 <img src='images\Constellation-image-image.png' alt='Constellation' width='300px'>
 
-### Constellation
+### Constellation - By Octos
 A simple particle animation. Click to add particles.
 
 [Preview in browser](https://underpig1.github.io/octos-community/src/particles)

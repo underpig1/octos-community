@@ -98,6 +98,39 @@
         "browserPath": "https://underpig1.github.io/octos-community/src/globe"
     },
     {
+        "author": "Octos",
+        "description": "A simple customizable gradient background with an analog clock.",
+        "entry": "index.html",
+        "image": "image.png",
+        "name": "Gradient",
+        "prefs": {
+            "primary-color": {
+                "label": "Primary color",
+                "type": "color",
+                "value": "#af46ac"
+            },
+            "secondary-color": {
+                "label": "Secondary color",
+                "type": "color",
+                "value": "#8d8ed3"
+            },
+            "speed": {
+                "label": "Scroll speed",
+                "max": "100",
+                "min": "0",
+                "type": "range",
+                "value": "50"
+            }
+        },
+        "preview": "gradient.gif",
+        "include": true,
+        "zipPath": "build\\gradient.zip",
+        "folderPath": "src\\gradient",
+        "imagePath": "images\\Gradient-image-image.png",
+        "previewPath": "images\\Gradient-preview-gradient.gif",
+        "browserPath": "https://underpig1.github.io/octos-community/src/gradient/index.html"
+    },
+    {
         "name": "Layout",
         "entry": "index.html",
         "author": "Octos",
@@ -140,6 +173,7 @@
         "description": "A simple particle animation. Click to add particles.",
         "image": "image.png",
         "preview": "particles.gif",
+        "author": "Octos",
         "zipPath": "build\\particles.zip",
         "folderPath": "src\\particles",
         "imagePath": "images\\Constellation-image-image.png",
