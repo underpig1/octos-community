@@ -43,5 +43,6 @@
             "onchangeload": "onChangeLink"
         }
     },
-    "preview": "particles.gif"
+    "preview": "particles.gif",
+    "author": "Octos"
 }
