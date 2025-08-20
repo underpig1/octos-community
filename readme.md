@@ -148,7 +148,7 @@ A digital clock with a live old TV effect and customizable 3D text art.
 <img src='images\Terrain-image-img.png' alt='Terrain' width='300px'>
 
 ### Terrain - By Octos
-Interactive auto-scrolling terrain with a variety of biomes to choose from. Explore dense forests, deep blue oceans, archipelagos, and more right from your desktop. Click to draw.
+Interactive auto-scrolling terrain with a variety of biomes to choose from. Explore dense forests, deep blue oceans, archipelagos, and more right from your desktop. Double-click and hold down to draw.
 
 [Preview in browser](https://underpig1.github.io/octos-community/src/terrain/index.html)
 <br>
