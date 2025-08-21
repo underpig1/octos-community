@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Three.js Cube with OrbitControls (ESM)</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+    }
+  </style>
+  <!-- Import map to define module paths -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.155.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x222222);
+
+    const camera = new THREE.PerspectiveCamera(
+      30, window.innerWidth / window.innerHeight, 0.01, 1000
+    );
+    camera.position.set(-2, 2, -5);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    const cubeTransforms = [];
+
+    function createCube(size, x, y, z) {
+      cubeTransforms.push({ size, x, y, z });
+    }
+
+    function createPlane(size, x, y, z) {
+      const geometry = new THREE.PlaneGeometry(size, size, 3, 3);
+      const material = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xffffff, emissiveIntensity: .15 });
+      const plane = new THREE.Mesh(geometry, material);
+      plane.rotation.x = - Math.PI / 2;
+      plane.position.set(x, y, z);
+      scene.add(plane);
+      return plane;
+    }
+
+    //fractal cubes start
+    cubeTransforms.length = 0;
+
+    createPlane(3, 0, -1.5, 0);
+    cubePyramid(1, 0, -1, 0, "pY", 6);
+
+    let filteredTransforms = cubeTransforms.filter(cube => cube.y >= -1.5);
+    //let filteredTransforms = cubeTransforms;
+
+    //octos settings
+    function updateFractalColor(color) {
+      instancedMesh.material.color.set(color);
+    }
+    window.updateFractalColor = updateFractalColor;
+    function updateBackgroundColor(color) {
+      scene.background.set(color);
+    }
+    window.updateBackgroundColor = updateBackgroundColor;
+    function updateRotSpeed(n) {
+      controls.autoRotateSpeed = n;
+    }
+    window.updateRotSpeed = updateRotSpeed;
+    function updateZoomDuration(n) {
+      zoomPeriod = n;
+      startTime = performance.now();
+    }
+    window.updateZoomDuration = updateZoomDuration;
+
+    const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+    const boxMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
+    const instancedMesh = new THREE.InstancedMesh(boxGeometry, boxMaterial, filteredTransforms.length);
+    for (let i = 0; i < filteredTransforms.length; i++) {
+      const { size, x, y, z } = filteredTransforms[i];
+      const matrix = new THREE.Matrix4();
+      matrix.makeScale(size, size, size);
+      matrix.setPosition(x, y, z);
+      instancedMesh.setMatrixAt(i, matrix);
+    }
+    scene.add(instancedMesh);
+
+    function cubePyramid(size, x, y, z, dir, n) {
+      if (n === 0) return;
+
+      createCube(size, x, y, z);
+
+      //6 on sides
+      cubePyramid(size / 3, x, y - size * 2 / 3, z, "nY", n - 1);
+      if (n == 5 && size == 1 / 3 && x == 0) //make smaller top layer higher res
+        //if (n == 6 && size == 1) //make top layer
+        cubePyramid(size / 3, x, y + size * 2 / 3, z, "pY", n);
+      else
+        cubePyramid(size / 3, x, y + size * 2 / 3, z, "pY", n - 1);
+      cubePyramid(size / 3, x, y, z - size * 2 / 3, "nZ", n - 1);
+      cubePyramid(size / 3, x, y, z + size * 2 / 3, "pZ", n - 1);
+      cubePyramid(size / 3, x - size * 2 / 3, y, z, "nX", n - 1);
+      cubePyramid(size / 3, x + size * 2 / 3, y, z, "pX", n - 1);
+
+      //8 on same plane as it
+      for (let a = -1; a <= 1; a += 1) {
+        for (let b = -1; b <= 1; b += 1) {
+          if (a !== 0 || b !== 0) {
+            switch (dir) {
+              case "pY":
+                cubePyramid(size / 3, x + a * size, y - size * 1 / 3, z + b * size, "pY", n - 1);
+                break;
+              case "nY":
+                cubePyramid(size / 3, x + a * size, y + size * 1 / 3, z + b * size, "nY", n - 1);
+                break;
+              case "pZ":
+                cubePyramid(size / 3, x + a * size, y + b * size, z - size * 1 / 3, "pZ", n - 1);
+                break;
+              case "nZ":
+                cubePyramid(size / 3, x + a * size, y + b * size, z + size * 1 / 3, "nZ", n - 1);
+                break;
+              case "pX":
+                cubePyramid(size / 3, x - size * 1 / 3, y + a * size, z + b * size, "pX", n - 1);
+                break;
+              case "nX":
+                cubePyramid(size / 3, x + size * 1 / 3, y + a * size, z + b * size, "nX", n - 1);
+                break;
+            }
+            //pyramid(size / 3, x + a, y + b, z, dir, n - 1);
+          }
+        }
+      }
+
+    }
+
+    // Lighting
+    const light = new THREE.DirectionalLight(0xffffff, 3);
+    light.position.set(3, 5, 4);
+    scene.add(light);
+
+    const ambientLight = new THREE.AmbientLight(0x404040, 5);
+    scene.add(ambientLight);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.target.set(0, 0, 0);
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.0;
+    controls.enablePan = false;
+    controls.minPolarAngle = THREE.MathUtils.degToRad(80);
+    controls.maxPolarAngle = THREE.MathUtils.degToRad(120);
+    controls.update();
+
+    //infinite zoom
+    const startTime = performance.now();
+    const startDistance = camera.position.distanceTo(controls.target);
+    const endDistance = .2;
+    const duration = 5; // seconds
+
+    function zoomEquation2(t) { //no zoom, just swap btwn min and max
+      const d0 = 2;         // initial distance
+      const s = 1 / 3;         // scale factor of fractal
+      const d1 = s * d0;     // calculated distance for same apparent size
+      const period = 1;      // seconds per snap
+
+      const cycle = Math.floor(t / period) % 2;
+
+      return cycle === 0 ? d0 : d1;
+    }
+
+    let zoomPeriod = 4;
+    function zoomEquation(t) {
+      const d0 = 4;         // initial distance
+      const s = 1 / 3;      // fractal scale factor (target zoom factor)
+      
+      const k = -Math.log(s) / zoomPeriod; // decay constant for zoom to reach 's' at end of period
+
+      const tau = t % zoomPeriod;
+      const distance = d0 * Math.exp(-k * tau);
+
+      return distance;
+    }
+
+    function zoomIn() {
+      //cam direction
+      const direction = new THREE.Vector3()
+        .subVectors(camera.position, controls.target)
+        .normalize();
+      //current zoom dist
+      const elapsed = (performance.now() - startTime) / 1000;
+      const distance = zoomEquation(elapsed);
+      //new cam dist
+      const newPosition = direction.multiplyScalar(distance).add(controls.target);
+      camera.position.copy(newPosition);
+    }
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      zoomIn();
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+</body>
+
+</html>

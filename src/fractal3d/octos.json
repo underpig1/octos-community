@@ -1,0 +1,39 @@
+{
+    "name": "3D Fractal Zoom",
+    "author": "squiemperor",
+    "description": "Infinite 3D fractal zoom. Double-click and drag to rotate.",
+    "preview": "image.png",
+    "image": "image.png",
+    "options": {
+        "rotSpeed": {
+            "label": "Rotation speed:",
+            "type": "range",
+            "value": 1,
+            "step": 1,
+            "min": 0,
+            "max": 20,
+            "onchangeload": "window.updateRotSpeed"
+        },
+        "zoomDuration": {
+            "label": "Zoom duration:",
+            "type": "range",
+            "value": 10,
+            "step": 0.1,
+            "min": 1,
+            "max": 10,
+            "onchangeload": "window.updateZoomDuration"
+        },
+        "fractalColor": {
+            "label": "Pyramid color:",
+            "type": "color-picker",
+            "value": "#ff0000",
+            "onchangeload": "window.updateFractalColor"
+        },
+        "backgroundColor": {
+            "label": "Background color:",
+            "type": "color-picker",
+            "value": "#00fffb",
+            "onchangeload": "window.updateBackgroundColor"
+        }
+    }
+}

@@ -8,7 +8,7 @@
             "type": "text",
             "label": "URL:",
             "onchange": "(value) => { if (!/^https?:\\/\\//i.test(value)) { value = 'https://' + value; } window.location.href = value; }",
-            "value": "https://www.wikipedia.com"
+            "value": "https://www.youtube.com"
         }
     }
 }
