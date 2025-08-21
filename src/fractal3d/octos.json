@@ -2,7 +2,7 @@
     "name": "3D Fractal Zoom",
     "author": "squiemperor",
     "description": "Infinite 3D fractal zoom. Double-click and drag to rotate.",
-    "preview": "image.png",
+    "preview": "fractal3d.gif",
     "image": "image.png",
     "options": {
         "rotSpeed": {
