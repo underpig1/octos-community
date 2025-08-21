@@ -82,6 +82,15 @@ The Mandelbrot set is a fractal in the complex plane originally visualized by Be
 <br>
 <br>
 <br>
+<img src='images\3D Fractal Zoom-image-image.png' alt='3D Fractal Zoom' width='300px'>
+
+### 3D Fractal Zoom - By squiemperor
+Infinite 3D fractal zoom. Double-click and drag to rotate.
+
+[Preview in browser](https://underpig1.github.io/octos-community/src/fractal3d)
+<br>
+<br>
+<br>
 <img src='images\Globe-image-image.png' alt='Globe' width='300px'>
 
 ### Globe - By Octos
