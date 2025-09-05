@@ -1,0 +1,8 @@
+{
+    "name": "Harmonic Rain",
+    "description": "Falling balls reflect off user-drawn strings to create piano-like tones.",
+    "entry": "index.html",
+    "version": "1.0.0",
+    "author": "Clockworked",
+    "preview": "preview.gif"
+}
