@@ -38,6 +38,7 @@ export class InputManager {
       if (sp) {
         sp.x = this.mouse.x - this.spawnerDragOffset.x;
         sp.y = this.mouse.y - this.spawnerDragOffset.y;
+        if (window.harmonicRainSaveState) window.harmonicRainSaveState();
       }
     }
     
@@ -49,6 +50,7 @@ export class InputManager {
         const dy = this.mouse.y - this.dragStart.mouse.y;
         s.a = { x: this.dragStart.a.x + dx, y: this.dragStart.a.y + dy };
         s.b = { x: this.dragStart.b.x + dx, y: this.dragStart.b.y + dy };
+        if (window.harmonicRainSaveState) window.harmonicRainSaveState();
       }
     }
     
@@ -130,12 +132,14 @@ export class InputManager {
         // Toggle enabled on short click
         sp.enabled = !sp.enabled;
       }
+      if (window.harmonicRainSaveState) window.harmonicRainSaveState();
       return;
     }
     
     if (this.gameState.draggingHandle) {
       this.gameState.draggingHandle = null;
       this.canvas.style.cursor = 'default';
+      if (window.harmonicRainSaveState) window.harmonicRainSaveState();
       return;
     }
     
@@ -143,6 +147,7 @@ export class InputManager {
       this.draggingStringIndex = -1;
       this.dragStart = null;
       this.canvas.style.cursor = 'default';
+      if (window.harmonicRainSaveState) window.harmonicRainSaveState();
       return;
     }
     
@@ -156,6 +161,7 @@ export class InputManager {
           tune: 0, 
           impulses: [] 
         });
+        if (window.harmonicRainSaveState) window.harmonicRainSaveState();
       }
       this.gameState.isPlacingString = false;
       this.gameState.tempStringStart = null;
@@ -229,6 +235,7 @@ export class InputManager {
     }
     if (bestIdx >= 0 && bestDist <= CONFIG.DELETE_THRESHOLD) {
       this.gameState.strings.splice(bestIdx, 1);
+      if (window.harmonicRainSaveState) window.harmonicRainSaveState();
     }
   }
 
@@ -346,10 +353,10 @@ export class InputManager {
   }
 
   addSpawnerAt(x, y) {
-    const defaultInterval = CONFIG.SPAWN_INTERVAL_MS;
-    this.gameState.spawners.push({ x, y, intervalMs: defaultInterval, phaseMs: 0, emittedCount: -1 });
-    // Exit add mode after placing one spawner
-    this.gameState.addSpawnerMode = false;
-    this.canvas.style.cursor = 'default';
+  const defaultInterval = CONFIG.SPAWN_INTERVAL_MS;
+  this.gameState.spawners.push({ x, y, intervalMs: defaultInterval, phaseMs: 0, emittedCount: -1 });
+  // Remain in add mode until user toggles it off
+  this.canvas.style.cursor = 'copy';
+  if (window.harmonicRainSaveState) window.harmonicRainSaveState();
   }
 }

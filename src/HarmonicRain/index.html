@@ -171,15 +171,8 @@
                 </svg>
             </button>
 
-            <!-- Help -->
-            <button id="btn-help" class="btn" title="Help (H)">
-                <span class="iconify icon" data-icon="mdi:help-circle-outline"></span>
-            </button>
-
             <!-- Color mode toggle (paint brush) -->
-            <button id="btn-color" class="btn" title="Color mode">
-                <span class="iconify icon" data-icon="mdi:brush"></span>
-            </button>
+            <!-- Color mode toggle moved to options -->
 
             <!-- Add Spawner -->
             <button id="btn-add-spawner" class="btn" title="Add spawner (click to place)">
@@ -200,29 +193,48 @@
                         </div>
                     </div>
                     <div>
-                        <label for="opt-spawn">Spawn interval (ms)</label>
+                        <label for="opt-spawn">Ball spawn interval (ms)</label>
                         <div class="row">
                             <input id="opt-spawn" type="range" min="100" max="2000" step="50" value="1000" />
                             <span id="opt-spawn-val">1000</span>
                         </div>
                     </div>
                     <div>
-                        <label for="opt-intensity">Visual intensity (%)</label>
+                        <label for="opt-intensity">Vibration (%)</label>
                         <div class="row">
                             <input id="opt-intensity" type="range" min="0" max="200" step="5" value="20" />
                             <span id="opt-intensity-val">20%</span>
                         </div>
                     </div>
+                    <div>
+                        <label for="opt-color-mode" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                            <input id="opt-color-mode" type="checkbox" style="accent-color:#2196f3;" />
+                            <span>Color mode</span>
+                        </label>
+                    </div>
                 </div>
             </div>
+            <!-- Help -->
+            <button id="btn-help" class="btn" title="Help (H)">
+                <span class="iconify icon" data-icon="mdi:help-circle-outline"></span>
+            </button>
         </div>
     </div>
-    <canvas id="scene"></canvas>
-    <script type="module" src="js/main.js"></script>
+
+        <canvas id="scene"></canvas>
+
+
+    <!-- Unmute popup (hidden by default, direct child of body) -->
+    <div id="unmute-popup" style="display:none;position:fixed;bottom:64px;right:24px;z-index:1000;background:rgba(255,255,255,0.08);color:#fff;padding:7px 14px 7px 14px;border:1px solid rgba(255,255,255,0.2);border-radius:8px;box-shadow:0 4px 24px #0008;font:14px system-ui,sans-serif;max-width:320px;line-height:1.5;backdrop-filter:blur(4px);display:inline-block;">
+        <span id="unmute-popup-text">Click anywhere to unmute sound</span>
+        <button id="unmute-popup-close" style="background:none;border:none;color:#fff;font-size:18px;cursor:pointer;padding:0 0 0 4px;line-height:1;display:inline;vertical-align:middle;">&times;</button>
+    </div>
+
+        <script type="module" src="js/main.js"></script>
 
     <!-- Minimal help overlay (toggle with H later if needed) -->
-    <div id="help" style="position:fixed;left:12px;bottom:12px;font:12px system-ui, sans-serif;color:#fff;opacity:.6">
-        Double-click: delete string · Drag: create string · Grab center to move string · Drag spawner to move
+    <div id="help" style="position:fixed;left:12px;top:12px;font:12px system-ui, sans-serif;color:#fff;opacity:.6">
+        
     </div>
 </body>
 

@@ -15,7 +15,7 @@ export const CONFIG = {
   
   // Visual
   VISUAL_INTENSITY: 0.2,
-  COLOR_MODE_ENABLED: false,
+  COLOR_MODE_ENABLED: true,
   // Bright modern 12-step hue palette (C..B)
   COLOR_HUES_12: [
     200, // C  - cyan

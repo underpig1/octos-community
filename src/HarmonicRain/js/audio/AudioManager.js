@@ -13,11 +13,17 @@ export class AudioManager {
   }
 
   ensureAudio() {
-    if (this.started) return;
-    
+    if (this.started) {
+      // If context was suspended and is now running, always re-apply mute state
+      if (this.ctx && this.ctx.state === 'running') {
+        this.setMuted(this.muted);
+      }
+      return;
+    }
+
     const AC = window.AudioContext || window.webkitAudioContext;
     this.ctx = new AC();
-    
+
     // Simple dynamics
     this.limiter = this.ctx.createDynamicsCompressor();
     this.limiter.threshold.value = -12;
@@ -55,10 +61,8 @@ export class AudioManager {
     this.reverb = delay; // entry point for effect send
     this.started = true;
 
-    // Apply mute state if toggled before init
-    if (this.muted) {
-      this.master.gain.value = 0.0;
-    }
+    // Always apply mute state after context creation
+    this.setMuted(this.muted);
   }
 
   triggerPianoLike(frequencyHz, velocity = 0.6, panPosition = 0) {

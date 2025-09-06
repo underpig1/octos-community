@@ -2,30 +2,58 @@ import { CONFIG } from '../config.js';
 
 export class GameState {
   constructor() {
-    // Spawners state (multi-spawner)
-    this.spawners = [
-      { x: window.innerWidth / 2, y: 40, intervalMs: CONFIG.SPAWN_INTERVAL_MS, phaseMs: 0, emittedCount: -1, enabled: true }
-    ];
+    // Try to restore state from localStorage
+    let restored = false;
+    try {
+      const raw = localStorage.getItem('harmonicRainFullState');
+      if (raw) {
+        const state = JSON.parse(raw);
+        let nowMs = 0;
+        if (typeof state.gameTimeMs === 'number') {
+          this.gameTimeMs = state.gameTimeMs;
+          nowMs = state.gameTimeMs;
+        } else {
+          this.gameTimeMs = 0;
+        }
+        if (Array.isArray(state.spawners)) {
+          this.spawners = state.spawners.map(s => {
+            const interval = Math.max(1, s.intervalMs || 1);
+            const phase = s.phaseMs || 0;
+            // Set emittedCount so spawning resumes immediately
+            const emittedCount = Math.floor((nowMs - phase) / interval) - 1;
+            return {
+              ...s,
+              emittedCount
+            };
+          });
+          restored = true;
+        }
+        if (Array.isArray(state.strings)) {
+          this.strings = state.strings.map(s => ({...s}));
+        } else {
+          this.strings = [];
+        }
+        if (typeof state.helpVisible === 'boolean') this.helpVisible = state.helpVisible;
+        else this.helpVisible = true;
+      }
+    } catch (e) {}
+    if (!restored) {
+      // Spawners state (multi-spawner)
+      this.spawners = [
+        { x: window.innerWidth / 2, y: 40, intervalMs: CONFIG.SPAWN_INTERVAL_MS, phaseMs: 0, emittedCount: -1, enabled: true }
+      ];
+      this.strings = [];
+      this.helpVisible = true;
+    }
     this.hoveredSpawnerIndex = -1;
     this.draggingSpawnerIndex = -1;
     this.addSpawnerMode = false;
     this.gameTimeMs = 0;
-    
-    // String state
-    this.strings = []; // {a:{x,y}, b:{x,y}, tune?:number, impulses?:[]}
     this.isPlacingString = false;
     this.tempStringStart = null; // {x,y}
-    
-    // Interaction state for strings
     this.hoveredStringIndex = -1;
     this.hoveredHandle = null; // { index:number, endpoint:'a'|'b' }
     this.draggingHandle = null; // { index:number, endpoint:'a'|'b' }
-    
-    // Help state
-    this.helpVisible = true;
-    
-    // Legacy global spawn timing removed; each spawner owns its own time
-    
     // Renderer reference (set after construction)
     this.renderer = null;
   }

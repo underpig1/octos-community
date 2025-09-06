@@ -190,6 +190,10 @@ export class Renderer {
       // Scale by collision strength
       pulseAlpha *= Math.max(0, Math.min(1, s.colorPulse.strength || 1));
       pulseHue = s.colorPulse.hue || 0;
+    } else {
+      // No color pulse: always white
+      pulseAlpha = 0;
+      pulseHue = 0;
     }
 
     for (let li = 0; li < layers.length; li++) {
