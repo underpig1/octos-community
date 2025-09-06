@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Harmonic Rain</title>
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            color: #fff;
+            user-select: none;
+            overflow: hidden;
+            cursor: crosshair;
+        }
+
+        canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* Controls (top-right) */
+        #controls {
+            position: fixed;
+            top: 12px;
+            right: 12px;
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+            font: 12px system-ui, sans-serif;
+        }
+
+        #controls .group {
+            position: relative;
+            display: flex;
+            gap: 8px;
+        }
+
+        #controls .btn {
+            width: 36px;
+            height: 36px;
+            display: grid;
+            place-items: center;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease, transform 0.05s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        #controls .btn:hover {
+            background: rgba(255, 255, 255, 0.16);
+            border-color: rgba(255, 255, 255, 0.35);
+        }
+
+        #controls .btn:active {
+            transform: translateY(1px);
+        }
+
+        #controls .btn.active {
+            background: rgba(255, 255, 255, 0.22);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        #controls .icon,
+        #controls svg {
+            width: 20px;
+            height: 20px;
+            color: #fff;
+            fill: #fff;
+        }
+
+        /* Options panel */
+        #options-panel {
+            position: absolute;
+            top: 44px;
+            right: 0;
+            background: rgba(20, 20, 20, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 10px 12px;
+            min-width: 240px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            display: none;
+        }
+
+        #options-panel label {
+            display: block;
+            font-size: 12px;
+            opacity: 0.8;
+            margin: 8px 0 4px 0;
+        }
+
+        #options-panel input[type="range"],
+        #options-panel input[type="number"] {
+            width: 100%;
+        }
+
+        #options-panel .row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Animated icons */
+        .mute-icon .waves {
+            opacity: 1;
+            transition: opacity 0.2s ease;
+        }
+
+        .mute-icon.muted .waves {
+            opacity: 0;
+        }
+
+        .mute-icon .slash {
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .mute-icon.muted .slash {
+            opacity: 1;
+        }
+
+        @keyframes spin-once {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .reset-icon.spin {
+            animation: spin-once 0.6s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="controls">
+        <div class="group">
+            <!-- Mute (animated SVG) -->
+            <button id="btn-mute" class="btn" title="Mute (M)">
+                <svg class="mute-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <!-- Speaker -->
+                    <path d="M3 9v6h4l5 4V5L7 9H3z" />
+                    <!-- Waves -->
+                    <g class="waves">
+                        <path d="M14.5 8.5a4 4 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="1.5" />
+                        <path d="M16.5 6.5a7 7 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.5" />
+                    </g>
+                    <!-- Slash for mute -->
+                    <path class="slash" d="M4 4L20 20" fill="none" stroke="currentColor" stroke-width="2" />
+                </svg>
+            </button>
+
+            <!-- Reset (animated spin) -->
+            <button id="btn-reset" class="btn" title="Reset (R)">
+                <svg class="reset-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M12 6V2L7 7l5 5V8a4 4 0 1 1-4 4H6a6 6 0 1 0 6-6z" />
+                </svg>
+            </button>
+
+            <!-- Color mode toggle (paint brush) -->
+            <!-- Color mode toggle moved to options -->
+
+            <!-- Add Spawner -->
+            <button id="btn-add-spawner" class="btn" title="Add spawner (click to place)">
+                <span class="iconify icon" data-icon="mdi:plus-circle-outline"></span>
+            </button>
+
+            <!-- Options dropdown -->
+            <div class="group">
+                <button id="btn-options" class="btn" title="Options">
+                    <span class="iconify icon" data-icon="mdi:cog-outline"></span>
+                </button>
+                <div id="options-panel">
+                    <div>
+                        <label for="opt-gravity">Gravity (px/s²)</label>
+                        <div class="row">
+                            <input id="opt-gravity" type="range" min="200" max="2000" step="10" value="980" />
+                            <span id="opt-gravity-val">980</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="opt-spawn">Ball spawn interval (ms)</label>
+                        <div class="row">
+                            <input id="opt-spawn" type="range" min="100" max="2000" step="50" value="1000" />
+                            <span id="opt-spawn-val">1000</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="opt-intensity">Vibration (%)</label>
+                        <div class="row">
+                            <input id="opt-intensity" type="range" min="0" max="200" step="5" value="20" />
+                            <span id="opt-intensity-val">20%</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="opt-color-mode" style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                            <input id="opt-color-mode" type="checkbox" style="accent-color:#2196f3;" />
+                            <span>Color mode</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <!-- Help -->
+            <button id="btn-help" class="btn" title="Help (H)">
+                <span class="iconify icon" data-icon="mdi:help-circle-outline"></span>
+            </button>
+        </div>
+    </div>
+
+        <canvas id="scene"></canvas>
+
+
+    <!-- Unmute popup (hidden by default, direct child of body) -->
+    <div id="unmute-popup" style="display:none;position:fixed;bottom:64px;right:24px;z-index:1000;background:rgba(255,255,255,0.08);color:#fff;padding:7px 14px 7px 14px;border:1px solid rgba(255,255,255,0.2);border-radius:8px;box-shadow:0 4px 24px #0008;font:14px system-ui,sans-serif;max-width:320px;line-height:1.5;backdrop-filter:blur(4px);display:inline-block;">
+        <span id="unmute-popup-text">Click anywhere to unmute sound</span>
+        <button id="unmute-popup-close" style="background:none;border:none;color:#fff;font-size:18px;cursor:pointer;padding:0 0 0 4px;line-height:1;display:inline;vertical-align:middle;">&times;</button>
+    </div>
+
+        <script type="module" src="js/main.js"></script>
+
+    <!-- Minimal help overlay (toggle with H later if needed) -->
+    <div id="help" style="position:fixed;left:12px;top:12px;font:12px system-ui, sans-serif;color:#fff;opacity:.6">
+        
+    </div>
+</body>
+
+</html>
