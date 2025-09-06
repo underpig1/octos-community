@@ -143,6 +143,21 @@
         "browserPath": "https://underpig1.github.io/octos-community/src/gradient/index.html"
     },
     {
+        "name": "Harmonic Rain",
+        "description": "Falling balls reflect off user-drawn strings to create piano-like tones.",
+        "entry": "index.html",
+        "version": "1.0.0",
+        "author": "Clockworked",
+        "preview": "preview.gif",
+        "image": "image.png",
+        "authorsite": "https://github.com/clock-worked",
+        "zipPath": "build\\HarmonicRain.zip",
+        "folderPath": "src\\HarmonicRain",
+        "imagePath": "images\\Harmonic Rain-image-image.png",
+        "previewPath": "images\\Harmonic Rain-preview-preview.gif",
+        "browserPath": "https://underpig1.github.io/octos-community/src/HarmonicRain/index.html"
+    },
+    {
         "name": "Layout",
         "entry": "index.html",
         "author": "Octos",

@@ -109,6 +109,15 @@ A simple customizable gradient background with an analog clock.
 <br>
 <br>
 <br>
+<img src='images\Harmonic Rain-image-image.png' alt='Harmonic Rain' width='300px'>
+
+### Harmonic Rain - By Clockworked
+Falling balls reflect off user-drawn strings to create piano-like tones.
+
+[Preview in browser](https://underpig1.github.io/octos-community/src/HarmonicRain/index.html)
+<br>
+<br>
+<br>
 <img src='images\Layout-image-layout.png' alt='Layout' width='300px'>
 
 ### Layout - By Octos
