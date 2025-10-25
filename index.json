@@ -61,6 +61,20 @@
         "browserPath": "https://underpig1.github.io/octos-community/src/conway"
     },
     {
+        "name": "Dynamic Geometry",
+        "author": "SquiEmperor",
+        "description": "Neon lights and patterns.",
+        "authorsite": "https://github.com/reidg03",
+        "version": "1.0",
+        "preview": "preview.png",
+        "image": "preview.png",
+        "zipPath": "build\\dynamicGeometry.zip",
+        "folderPath": "src\\dynamicGeometry",
+        "imagePath": "images\\Dynamic Geometry-image-preview.png",
+        "previewPath": "images\\Dynamic Geometry-preview-preview.png",
+        "browserPath": "https://underpig1.github.io/octos-community/src/dynamicGeometry"
+    },
+    {
         "name": "Fluid",
         "description": "WebGL fluid simulation, adapted from paveldogreat.",
         "entry": "index.html",
@@ -183,6 +197,20 @@
         "browserPath": "https://eyes.nasa.gov/apps/solar-system/#/home?featured=false&detailPanel=false&logo=false&search=false&shareButton=false&menu=false&collapseSettingsOptions=true&hideFullScreenToggle=true&hideExternalLinks=true"
     },
     {
+        "name": "Neon Shapes",
+        "author": "SquiEmperor",
+        "description": "Neon lights and patterns.",
+        "authorsite": "https://github.com/reidg03",
+        "version": "1.0",
+        "preview": "preview.png",
+        "image": "preview.png",
+        "zipPath": "build\\neonShapes.zip",
+        "folderPath": "src\\neonShapes",
+        "imagePath": "images\\Neon Shapes-image-preview.png",
+        "previewPath": "images\\Neon Shapes-preview-preview.png",
+        "browserPath": "https://underpig1.github.io/octos-community/src/neonShapes"
+    },
+    {
         "name": "Notes",
         "author": "Octos",
         "description": "A simple whiteboard for note-taking, drawing, and sketching. Saves notes between sessions and adapts for both light and dark themes.",
@@ -206,6 +234,20 @@
         "imagePath": "images\\Constellation-image-image.png",
         "previewPath": "images\\Constellation-preview-particles.gif",
         "browserPath": "https://underpig1.github.io/octos-community/src/particles"
+    },
+    {
+        "name": "Simple Mountains",
+        "author": "SquiEmperor",
+        "description": "Simple scrolling mountain landscape.",
+        "authorsite": "https://github.com/reidg03",
+        "version": "nope",
+        "preview": "preview.png",
+        "image": "preview.png",
+        "zipPath": "build\\scrollingMountains.zip",
+        "folderPath": "src\\scrollingMountains",
+        "imagePath": "images\\Simple Mountains-image-preview.png",
+        "previewPath": "images\\Simple Mountains-preview-preview.png",
+        "browserPath": "https://underpig1.github.io/octos-community/src/scrollingMountains"
     },
     {
         "name": "Terminal",

@@ -64,6 +64,15 @@ A simple interactive visualization for Conway's Game of Life.
 <br>
 <br>
 <br>
+<img src='images\Dynamic Geometry-image-preview.png' alt='Dynamic Geometry' width='300px'>
+
+### Dynamic Geometry - By SquiEmperor
+Neon lights and patterns.
+
+[Preview in browser](https://underpig1.github.io/octos-community/src/dynamicGeometry)
+<br>
+<br>
+<br>
 <img src='images\Fluid-image-image.png' alt='Fluid' width='300px'>
 
 ### Fluid
@@ -136,6 +145,15 @@ Explore planets, moons, asteroids, comets, and spacecraft in 3D. From eyes.nasa.
 <br>
 <br>
 <br>
+<img src='images\Neon Shapes-image-preview.png' alt='Neon Shapes' width='300px'>
+
+### Neon Shapes - By SquiEmperor
+Neon lights and patterns.
+
+[Preview in browser](https://underpig1.github.io/octos-community/src/neonShapes)
+<br>
+<br>
+<br>
 <img src='images\Notes-image-image.png' alt='Notes' width='300px'>
 
 ### Notes - By Octos
@@ -151,6 +169,15 @@ A simple whiteboard for note-taking, drawing, and sketching. Saves notes between
 A simple particle animation. Click to add particles.
 
 [Preview in browser](https://underpig1.github.io/octos-community/src/particles)
+<br>
+<br>
+<br>
+<img src='images\Simple Mountains-image-preview.png' alt='Simple Mountains' width='300px'>
+
+### Simple Mountains - By SquiEmperor
+Simple scrolling mountain landscape.
+
+[Preview in browser](https://underpig1.github.io/octos-community/src/scrollingMountains)
 <br>
 <br>
 <br>
