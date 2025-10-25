@@ -1,0 +1,20 @@
+{
+    "name": "Simple Mountains",
+    "author": "SquiEmperor",
+    "description": "Simple scrolling mountain landscape.",
+    "authorsite": "https://github.com/reidg03",
+    "version": "nope",
+    "preview": "preview.png",
+    "image": "preview.png",
+    "options": {
+        "scrollSpeed": {
+            "label": "Scroll speed:",
+            "type": "range",
+            "value": 1,
+            "step": 1,
+            "min": 0,
+            "max": 10,
+            "onchangeload": "window.updateScrollSpeed"
+        }
+    }
+}

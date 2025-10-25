@@ -1,0 +1,59 @@
+{
+    "name": "Neon Shapes",
+    "author": "SquiEmperor",
+    "description": "Neon lights and patterns.",
+    "authorsite": "https://github.com/reidg03",
+    "version": "1.0",
+    "preview": "preview.png",
+    "image": "preview.png",
+    "options": {
+        "colorScheme": { "type": "select", 
+            "label": "Color Scheme:", 
+            "options": ["Custom", "Rainbow"],
+            "value": "Custom",
+            "onchangeload": "window.updateColorScheme"
+        },
+        "color": {
+            "label": "Custom color:",
+            "type": "color-picker",
+            "value": "#4d99e6",
+            "onchangeload": "window.updateCustomColor"
+        },
+        "brightness": {
+            "label": "Brightness:",
+            "type": "range",
+            "value": 1,
+            "step": 0.1,
+            "min": 0,
+            "max": 1,
+            "onchangeload": "window.updateBrightness"
+        },
+        "complexity": {
+            "label": "Complexity:",
+            "type": "range",
+            "value": 2,
+            "step": 1,
+            "min": 1,
+            "max": 5,
+            "onchangeload": "window.updateComplexity"
+        },
+        "tweak1": {
+            "label": "Tweak 1:",
+            "type": "range",
+            "value": 1.3,
+            "step": 0.1,
+            "min": 0,
+            "max": 2,
+            "onchangeload": "window.updateTweak1"
+        },
+        "tweak2": {
+            "label": "Tweak 2:",
+            "type": "range",
+            "value": 0.5,
+            "step": 0.1,
+            "min": 0,
+            "max": 1,
+            "onchangeload": "window.updateTweak2"
+        }
+    }
+}
