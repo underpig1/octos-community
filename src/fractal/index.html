@@ -41,6 +41,12 @@
             z-index: 10;
         }
 
+        #lockView {
+            right: unset;
+            opacity: 0.5;
+            left: 40px;
+        }
+
         #copyCanvas {
             pointer-events: none;
             display: none;
@@ -58,6 +64,7 @@
     <canvas id="canvas"></canvas>
     <canvas id="copyCanvas"></canvas>
     <div id="overlay"></div>
+    <button id="lockView">Lock View</button>
     <button id="resetZoom">Reset Zoom</button>
     <script src="./mandelbrot.js"></script>
     <button id="info" onclick="window.open('https://github.com/underpig1/octos-community/tree/master/src/fractal', '_blank');">?</button>
@@ -77,7 +84,9 @@
             let scale = 3.0;
             const initialScale = 3.0;
             const initialCenter = { x: -0.5, y: 0 };
+            let locked = false
 
+            const lockViewBtn = document.getElementById("lockView");
             const resetBtn = document.getElementById("resetZoom");
 
             function updateResetButton() {
@@ -172,6 +181,7 @@
             const overlay = document.getElementById('overlay');
 
             canvas.addEventListener('mousedown', e => {
+                if (locked) return;
                 overlay.style.transform = 'none'
                 dragging = true;
                 dragStart = { x: e.clientX, y: e.clientY };
@@ -183,7 +193,8 @@
                 overlay.style.opacity = 0;
             });
 
-            canvas.addEventListener('mousemove', e => {
+            document.addEventListener('mousemove', e => {
+                if (locked) return;
                 if (!dragging) return;
                 dragEnd = { x: e.clientX, y: e.clientY };
                 const x = Math.min(dragStart.x, dragEnd.x);
@@ -195,7 +206,7 @@
                 overlay.style.opacity = 1;
             });
 
-            canvas.addEventListener('mouseup', e => {
+            document.addEventListener('mouseup', e => {
                 if (!dragging) return;
                 dragging = false;
                 // overlay.style.display = 'none';
@@ -300,12 +311,24 @@
                 updateResetButton();
             }
 
-            resetBtn.addEventListener('click', () => {
+            resetBtn.addEventListener('click', (e) => {
                 // center = { ...initialCenter };
                 // scale = initialScale;
                 console.log('dezooming');
                 zoomTo(initialCenter.x, initialCenter.y, initialScale);
                 // render();
+            });
+            lockViewBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                lockViewBtn.style.display = 'block';
+                locked = !locked
+                if (locked) {
+                    lockViewBtn.innerText = 'Unlock View'
+                    lockViewBtn.style.opacity = 1;
+                } else {
+                    lockViewBtn.innerText = 'Lock View'
+                    lockViewBtn.style.opacity = 0.5;
+                }
             });
 
             window.addEventListener('resize', () => {
