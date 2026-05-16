@@ -1,0 +1,120 @@
+@font-face {
+    font-family: 'Roboto Flex';
+    src: url('assets/RobotoFlex.woff2') format('woff2-variations');
+    src: url('assets/RobotoFlex.woff2') format('woff2') tech('variations');
+    font-weight: 100 1000;
+    font-stretch: 25% 151%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+
+    /* Variables */
+    --font-sans-serif: 'Roboto Flex', Arial, Helvetica, sans-serif;
+    --font-serif: 'Times New Roman', Times, serif;
+}
+
+body #background {
+    position: relative;
+    height: 100%;
+    background: url('assets/BG.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+#background .content {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+.content .centre {
+    position: relative;
+    display: inline-block;
+    top: 16%;
+    line-height: 1;
+}
+
+.centre #status {
+    text-align: right;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: antiquewhite;
+    mix-blend-mode: soft-light;
+}
+
+.centre #time {
+    font-family: var(--font-sans-serif);
+    font-size: 8rem;
+    font-weight: 500;
+    /* font-variation-settings: 'GRAD' 150; */
+    color: antiquewhite;
+}
+
+#time #mm {
+    color: rgb(92, 38, 143);
+    font-weight: 250;
+    /* font-variation-settings: 'GRAD' -200; */
+}
+
+.centre #date {
+    position: relative;
+    text-align: left;
+    font-size: 1.5rem;
+    left: 5px;
+    top: 10px;
+}
+
+#date #dd {
+    /* display: inline-block;
+    height: 50px;
+    width: 50px; */
+    position: relative;
+    padding: 7px;
+    border-radius: 50%;
+    background: rgb(92, 38, 143);
+    color: antiquewhite;
+    z-index: 2;
+}
+
+#date sup {
+    position: relative;
+    font-size: initial;
+    font-style: italic;
+    color: rgb(250, 235, 215);
+    mix-blend-mode: soft-light;
+    top: -0.7rem;
+    left: 4px;
+    z-index: 2;
+}
+
+#date #month {
+    position: relative;
+    left: -8px;
+    font-style: italic;
+    color: antiquewhite;
+}
+
+#background .bg-layer {
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+}
+
+#background .bg-layer {
+    background: url('assets/L02.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
