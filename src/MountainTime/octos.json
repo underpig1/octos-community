@@ -1,0 +1,11 @@
+{
+    "name": "Mountain Time",
+    "description": "Digital clock and calender behind a beautiful landscape of mountains.",
+    "version": "1.0.0",
+    "entry": "index.html",
+    "image": "image.png",
+    "preview": "image.png",
+    "author": "Passion-Lab",
+    "authorsite": "https://github.com/Passion-Lab",
+    "source": "https://github.com/Passion-Lab/octos-mods"
+}
