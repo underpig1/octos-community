@@ -185,6 +185,22 @@
         "browserPath": "https://underpig1.github.io/octos-community/src/layout/index.html"
     },
     {
+        "name": "Mountain Time",
+        "description": "Digital clock and calender behind a beautiful landscape of mountains.",
+        "version": "1.0.0",
+        "entry": "index.html",
+        "image": "image.png",
+        "preview": "image.png",
+        "author": "Passion-Lab",
+        "authorsite": "https://github.com/Passion-Lab",
+        "source": "https://github.com/Passion-Lab/octos-mods",
+        "zipPath": "build\\MountainTime.zip",
+        "folderPath": "src\\MountainTime",
+        "imagePath": "images\\Mountain Time-image-image.png",
+        "previewPath": "images\\Mountain Time-preview-image.png",
+        "browserPath": "https://underpig1.github.io/octos-community/src/MountainTime/index.html"
+    },
+    {
         "name": "Eyes on the Solar System",
         "entry": "https://eyes.nasa.gov/apps/solar-system/#/home?featured=false&detailPanel=false&logo=false&search=false&shareButton=false&menu=false&collapseSettingsOptions=true&hideFullScreenToggle=true&hideExternalLinks=true",
         "image": "image.png",
