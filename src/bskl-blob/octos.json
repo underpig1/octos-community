@@ -1,0 +1,23 @@
+{
+    "author": "Baskl",
+    "description": "The BSKL yellow blob - a morphing 3D WebGL shape with warm golden tones and raymarched lighting.",
+    "entry": "index.html",
+    "image": "image.png",
+    "name": "Baskl.ai",
+    "prefs": {
+        "speed": {
+            "label": "Animation speed",
+            "max": "100",
+            "min": "1",
+            "type": "range",
+            "value": "50"
+        },
+        "scale": {
+            "label": "Blob size",
+            "max": "100",
+            "min": "1",
+            "type": "range",
+            "value": "50"
+        }
+    }
+}

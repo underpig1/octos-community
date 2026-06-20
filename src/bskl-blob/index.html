@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSKL Blob</title>
+    <style>
+        * { margin: 0; padding: 0; }
+        html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
+        canvas { display: block; width: 100%; height: 100%; }
+    </style>
+</head>
+<body>
+    <canvas id="blobCanvas"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/octos@latest/octos.min.js"></script>
+    <script>
+    (function() {
+        'use strict';
+
+        var canvas = document.getElementById('blobCanvas');
+        var gl = canvas.getContext('webgl', { alpha: false, antialias: false });
+        if (!gl) return;
+
+        var speedMult = 1.0;
+        var scaleMult = 1.0;
+        var mouseX = 0.0, mouseY = 0.0;
+        var smoothMouseX = 0.0, smoothMouseY = 0.0;
+        var pokeSlots = [-1.0,-1.0,-1.0,-1.0,-1.0,-1.0];
+        var pokeIndex = 0;
+        var sceneTime = 0.0;
+
+        // Mouse tracking
+        document.addEventListener('mousemove', function(e) {
+            mouseX = (e.clientX / window.innerWidth) * 2.0 - 1.0;
+            mouseY = -((e.clientY / window.innerHeight) * 2.0 - 1.0);
+        });
+
+        // Click to poke
+        document.addEventListener('mousedown', function(e) {
+            var n = 1 + Math.floor(Math.random() * 3);
+            var offset = 0;
+            for (var i = 0; i < n; i++) {
+                offset += 0.04 + Math.random() * 0.12;
+                pokeSlots[pokeIndex] = sceneTime + offset;
+                pokeIndex = (pokeIndex + 1) % 6;
+            }
+        });
+
+        // Octos user options
+        try {
+            var userOptions = new octos.UserOptions();
+            function handlePref(e) {
+                if (e.id === 'speed') speedMult = parseInt(e.value) / 50.0;
+                if (e.id === 'scale') scaleMult = 0.4 + (parseInt(e.value) / 50.0) * 0.6;
+            }
+            userOptions.on('load', handlePref);
+            userOptions.on('change', handlePref);
+        } catch(e) {}
+
+        var vsSource = 'attribute vec2 aPosition;\nvoid main(){gl_Position=vec4(aPosition,0.0,1.0);}';
+
+        var fsSource = [
+            'precision highp float;',
+            'uniform float uTime;',
+            'uniform vec2 uResolution;',
+            'uniform vec2 uMouse;',
+            'uniform float uScale;',
+            'uniform float uPoke[6];',
+            '',
+            '#define STEPS 72',
+            '#define FAR 20.0',
+            '#define EPS 0.003',
+            '',
+            'float smin(float a,float b,float k){float h=clamp(0.5+0.5*(b-a)/k,0.0,1.0);return mix(b,a,h)-k*h*(1.0-h);}',
+            'mat2 rot2(float a){float c=cos(a),s=sin(a);return mat2(c,s,-s,c);}',
+            '',
+            'float map(vec3 p){',
+            '  float spd=0.25;float t=uTime*spd;',
+            '  // Mouse-driven tilt',
+            '  p.xz*=rot2(t*0.3 - uMouse.x*0.48);',
+            '  p.yz*=rot2(t*0.2 - uMouse.y*0.36);',
+            '  float k=0.85;float w=1.0;float d=length(p)-0.85;',
+            '  float rs=1.0;',
+            '  d=smin(d,length(p-vec3(1.15+sin(t*0.7)*0.2*w,0.25+cos(t*0.5)*0.3*w,sin(t*0.6)*0.25*w))-0.6*rs,k);',
+            '  d=smin(d,length(p-vec3(-0.85+sin(t*0.6+2.0)*0.2*w,0.75+cos(t*0.7+1.0)*0.25*w,0.35+sin(t*0.5+1.5)*0.2*w))-0.55*rs,k);',
+            '  d=smin(d,length(p-vec3(-0.25+sin(t*0.5+4.0)*0.2*w,-1.05+cos(t*0.6+3.0)*0.25*w,0.25+sin(t*0.7+2.0)*0.2*w))-0.65*rs,k);',
+            '  d=smin(d,length(p-vec3(0.45+sin(t*0.8+1.0)*0.2*w,0.85+cos(t*0.4+2.0)*0.25*w,-0.75+sin(t*0.6+4.0)*0.2*w))-0.5*rs,k);',
+            '  d=smin(d,length(p-vec3(-0.65+sin(t*0.6+3.0)*0.15*w,-0.25+cos(t*0.8+4.0)*0.2*w,-0.85+sin(t*0.5+3.0)*0.2*w))-0.45*rs,k);',
+            '  d=smin(d,length(p-vec3(0.75+sin(t*0.9+5.0)*0.3*w,-0.6+cos(t*0.5+5.0)*0.2*w,0.5+sin(t*0.7+5.0)*0.3*w))-0.3*rs,k);',
+            '  // Poke distortions',
+            '  for(int i=0;i<6;i++){',
+            '    float pokeAge=uTime-uPoke[i];',
+            '    if(pokeAge>0.0&&pokeAge<0.7){',
+            '      float env=smoothstep(0.0,0.08,pokeAge)*smoothstep(0.7,0.1,pokeAge);',
+            '      vec3 pokeDir=normalize(vec3(sin(uPoke[i]*17.3),cos(uPoke[i]*31.7),abs(sin(uPoke[i]*43.1+2.0))+0.5));',
+            '      pokeDir.xz*=rot2(t*0.3-uMouse.x*0.48);pokeDir.yz*=rot2(t*0.2-uMouse.y*0.36);',
+            '      d-=env*0.3*exp(-5.0*length(p-pokeDir*0.85));',
+            '    }',
+            '  }',
+            '  return d;',
+            '}',
+            '',
+            'vec3 calcNormal(vec3 p){vec2 e=vec2(EPS,0.0);float d=map(p);return normalize(vec3(map(p+e.xyy)-d,map(p+e.yxy)-d,map(p+e.yyx)-d));}',
+            'float march(vec3 ro,vec3 rd){float t=0.0;for(int i=0;i<STEPS;i++){float d=map(ro+rd*t);if(d<EPS)return t;t+=d;if(t>FAR)break;}return -1.0;}',
+            'float calcAO(vec3 p,vec3 n){float ao=0.0;float s=1.0;for(int i=0;i<5;i++){float dist=0.03+0.12*float(i);ao+=(dist-map(p+n*dist))*s;s*=0.5;}return clamp(1.0-2.5*ao,0.0,1.0);}',
+            'float sfbm(vec3 p){float f=0.5*sin(p.x*1.1+p.y*0.9)*sin(p.y*1.2+p.z*0.8)*sin(p.z*1.0+p.x*1.3);p=p*2.1+0.5;f+=0.25*sin(p.x*0.9+p.z*1.1)*sin(p.y*1.0+p.x*0.8)*sin(p.z*1.2+p.y*1.1);p=p*2.3+0.7;f+=0.125*sin(p.x*1.2+p.y*0.7)*sin(p.y*0.9+p.z*1.3)*sin(p.z*1.1+p.x*1.0);return f;}',
+            'vec3 warmPalette(float t,float phase){vec3 a=vec3(0.5);vec3 b=vec3(0.5);vec3 c=vec3(1.0,0.8,0.5);vec3 d=vec3(0.0,0.1,0.25)+phase;return a+b*cos(6.283*(c*t+d));}',
+            '',
+            'void main(){',
+            '  vec2 uv=(gl_FragCoord.xy-0.5*uResolution)/min(uResolution.x,uResolution.y);',
+            '',
+            '  // Starfield',
+            '  vec2 starGrid=floor(uv*180.0);',
+            '  float starH=fract(sin(dot(starGrid,vec2(12.9898,78.233)))*43758.5453);',
+            '  float starD=length(fract(uv*180.0)-0.5);',
+            '',
+            '  float zoomOut=8.8/uScale;',
+            '  vec3 ro=vec3(0.0,0.0,zoomOut);',
+            '  vec3 rd=normalize(vec3(uv,-1.5));',
+            '  float t=march(ro,rd);',
+            '',
+            '  vec3 col=vec3(0.0);',
+            '  col+=smoothstep(0.06,0.0,starD)*step(0.97,starH)*0.25;',
+            '',
+            '  if(t>0.0){',
+            '    vec3 p=ro+rd*t;vec3 n=calcNormal(p);vec3 v=-rd;',
+            '    float NdV=max(dot(n,v),0.0);float fresnel=pow(1.0-NdV,3.0);',
+            '    float ao=calcAO(p,n);float spd=0.25;float tt=uTime*spd;',
+            '    vec3 interior=vec3(0.0);float totalDens=0.0;',
+            '    for(int i=0;i<3;i++){',
+            '      vec3 sp=p+rd*(0.08+float(i)*0.18);vec3 q=sp*2.0;q.xz*=rot2(tt*0.15);',
+            '      float w1=sfbm(q+tt*0.3);q.xz+=w1*1.4;q.y+=w1*0.6;float w2=sfbm(q+tt*0.12);',
+            '      float phase=uTime*0.015;vec3 ic=warmPalette(w2*2.0+w1*1.0+tt*0.04,phase);ic*=ic;',
+            '      float dens=smoothstep(0.05,0.5,abs(w2));',
+            '      dens*=0.35+0.15*float(i);interior=mix(interior,ic,dens);totalDens+=dens;',
+            '    }',
+            '    interior*=1.8;',
+            '    vec3 l1=normalize(vec3(0.3,0.5,1.0));vec3 h1=normalize(l1+v);',
+            '    float spec=pow(max(dot(n,h1),0.0),32.0);',
+            '    col=interior*ao;col+=vec3(1.0,0.95,0.85)*spec*0.35;',
+            '    vec3 rimCol=vec3(1.0,0.6,0.15);',
+            '    col+=rimCol*fresnel*1.0;col+=vec3(1.0,0.85,0.5)*pow(fresnel,6.0)*0.8;',
+            '    // Poke highlights',
+            '    for(int i=0;i<6;i++){',
+            '      float pokeAge=uTime-uPoke[i];',
+            '      if(pokeAge>0.0&&pokeAge<0.7){',
+            '        float env=smoothstep(0.0,0.06,pokeAge)*smoothstep(0.7,0.1,pokeAge);',
+            '        vec3 pokeDir=normalize(vec3(sin(uPoke[i]*17.3),cos(uPoke[i]*31.7),abs(sin(uPoke[i]*43.1+2.0))+0.5));',
+            '        float spot=exp(-4.0*length(p-pokeDir*0.9));col+=vec3(1.0,0.7,0.2)*spot*env*2.5;',
+            '      }',
+            '    }',
+            '  }',
+            '',
+            '  // Background glow',
+            '  float glow=exp(-10.0*dot(uv,uv));',
+            '  float bgPhase=uTime*0.04;',
+            '  vec3 bgWarm=vec3(0.06,0.02,0.005);',
+            '  vec3 bgCool=vec3(0.01,0.015,0.06);',
+            '  vec3 bgRed=vec3(0.06,0.008,0.02);',
+            '  vec3 bgBase=bgWarm;',
+            '  bgBase=mix(bgBase,bgCool,smoothstep(0.0,1.0,sin(bgPhase))*0.5);',
+            '  bgBase=mix(bgBase,bgRed,smoothstep(0.0,1.0,sin(bgPhase*1.3+2.0))*0.35);',
+            '  col+=bgBase*glow;',
+            '',
+            '  // Tone mapping',
+            '  col+=col*col*0.5;col*=1.3;',
+            '  float lum=dot(col,vec3(0.299,0.587,0.114));col=mix(vec3(lum),col,1.4);',
+            '  col=clamp(col,0.0,1.0);col=pow(col,vec3(0.4545));',
+            '  gl_FragColor=vec4(col,1.0);',
+            '}'
+        ].join('\n');
+
+        function compile(type, src) {
+            var s = gl.createShader(type);
+            gl.shaderSource(s, src);
+            gl.compileShader(s);
+            if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+                console.error(gl.getShaderInfoLog(s));
+                return null;
+            }
+            return s;
+        }
+
+        var vs = compile(gl.VERTEX_SHADER, vsSource);
+        var fs = compile(gl.FRAGMENT_SHADER, fsSource);
+        if (!vs || !fs) return;
+
+        var prog = gl.createProgram();
+        gl.attachShader(prog, vs);
+        gl.attachShader(prog, fs);
+        gl.linkProgram(prog);
+        if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return;
+
+        var buf = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
+
+        var aPos = gl.getAttribLocation(prog, 'aPosition');
+        var uT = gl.getUniformLocation(prog, 'uTime');
+        var uR = gl.getUniformLocation(prog, 'uResolution');
+        var uM = gl.getUniformLocation(prog, 'uMouse');
+        var uSc = gl.getUniformLocation(prog, 'uScale');
+        var uP = gl.getUniformLocation(prog, 'uPoke');
+
+        gl.useProgram(prog);
+        gl.enableVertexAttribArray(aPos);
+        gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+        var dpr = Math.min(devicePixelRatio, 2);
+        var startTime = performance.now();
+
+        function render() {
+            var time = ((performance.now() - startTime) / 1000.0) * speedMult;
+            sceneTime = time;
+
+            // Smooth mouse follow
+            smoothMouseX += (mouseX - smoothMouseX) * 0.04;
+            smoothMouseY += (mouseY - smoothMouseY) * 0.04;
+
+            var w = Math.round(canvas.clientWidth * dpr);
+            var h = Math.round(canvas.clientHeight * dpr);
+            if (canvas.width !== w || canvas.height !== h) {
+                canvas.width = w;
+                canvas.height = h;
+            }
+
+            gl.viewport(0, 0, canvas.width, canvas.height);
+            gl.clearColor(0, 0, 0, 1);
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            gl.uniform1f(uT, time);
+            gl.uniform2f(uR, canvas.width, canvas.height);
+            gl.uniform2f(uM, smoothMouseX, smoothMouseY);
+            gl.uniform1f(uSc, scaleMult);
+            gl.uniform1fv(uP, new Float32Array(pokeSlots));
+            gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+            requestAnimationFrame(render);
+        }
+
+        requestAnimationFrame(render);
+    })();
+    </script>
+</body>
+</html>
